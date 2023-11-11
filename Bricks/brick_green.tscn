@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bg5id3nm4rra"]
+
+[ext_resource type="PackedScene" uid="uid://bof21uyaba8fh" path="res://Bricks/brick_template.tscn" id="1_tfboi"]
+[ext_resource type="Script" path="res://Bricks/brick_green.gd" id="2_l6ynm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gyu8"]
+size = Vector2(30, 14)
+
+[node name="BrickGreen" instance=ExtResource("1_tfboi")]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("2_l6ynm")
+
+[node name="TileMap" parent="." index="0"]
+position = Vector2(0, -8)
+layer_0/tile_data = PackedInt32Array(65535, 458752, 1, 0, 524288, 1)
+
+[node name="CollisionShape" parent="." index="1"]
+shape = SubResource("RectangleShape2D_3gyu8")
