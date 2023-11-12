@@ -16,6 +16,7 @@ offsets = PackedFloat32Array(0.0110701, 0.656827)
 colors = PackedColorArray(0.678431, 0.647059, 0.317647, 0.784314, 0, 0, 0, 0.196078)
 
 [node name="Ball" type="CharacterBody2D"]
+top_level = true
 collision_layer = 2
 collision_mask = 11
 script = ExtResource("1_3ijld")
@@ -35,10 +36,14 @@ shape = SubResource("CircleShape2D_w710u")
 [node name="Trail" type="Line2D" parent="."]
 unique_name_in_owner = true
 top_level = true
-z_index = -1
 width = 30.0
 width_curve = SubResource("Curve_rw3jd")
 gradient = SubResource("Gradient_ll0rd")
 script = ExtResource("3_xk818")
+
+[node name="CollisionTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.1
+one_shot = true
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

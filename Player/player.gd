@@ -8,14 +8,21 @@ var ball_scene = preload("res://Balls/ball.tscn")
 # A reference to an instantiated ball scene
 var ball
 
+# Ball coords in relation to paddle coords
+# Effectively, this is a ball cordinates in paddle coord system
+var ball_paddle_diff
+
 # Paddle tiles (in "paddle" tileset)
 # Each tile is 16x16 px, scale is 4
-var PADDLE_LEFT_COORDS = Vector2i(4, 0)
-var PADDLE_RIGHT_COORDS = Vector2i(5, 0)
+var PADDLE_TILE_LEFT_COORDS = Vector2i(4, 0)
+var PADDLE_TILE_RIGHT_COORDS = Vector2i(5, 0)
 
 # Paddle tiles (in "paddle_shifted" tiles - its X margin is shifted by 8 px
 # in order to be able to pick the middle paddle part
-var PADDLE_MIDDLE_CORRDS = Vector2i(4, 0)
+var PADDLE_TILE_MIDDLE_COORDS = Vector2i(4, 0)
+
+# Paddle init position
+var PADDLE_INIT_POSITION = Vector2(864, 960)
 
 # Length of the paddle.
 # Length is amount of srites the paddle consists of
@@ -40,7 +47,7 @@ var PADDLE_HEIGHT = PADDLE_INDIVIDUAL_SPRITE_WIDTH * PADDLE_SCALE
 var BALL_OFFSET = Vector2(96, 6)
 
 # Paddle speed
-var SPEED = 1000
+var SPEED = 700
 
 # State enum
 enum {
@@ -50,51 +57,71 @@ enum {
 
 var _state
 
-func _connect_signals():
-	Events.connect("ball_attaches_to_paddle", set_state.bind(STATE_BALL_ATTACHED))
+func _ready():
+	# init local ball coords
+	ball_paddle_diff = BALL_OFFSET
+
+	# place the paddle
+	position = PADDLE_INIT_POSITION
+
+	connect_signals()
+	restart()
+
+func connect_signals():
+	Events.connect("ball_attaches_to_paddle", attach_ball_to_paddle)
 	Events.connect("ball_out_of_screen", restart)
 	Events.connect("enable_powerup", enable_powerup)
-
-func _ready():
-	_connect_signals()
-	restart()
 
 func _physics_process(delta):
 	var movement = Vector2.ZERO
 	movement.x = Input.get_axis("ui_left", "ui_right")
 	
-	var collision = move_and_collide(movement * SPEED * delta)
+	move_and_collide(movement * SPEED * delta)
 	
 	# move ball along with the paddle
 	if _state == STATE_BALL_ATTACHED:
-		ball.global_position.x = global_position.x + PADDLE_WIDTH / 2
+		ball.position.x = position.x + ball_paddle_diff.x
 
 	if Input.is_action_just_pressed("ui_accept"):
 		set_state(STATE_BALL_DETACHED)
 		ball.launch()
 
 func set_state(state: int):
-	print("set paddle state - ", state)
 	_state = state
 
 # Init ball scene and attach it to the paddle
 # The ball will be detached when the game begins with SPACE press
-func init_ball_on_paddle():
+func init_ball_on_paddle() -> void:
 	ball = ball_scene.instantiate()
-	ball.position = position + BALL_OFFSET
-	ball.top_level = true
+	ball.position = position + ball_paddle_diff
 	add_child(ball)
 
+func attach_ball_to_paddle(coords: Vector2) -> void:
+	set_state(STATE_BALL_ATTACHED)
+	ball_paddle_diff.x = coords.x - position.x
+
+	# fix ball's Y position so that ball doesn't get stuck in the paddle
+	if ball.position.y != position.y + BALL_OFFSET.y:
+		ball.position.y = position.y + BALL_OFFSET.y
+
+# Ball is reported as below the paddle if ball.Y coordinate at collision time is below
+# ball's idle position on the paddle (which is essentially 966px)
+func is_ball_above_paddle() -> bool:
+	if ball.position.y <= (PADDLE_INIT_POSITION.y + BALL_OFFSET.y):
+		return true
+	return false
+
 # Draw paddle using tiles
-func init_paddle():
+func init_paddle() -> void:
 	# draw 3 tiles from atlas coords PADDLE_*_COORDS
-	tile_map.set_cell(0, Vector2i(0, 0), 0, PADDLE_LEFT_COORDS)
-	tile_map.set_cell(0, Vector2i(1, 0), 1, PADDLE_MIDDLE_CORRDS)
-	tile_map.set_cell(0, Vector2i(2, 0), 0, PADDLE_RIGHT_COORDS)
+	tile_map.set_cell(0, Vector2i(0, 0), 0, PADDLE_TILE_LEFT_COORDS)
+	tile_map.set_cell(0, Vector2i(1, 0), 1, PADDLE_TILE_MIDDLE_COORDS)
+	tile_map.set_cell(0, Vector2i(2, 0), 0, PADDLE_TILE_RIGHT_COORDS)
+
 	setup_paddle_collision()
 
 # Setup paddle's collision shape
-func setup_paddle_collision():
+func setup_paddle_collision() -> void:
 	# set collision shape global position to a global position of the player
 	collision_shape.global_position = global_position
 	
@@ -120,11 +147,10 @@ func restart():
 	if ball:
 		ball.queue_free()
 
+	ball_paddle_diff = BALL_OFFSET
 	init_ball_on_paddle()
 
 func disable_powerup(powerup_timer: Timer):
-	print("stopping powerup timer")
-	# Globals.is_powerup_enabled = false
 	Globals.deactivate_powerup()
 	powerup_timer.queue_free()
 
@@ -135,7 +161,7 @@ func enable_powerup(powerup_type: int):
 	var powerup_timer = Timer.new()
 	get_tree().get_root().add_child(powerup_timer)
 	powerup_timer.connect("timeout", disable_powerup.bind(powerup_timer))
-	powerup_timer.start(30)
+	powerup_timer.start(Globals.POWERUP_TIMER[powerup_type])
 
 	# Globals.is_powerup_enabled = true
 	Globals.activate_powerup(powerup_type)

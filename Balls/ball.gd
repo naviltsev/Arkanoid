@@ -1,16 +1,21 @@
 extends CharacterBody2D
 
 @onready var trail : Line2D = %Trail
+@onready var collision_timer : Timer = %CollisionTimer
 
 var powerup_scene = preload("res://Powerups/power_up.tscn")
 
-var POWERUP_CHANCE = 90
-var SPEED = 300
+var SPEED = 500
 
 const INITIAL_MOTION_VECTOR = Vector2(1, -2)
 
+# if X or Y of motion vector is less than threshold, collision logic
+# will make sure to keep it above threshold to avoid ball
+# moving almost horizontally or vertically
+const MIN_MOTION_THRESHOLD = 0.2
+
 # initial ball motion
-var motion = INITIAL_MOTION_VECTOR
+var motion
 
 # State enum
 enum {
@@ -22,6 +27,7 @@ enum {
 var _state
 
 func _ready():
+	reset_motion_vector()
 	set_state(STATE_IDLE)
 
 func _physics_process(delta):
@@ -30,18 +36,36 @@ func _physics_process(delta):
 
 	var collision = move_and_collide(motion * SPEED * delta)
 	if collision:
-		print('ball state - ', _state)
 		var collider = collision.get_collider()
+		var col_pos = collision.get_position()
 		
 		# if glue powerup is enabled and collider is player - glue ball to the paddle
-		if Globals.get_active_powerup() == Globals.POWERUP_GLUE_PADDLE and collider.name == "Player":
-			Events.ball_attaches_to_paddle.emit()
+		if Globals.get_active_powerup() == Globals.POWERUP_GLUE_PADDLE and \
+			collider.name == "Player" and \
+			collider.is_ball_above_paddle():
+			Events.ball_attaches_to_paddle.emit(col_pos)
 			land()
 			return
 
 		# bounce when collided
-		var normal = collision.get_normal()
-		motion = motion.bounce(normal)
+		if collision_timer.is_stopped():
+			# start collision timer if ball hits player
+			if collider.name == "Player":
+				collision_timer.start()
+
+			var normal = collision.get_normal()
+			# print(normal)
+			# if collider.name == "Player" and (normal == Vector2(1, 0) or normal == Vector2(-1, 0)):
+			# 	normal = Vector2(0, -1)
+			# 	print("new normal ", normal)
+
+			motion = motion.bounce(normal).normalized()
+
+		# prevent the ball moving almost horizontally or vertically
+		if abs(motion.x) < MIN_MOTION_THRESHOLD:
+			motion.x = MIN_MOTION_THRESHOLD if motion.x > 0 else -MIN_MOTION_THRESHOLD
+		if abs(motion.y) < MIN_MOTION_THRESHOLD:
+			motion.y = MIN_MOTION_THRESHOLD if motion.y > 0 else -MIN_MOTION_THRESHOLD
 
 		# collider is brick - take damage
 		if collider.is_in_group("bricks"):
@@ -50,34 +74,33 @@ func _physics_process(delta):
 			# Release power-up in POWERUP_CHANCE% of cases,
 			# if there are no other power-ups on screen,
 			# and if player doesn't have an active power-up
-			if randi() % 100 < POWERUP_CHANCE and \
-				not Globals.is_active_powerup() and \
-				not Globals.is_powerup_on_screen:
+			if Globals.should_release_powerup():
 				var powerup = powerup_scene.instantiate()
 				
 				# add to the scene first and then iniialize powerup
 				get_tree().root.add_child(powerup)
 				Globals.is_powerup_on_screen = true
-				print("power up is on screen - ", Globals.is_powerup_on_screen)
 
 				powerup.init(position)
 
 func set_state(state: int):
 	_state = state
 
+func reset_motion_vector():
+	motion = INITIAL_MOTION_VECTOR.normalized()
+
 func launch():
 	# change state to running - detached from the paddle
 	set_state(STATE_PLAY)
-	#top_level = true
 	trail.visible = true
 
 func land():
 	# change state to idle - attach to the paddle
 	set_state(STATE_IDLE)
-	#top_level = false
 
 	# reset motion vector to initial motion
-	motion = INITIAL_MOTION_VECTOR
+	reset_motion_vector()
+
 	trail.visible = false
 
 # ball goes out of screen
