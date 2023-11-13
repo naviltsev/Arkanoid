@@ -60,16 +60,13 @@ func _physics_process(delta):
 
 			collision_timer.start()
 
-		# bounce when collided
-		motion = motion.bounce(collision.get_normal()).normalized()
-
 		# prevent the ball moving almost horizontally or vertically
 		if abs(motion.x) < MIN_MOTION_THRESHOLD:
 			motion.x = MIN_MOTION_THRESHOLD if motion.x > 0 else -MIN_MOTION_THRESHOLD
 		if abs(motion.y) < MIN_MOTION_THRESHOLD:
 			motion.y = MIN_MOTION_THRESHOLD if motion.y > 0 else -MIN_MOTION_THRESHOLD
 
-		# collider is brick - take damage
+		# collider is brick - brick takes damage
 		if collider.is_in_group("bricks"):
 			collider.take_damage()
 
@@ -81,9 +78,15 @@ func _physics_process(delta):
 				
 				# add to the scene first and then iniialize powerup
 				get_tree().root.add_child(powerup)
-				Globals.is_powerup_on_screen = true
-
 				powerup.init(position)
+
+		# no bouncing if heavy ball power-up is on
+		if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL and collider.is_in_group("bricks"):
+			return
+
+		# bounce when collided
+		motion = motion.bounce(collision.get_normal()).normalized()
+
 
 func set_state(state: int):
 	_state = state

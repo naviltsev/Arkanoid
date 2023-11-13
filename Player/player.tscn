@@ -70,7 +70,9 @@ margins = Vector2i(8, 0)
 sources/0 = SubResource("TileSetAtlasSource_1bdl0")
 sources/1 = SubResource("TileSetAtlasSource_okn6c")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ft2im"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qp5eg"]
+radius = 16.0
+height = 128.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 8
@@ -82,7 +84,10 @@ texture_filter = 1
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_yn4nn")
 format = 2
+layer_0/tile_data = PackedInt32Array(0, 262144, 0, 1, 327680, 0)
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
-shape = SubResource("RectangleShape2D_ft2im")
+position = Vector2(64, 48)
+rotation = -1.5708
+shape = SubResource("CapsuleShape2D_qp5eg")
