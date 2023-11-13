@@ -56,12 +56,14 @@ enum {
 }
 
 var _state
+var motion
 
 func _ready():
 	# init local ball coords
 	ball_paddle_diff = BALL_OFFSET
 
 	# place the paddle
+	motion = Vector2.ZERO
 	position = PADDLE_INIT_POSITION
 
 	connect_signals()
@@ -73,10 +75,9 @@ func connect_signals():
 	Events.connect("enable_powerup", enable_powerup)
 
 func _physics_process(delta):
-	var movement = Vector2.ZERO
-	movement.x = Input.get_axis("ui_left", "ui_right")
+	motion.x = Input.get_axis("ui_left", "ui_right")
 	
-	move_and_collide(movement * SPEED * delta)
+	move_and_collide(motion * SPEED * delta)
 	
 	# move ball along with the paddle
 	if _state == STATE_BALL_ATTACHED:

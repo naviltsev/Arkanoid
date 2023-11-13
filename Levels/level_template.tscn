@@ -554,7 +554,6 @@ texture = ExtResource("1_73ibd")
 centered = false
 
 [node name="BackgroundTileMap" type="TileMap" parent="."]
-visible = false
 texture_filter = 1
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_dco4v")

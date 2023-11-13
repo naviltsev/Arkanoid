@@ -48,18 +48,13 @@ func _physics_process(delta):
 			return
 
 		# bounce when collided
-		if collision_timer.is_stopped():
-			# start collision timer if ball hits player
-			if collider.name == "Player":
-				collision_timer.start()
-
-			var normal = collision.get_normal()
-			# print(normal)
-			# if collider.name == "Player" and (normal == Vector2(1, 0) or normal == Vector2(-1, 0)):
-			# 	normal = Vector2(0, -1)
-			# 	print("new normal ", normal)
-
-			motion = motion.bounce(normal).normalized()
+		# add player's motion to ball motion
+		if collider.name == "Player":
+			print("player vel: ", collider.motion)
+			print("ball vel: ", motion)
+			print()
+			motion = motion - collider.motion
+		motion = motion.bounce(collision.get_normal()).normalized()
 
 		# prevent the ball moving almost horizontally or vertically
 		if abs(motion.x) < MIN_MOTION_THRESHOLD:
