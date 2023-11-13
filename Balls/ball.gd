@@ -1,13 +1,16 @@
 extends CharacterBody2D
 
 @onready var trail : Line2D = %Trail
-@onready var collision_timer : Timer = %CollisionTimer
+@onready var collision_timer : Timer = %PaddleCollisionTimer
 
 var powerup_scene = preload("res://Powerups/power_up.tscn")
 
 var SPEED = 500
 
 const INITIAL_MOTION_VECTOR = Vector2(1, -2)
+
+# A bit in ball collision mask pointing to paddle collision layer
+const PLAYER_COLLISION_MASK_BIT = 4
 
 # if X or Y of motion vector is less than threshold, collision logic
 # will make sure to keep it above threshold to avoid ball
@@ -27,6 +30,7 @@ enum {
 var _state
 
 func _ready():
+	obey_paddle_collisions()
 	reset_motion_vector()
 	set_state(STATE_IDLE)
 
@@ -47,13 +51,16 @@ func _physics_process(delta):
 			land()
 			return
 
-		# bounce when collided
 		# add player's motion to ball motion
 		if collider.name == "Player":
-			print("player vel: ", collider.motion)
-			print("ball vel: ", motion)
-			print()
 			motion = motion - collider.motion
+
+			# disable ball<->paddle collisions until paddle collision timer timout() event
+			ignore_paddle_collisions()
+
+			collision_timer.start()
+
+		# bounce when collided
 		motion = motion.bounce(collision.get_normal()).normalized()
 
 		# prevent the ball moving almost horizontally or vertically
@@ -98,7 +105,20 @@ func land():
 
 	trail.visible = false
 
+# Updates ball collision mask so that ball starts to ignore the paddle
+# This is a workaround to fix sticky ball - when ball sticks to either side of the paddle
+func ignore_paddle_collisions():
+	set_collision_mask_value(PLAYER_COLLISION_MASK_BIT, false)
+
+# Updates ball collision mask to account for ball<->paddle collisions
+func obey_paddle_collisions():
+	set_collision_mask_value(PLAYER_COLLISION_MASK_BIT, true)
+
 # ball goes out of screen
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	set_state(STATE_IDLE)
 	Events.ball_out_of_screen.emit()
+
+# re-enable paddle collision when paddle collision timer times out
+func _on_paddle_collision_timer_timeout():
+	obey_paddle_collisions()

@@ -41,8 +41,10 @@ width_curve = SubResource("Curve_rw3jd")
 gradient = SubResource("Gradient_ll0rd")
 script = ExtResource("3_xk818")
 
-[node name="CollisionTimer" type="Timer" parent="."]
+[node name="PaddleCollisionTimer" type="Timer" parent="."]
 unique_name_in_owner = true
+wait_time = 0.5
 one_shot = true
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="PaddleCollisionTimer" to="." method="_on_paddle_collision_timer_timeout"]
