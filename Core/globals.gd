@@ -1,7 +1,7 @@
 extends Node
 
 # how frequently does power-up release
-var POWERUP_RELEASE_CHANCE = 10
+var POWERUP_RELEASE_CHANCE = 100
 
 # Power-up types
 enum {
@@ -40,14 +40,16 @@ func is_active_powerup():
 func get_active_powerup():
 	return active_powerup
 
-func activate_powerup(powerup_type: int):
+func _activate_powerup(powerup_type: int):
 	active_powerup = powerup_type
 	is_powerup_on_screen = false
 
-func deactivate_powerup():
+func _deactivate_powerup():
 	active_powerup = POWERUP_NONE
 
 func enable_powerup(powerup_type: int):
+	_activate_powerup(powerup_type)
+
 	# init and start powerup timer
 	# while timer is on, the powerup is active, no other powerups are
 	# getting released
@@ -56,11 +58,16 @@ func enable_powerup(powerup_type: int):
 	powerup_timer.connect("timeout", disable_powerup.bind(powerup_timer))
 	powerup_timer.start(Globals.POWERUP_TIMER[powerup_type])
 
-	activate_powerup(powerup_type)
+	# trigger ball scene change in player.gd
+	if get_active_powerup() == POWERUP_HEAVY_BALL:
+		Events.heavy_ball_equipped.emit()
 
 func disable_powerup(powerup_timer: Timer):
-	deactivate_powerup()
-	powerup_timer.queue_free()
+	if get_active_powerup() == POWERUP_HEAVY_BALL:
+		Events.heavy_ball_dismantled.emit()
+	_deactivate_powerup()
+	if powerup_timer:
+		powerup_timer.queue_free()
 
 func should_release_powerup():
 	if randi() % 100 < POWERUP_RELEASE_CHANCE and \

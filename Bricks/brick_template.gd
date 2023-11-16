@@ -2,6 +2,7 @@ class_name Brick extends StaticBody2D
 
 @onready var tile_map : TileMap = %TileMap
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
+@onready var collision_shape : CollisionShape2D = %CollisionShape
 
 # Local brick coordinates of left and right sides
 # Coords don't start in (0, 0) because brick's top left corner
@@ -32,7 +33,19 @@ func _ready():
 func take_damage():
 	health -= 1
 	animation_player.play("hit")
+
+	# TODO remove collision from all bricks in the group from Globals?
+	# if heavy ball power-up is active - remove brick collision shape
+	# immediately to avoid brick collision shapes slow down the ball.
+	# Remove the brick afterwards once animation is finished.
+	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
+		collision_shape.disabled = true
+
 	await animation_player.animation_finished
+
+	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
+		queue_free()
+		return
 
 	# if after taking the damage brick has 1 or 2 health,
 	# update the brick sprite types to half-cracked or

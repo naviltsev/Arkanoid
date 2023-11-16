@@ -275,6 +275,7 @@ tile_set = SubResource("TileSet_l4gnt")
 format = 2
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
 
 [node name="HitColorRect" type="ColorRect" parent="."]
 offset_left = -15.0

@@ -36,13 +36,11 @@ func init(pos: Vector2):
 		set_powerup_type(Globals.POWERUP_GLUE_PADDLE)
 	else:
 		set_powerup_type(Globals.POWERUP_HEAVY_BALL)
-	pass
 
 # Set tile of released power-up and store its type value in powerup_type
 func set_powerup_type(type: int) -> void:
 	powerup_type = type
 	tile_map.set_cell(0, LOCAL_COORDS, 0, POWERUP_COORDS[type])
-	pass
 
 # Destroy power-up when it's out of the screen
 func _on_visible_on_screen_enabler_2d_screen_exited():

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 @onready var trail : Line2D = %Trail
 @onready var collision_timer : Timer = %PaddleCollisionTimer
+@onready var regular_ball_sprite : Sprite2D = %RegularBallSprite
+@onready var heavy_ball_sprite : Sprite2D = %HeavyBallSprite
 
 var powerup_scene = preload("res://Powerups/power_up.tscn")
 
@@ -34,6 +36,10 @@ func _ready():
 	reset_motion_vector()
 	set_state(STATE_IDLE)
 
+	# if heavy ball power-up is active, switch to heavy ball sprite
+	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
+		switch_to_heavy_ball()
+
 func _physics_process(delta):
 	if _state == STATE_IDLE:
 		return
@@ -56,6 +62,7 @@ func _physics_process(delta):
 			motion = motion - collider.motion
 
 			# disable ball<->paddle collisions until paddle collision timer timout() event
+			# to fix the ball sticking to the paddle sides
 			ignore_paddle_collisions()
 
 			collision_timer.start()
@@ -87,7 +94,6 @@ func _physics_process(delta):
 		# bounce when collided
 		motion = motion.bounce(collision.get_normal()).normalized()
 
-
 func set_state(state: int):
 	_state = state
 
@@ -116,6 +122,16 @@ func ignore_paddle_collisions():
 # Updates ball collision mask to account for ball<->paddle collisions
 func obey_paddle_collisions():
 	set_collision_mask_value(PLAYER_COLLISION_MASK_BIT, true)
+
+func switch_to_heavy_ball():
+	regular_ball_sprite.visible = false
+	heavy_ball_sprite.visible = true
+	trail.heavy_trail()
+
+func switch_to_regular_ball():
+	regular_ball_sprite.visible = true
+	heavy_ball_sprite.visible = false
+	trail.regular_trail()
 
 # ball goes out of screen
 func _on_visible_on_screen_notifier_2d_screen_exited():

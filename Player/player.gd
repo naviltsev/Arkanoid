@@ -26,7 +26,7 @@ var PADDLE_LENGTH = 3
 var PADDLE_SCALE = 4
 
 # Ball offset relative to paddle position (places the ball in the center of the paddle)
-var BALL_OFFSET = Vector2(64, 10)
+var BALL_OFFSET = Vector2(64, 14)
 
 # Paddle speed
 var SPEED = 700
@@ -54,6 +54,8 @@ func _ready():
 func connect_signals():
 	Events.connect("ball_attaches_to_paddle", attach_ball_to_paddle)
 	Events.connect("ball_out_of_screen", restart)
+	Events.connect("heavy_ball_equipped", switch_to_heavy_ball)
+	Events.connect("heavy_ball_dismantled", switch_to_regular_ball)
 
 func _physics_process(delta):
 	motion.x = Input.get_axis("ui_left", "ui_right")
@@ -104,3 +106,13 @@ func restart():
 	ball_paddle_diff = BALL_OFFSET
 	init_ball_on_paddle()
 
+	# reset power-ups
+	Globals.disable_powerup(null)
+
+# replaces ball sprite to heavy ball
+func switch_to_heavy_ball():
+	ball.switch_to_heavy_ball()
+
+# replaces ball sprite to regular ball
+func switch_to_regular_ball():
+	ball.switch_to_regular_ball()
