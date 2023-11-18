@@ -9,11 +9,11 @@ enum {
 #	POWERUP_ROCKET,
 #	POWERUP_DOUBLE_SCORE,
 	POWERUP_HEAVY_BALL,
-#	POWERUP_MULTIPLE_BALLS,
+	POWERUP_MULTIPLE_BALLS,
 #	POWERUP_HEALTH,
 #	POWERUP_SLOW_BALL,
 #	POWERUP_FAST_BALL,
-#	POWERUP_WIDE_PADDLE,
+	POWERUP_WIDE_PADDLE,
 	POWERUP_GLUE_PADDLE,
 #	POWERUP_BOTTOM_WALL
 }
@@ -22,6 +22,16 @@ enum {
 const POWERUP_TIMER = {
 	POWERUP_HEAVY_BALL: 5,
 	POWERUP_GLUE_PADDLE: 15,
+	POWERUP_MULTIPLE_BALLS: 1600,  # TODO - powerup should last forever
+	POWERUP_WIDE_PADDLE: 30,
+}
+
+var POWERUP_NAME = {
+	POWERUP_NONE: "None",
+	POWERUP_HEAVY_BALL: "Heavy Ball",
+	POWERUP_MULTIPLE_BALLS: "Multi Balls",
+	POWERUP_GLUE_PADDLE: "Glue Paddle",
+	POWERUP_WIDE_PADDLE: "Wide Paddle",
 }
 
 # if power up is released and is visible on screen
@@ -33,19 +43,21 @@ var active_powerup = POWERUP_NONE
 func _ready():
 	Events.connect("enable_powerup", enable_powerup)
 
-# Returns true if any power-up is active, otherwise false
-func is_active_powerup():
-	return active_powerup != POWERUP_NONE
-
-func get_active_powerup():
-	return active_powerup
-
 func _activate_powerup(powerup_type: int):
 	active_powerup = powerup_type
 	is_powerup_on_screen = false
 
 func _deactivate_powerup():
 	active_powerup = POWERUP_NONE
+
+func get_active_powerup():
+	return active_powerup
+
+func debug(msgs: Array[String]) -> void:
+	var debug_str = ""
+	for m in msgs:
+		debug_str += " " + m
+	print("[debug] ", debug_str)
 
 func enable_powerup(powerup_type: int):
 	_activate_powerup(powerup_type)
@@ -55,23 +67,45 @@ func enable_powerup(powerup_type: int):
 	# getting released
 	var powerup_timer = Timer.new()
 	get_tree().get_root().add_child(powerup_timer)
+
+	# TODO some power up are active until the ball is out of screen (eg. multiple balls) - FIX
 	powerup_timer.connect("timeout", disable_powerup.bind(powerup_timer))
 	powerup_timer.start(Globals.POWERUP_TIMER[powerup_type])
 
-	# trigger ball scene change in player.gd
 	if get_active_powerup() == POWERUP_HEAVY_BALL:
+		# trigger ball sprite change in player.gd
 		Events.heavy_ball_equipped.emit()
+
+	# trigger multiple balls in player.gd
+	if get_active_powerup() == POWERUP_MULTIPLE_BALLS:
+		Events.multiple_balls_equipped.emit()
+	
+	# trigger wide paddle
+	if get_active_powerup() == POWERUP_WIDE_PADDLE:
+		Events.wide_paddle_equipped.emit()
+	
+	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
 
 func disable_powerup(powerup_timer: Timer):
 	if get_active_powerup() == POWERUP_HEAVY_BALL:
 		Events.heavy_ball_dismantled.emit()
+
+		# re-enable collision shapes on all bricks - this is a workaround
+		# for a bug: if heavy ball is inside a brick and power-up gets disabled,
+		# the collision shape for the brick that the ball is inside of
+		# doesn't turn on back
+		get_tree().call_group("bricks", "enable_collision_shape")
+
 	_deactivate_powerup()
+
+	debug(["disabled powerup"])
+
 	if powerup_timer:
 		powerup_timer.queue_free()
 
 func should_release_powerup():
 	if randi() % 100 < POWERUP_RELEASE_CHANCE and \
-		not is_active_powerup() and \
+		get_active_powerup() == POWERUP_NONE and \
 		not is_powerup_on_screen:
 		return true
 

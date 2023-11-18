@@ -1,5 +1,7 @@
 TODO
 
+- bug - if power-up gets caught when ball is out of screen, get_ball() returns NULL
+
 + heavy / regular ball switch - trail length bug
 + glue powerup doesn't work - bug
 

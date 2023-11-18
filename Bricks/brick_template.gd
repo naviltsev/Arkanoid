@@ -29,20 +29,27 @@ func _ready():
 	if health > 3:
 		health = 3
 
+func enable_collision_shape():
+	print("enabled collision shape!")
+	collision_shape.disabled = false
+
+func disable_collision_shape():
+	print("disabled collision shape!")
+	collision_shape.disabled = true
+
 # a brick takes damage
 func take_damage():
 	health -= 1
 	animation_player.play("hit")
 
-	# TODO remove collision from all bricks in the group from Globals?
 	# if heavy ball power-up is active - remove brick collision shape
 	# immediately to avoid brick collision shapes slow down the ball.
-	# Remove the brick afterwards once animation is finished.
 	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
-		collision_shape.disabled = true
+		disable_collision_shape()
 
 	await animation_player.animation_finished
 
+	# remove the brick once hit animation is finished
 	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
 		queue_free()
 		return
@@ -50,7 +57,6 @@ func take_damage():
 	# if after taking the damage brick has 1 or 2 health,
 	# update the brick sprite types to half-cracked or
 	# fully cracked
-	# TODO doesn't work - continue
 	if health >= 2:
 		tile_map.set_cell(0, BRICK_LEFT_COORDS, 0, half_cracked_coords[0])
 		tile_map.set_cell(0, BRICK_RIGHT_COORDS, 0, half_cracked_coords[1])

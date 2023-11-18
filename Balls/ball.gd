@@ -35,10 +35,7 @@ func _ready():
 	obey_paddle_collisions()
 	reset_motion_vector()
 	set_state(STATE_IDLE)
-
-	# if heavy ball power-up is active, switch to heavy ball sprite
-	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
-		switch_to_heavy_ball()
+	switch_to_regular_ball()
 
 func _physics_process(delta):
 	if _state == STATE_IDLE:
@@ -100,10 +97,16 @@ func set_state(state: int):
 func reset_motion_vector():
 	motion = INITIAL_MOTION_VECTOR.normalized()
 
-func launch():
+# launch the ball - initial_motion_vector arg is the initial movement vector of the ball,
+# if initial motion is Vector2.ZERO, then INITIAL_MOTION_VECTOR (as set by reset_motion_vector() call in _ready())
+# is going to be used
+func launch(initial_motion_vector: Vector2):
 	# change state to running - detached from the paddle
 	set_state(STATE_PLAY)
 	trail.visible = true
+
+	if initial_motion_vector != Vector2.ZERO:
+		motion = initial_motion_vector
 
 func land():
 	# change state to idle - attach to the paddle
@@ -136,7 +139,17 @@ func switch_to_regular_ball():
 # ball goes out of screen
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	set_state(STATE_IDLE)
-	Events.ball_out_of_screen.emit()
+	queue_free()
+
+	var balls_on_screen = get_tree().get_nodes_in_group("balls").size() -1
+	
+	# if 1 ball left, deactivate power-up
+	if balls_on_screen == 1:
+		Globals.disable_powerup(null)
+	
+	# no balls left on screen
+	if balls_on_screen == 0:
+		Events.ball_out_of_screen.emit()
 
 # re-enable paddle collision when paddle collision timer times out
 func _on_paddle_collision_timer_timeout():

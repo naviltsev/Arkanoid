@@ -8,6 +8,8 @@ const LOCAL_COORDS = Vector2i(0, 0)
 const POWERUP_COORDS = {
 	Globals.POWERUP_GLUE_PADDLE: Vector2i(5, 0),
 	Globals.POWERUP_HEAVY_BALL: Vector2i(4, 0),
+	Globals.POWERUP_MULTIPLE_BALLS: Vector2i(2, 0),
+	Globals.POWERUP_WIDE_PADDLE: Vector2i(1, 0),
 }
 
 #const POWERUP_ROCKET_COORDS = Vector2i(0, 0)
@@ -18,7 +20,7 @@ const POWERUP_COORDS = {
 #const POWERUP_GLUE_BALL_COORDS = Vector2i(5, 0)
 
 # Gravity value for powerup
-const GRAVITY = 900
+const GRAVITY = 700
 
 var powerup_type
 var velocity = Vector2.ZERO
@@ -32,10 +34,16 @@ func init(pos: Vector2):
 	position = pos
 	Globals.is_powerup_on_screen = true
 
-	if randi() % 100 < 50:
+	var great_random = randi() % 100
+
+	if great_random <= 10:
 		set_powerup_type(Globals.POWERUP_GLUE_PADDLE)
-	else:
+	elif great_random > 10 and great_random < 50:
 		set_powerup_type(Globals.POWERUP_HEAVY_BALL)
+	elif great_random > 50 and great_random < 90:
+		set_powerup_type(Globals.POWERUP_WIDE_PADDLE)
+	else:
+		set_powerup_type(Globals.POWERUP_MULTIPLE_BALLS)
 
 # Set tile of released power-up and store its type value in powerup_type
 func set_powerup_type(type: int) -> void:
@@ -45,7 +53,6 @@ func set_powerup_type(type: int) -> void:
 # Destroy power-up when it's out of the screen
 func _on_visible_on_screen_enabler_2d_screen_exited():
 	Globals.is_powerup_on_screen = false
-	print("power up is on screen - ", Globals.is_powerup_on_screen)
 	queue_free()
 
 # Player catches the power-up
