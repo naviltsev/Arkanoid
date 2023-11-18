@@ -6,10 +6,10 @@ extends Area2D
 const LOCAL_COORDS = Vector2i(0, 0)
 
 const POWERUP_COORDS = {
-	Globals.POWERUP_GLUE_PADDLE: Vector2i(5, 0),
-	Globals.POWERUP_HEAVY_BALL: Vector2i(4, 0),
 	Globals.POWERUP_MULTIPLE_BALLS: Vector2i(2, 0),
-	Globals.POWERUP_WIDE_PADDLE: Vector2i(1, 0),
+	Globals.POWERUP_HEAVY_BALL: Vector2i(4, 0),
+	Globals.POWERUP_GLUE_PADDLE: Vector2i(5, 0),
+	Globals.POWERUP_WIDE_PADDLE: Vector2i(6, 0),
 }
 
 #const POWERUP_ROCKET_COORDS = Vector2i(0, 0)

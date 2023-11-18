@@ -60,6 +60,13 @@ func _physics_process(delta):
 		set_state(STATE_BALL_DETACHED)
 		get_ball().launch(Vector2.ZERO)
 
+	if Input.is_action_just_pressed("ui_down"):
+		switch_to_wide_paddle()
+
+	if Input.is_action_just_pressed("ui_up"):
+		switch_to_regular_paddle()
+
+
 func set_state(state: int):
 	_state = state
 
@@ -128,9 +135,15 @@ func switch_to_multiple_balls():
 
 # turns on wide paddle as a result of POWERUP_WIDE_PADDLE
 func switch_to_wide_paddle():
-	animation_player.play("switch_to_wide_paddle")
 	collision_shape.shape.set_height(192)
+	animation_player.play("switch_to_wide_paddle")
+
+	# shift paddle to the safe place if it's too close to the wall
+	if position.x <= 145:
+		position.x = 145
+	if position.x >= 1440:
+		position.x = 1440
 
 func switch_to_regular_paddle():
-	animation_player.play("switch_to_regular_paddle")
 	collision_shape.shape.set_height(128)
+	animation_player.play("switch_to_regular_paddle")
