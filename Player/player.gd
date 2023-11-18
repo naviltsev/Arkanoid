@@ -13,7 +13,7 @@ var ball_paddle_diff
 var PADDLE_INIT_POSITION = Vector2(832, 1008)
 
 # Ball offset relative to paddle position (places the ball in the center of the paddle)
-var BALL_OFFSET = Vector2(0, -34)
+var BALL_OFFSET = Vector2(0, -32)
 
 # Paddle speed
 var SPEED = 700
@@ -86,7 +86,7 @@ func attach_ball_to_paddle(coords: Vector2) -> void:
 # Ball is reported as below the paddle if ball.Y coordinate at collision time is below
 # ball's idle position on the paddle (which is essentially 966px)
 func is_ball_above_paddle() -> bool:
-	if get_ball().position.y <= (PADDLE_INIT_POSITION.y + BALL_OFFSET.y):
+	if (get_ball().position.y - 2) <= (PADDLE_INIT_POSITION.y + BALL_OFFSET.y):
 		return true
 	return false
 

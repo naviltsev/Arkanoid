@@ -1,8 +1,8 @@
 [gd_scene load_steps=13 format=3 uid="uid://cwkiawasj4e2f"]
 
-[ext_resource type="Texture2D" uid="uid://dfhm33mecthu2" path="res://Assets/Backgrounds/back2.jpg" id="1_5fxu3"]
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_ddd66"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="1_nvlga"]
+[ext_resource type="Texture2D" uid="uid://da15wsr81dbgq" path="res://Assets/Backgrounds/back3.jpg" id="2_k318n"]
 [ext_resource type="Texture2D" uid="uid://dgxtco6h6ld1p" path="res://Assets/Backround_Tiles.png" id="2_qc4v0"]
 [ext_resource type="PackedScene" uid="uid://bg5id3nm4rra" path="res://Bricks/brick_green.tscn" id="3_j6dtn"]
 [ext_resource type="PackedScene" uid="uid://s3i48ojhawu8" path="res://Player/player.tscn" id="4_hke2u"]
@@ -550,7 +550,7 @@ script = ExtResource("1_ddd66")
 [node name="Background" type="Sprite2D" parent="."]
 z_index = -10
 texture_filter = 1
-texture = ExtResource("1_5fxu3")
+texture = ExtResource("2_k318n")
 centered = false
 
 [node name="BackgroundTileMap" type="TileMap" parent="."]
