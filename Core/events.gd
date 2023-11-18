@@ -13,12 +13,15 @@ signal enable_powerup(powerup_type: int)
 # triggers adjustments to ball sprite and collision shape in player.gd
 signal heavy_ball_equipped()
 
-# heavy ball has been dismantled
+# heavy ball power-up has been dismantled
 # triggers adjustments to ball sprite and collision shape in player.gd
 signal heavy_ball_dismantled()
 
 # multiple balls power-up has been equipped
 signal multiple_balls_equipped()
 
-# wide paddle power-up equipped
+# wide paddle power-up has been equipped
 signal wide_paddle_equipped()
+
+# wide paddle power-up has been dismantled
+signal wide_paddle_dismantled()

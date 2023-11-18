@@ -18,12 +18,12 @@ enum {
 #	POWERUP_BOTTOM_WALL
 }
 
-# Power-up timers, sec
+# Power-up timers, in seconds.
+# While timer is on, power-up is active.
+# Some power-ups don't have timer and they are active while ball is on the screen.
+# Such power-ups don't have their timers set here.
 const POWERUP_TIMER = {
-	POWERUP_HEAVY_BALL: 5,
-	POWERUP_GLUE_PADDLE: 15,
-	POWERUP_MULTIPLE_BALLS: 1600,  # TODO - powerup should last forever
-	POWERUP_WIDE_PADDLE: 30,
+	POWERUP_HEAVY_BALL: 15,
 }
 
 var POWERUP_NAME = {
@@ -62,15 +62,16 @@ func debug(msgs: Array[String]) -> void:
 func enable_powerup(powerup_type: int):
 	_activate_powerup(powerup_type)
 
-	# init and start powerup timer
+	# init and start powerup timer,
 	# while timer is on, the powerup is active, no other powerups are
-	# getting released
-	var powerup_timer = Timer.new()
-	get_tree().get_root().add_child(powerup_timer)
+	# getting released,
+	# and some power-ups are active until the ball is out of screen
+	if POWERUP_TIMER.has(powerup_type):
+		var powerup_timer = Timer.new()
+		get_tree().get_root().add_child(powerup_timer)
 
-	# TODO some power up are active until the ball is out of screen (eg. multiple balls) - FIX
-	powerup_timer.connect("timeout", disable_powerup.bind(powerup_timer))
-	powerup_timer.start(Globals.POWERUP_TIMER[powerup_type])
+		powerup_timer.connect("timeout", disable_powerup.bind(powerup_timer))
+		powerup_timer.start(Globals.POWERUP_TIMER[powerup_type])
 
 	if get_active_powerup() == POWERUP_HEAVY_BALL:
 		# trigger ball sprite change in player.gd
@@ -95,6 +96,9 @@ func disable_powerup(powerup_timer: Timer):
 		# the collision shape for the brick that the ball is inside of
 		# doesn't turn on back
 		get_tree().call_group("bricks", "enable_collision_shape")
+
+	if get_active_powerup() == POWERUP_WIDE_PADDLE:
+		Events.wide_paddle_dismantled.emit()
 
 	_deactivate_powerup()
 

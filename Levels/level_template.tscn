@@ -538,7 +538,7 @@ scenes/2/scene = ExtResource("4_rdulu")
 
 [sub_resource type="TileSet" id="TileSet_vovrm"]
 physics_layer_0/collision_layer = 1
-physics_layer_0/collision_mask = 0
+physics_layer_0/collision_mask = 8
 physics_layer_1/collision_layer = 2
 physics_layer_1/collision_mask = 0
 sources/1 = SubResource("TileSetScenesCollectionSource_0mk8b")
@@ -576,7 +576,7 @@ layer_0/tile_data = PackedInt32Array(1048576, 917504, 0, 983040, 917504, 0, 9175
 
 [node name="Player" parent="." instance=ExtResource("4_hke2u")]
 unique_name_in_owner = true
-position = Vector2(736, 960)
+position = Vector2(832, 1008)
 metadata/_edit_group_ = true
 
 [editable path="Player"]

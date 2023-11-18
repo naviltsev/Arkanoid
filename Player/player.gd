@@ -1,19 +1,19 @@
 extends CharacterBody2D
 
-@onready var tile_map : TileMap = %TileMap
-@onready var collision_shape : CollisionShape2D = %CollisionShape
-
 var ball_scene = preload("res://Balls/ball.tscn")
+
+@onready var animation_player : AnimationPlayer = $AnimationPlayer
+@onready var collision_shape : CollisionShape2D = $CollisionShape
 
 # Ball coords in relation to paddle coords
 # Effectively, this is a ball cordinates in paddle coord system
 var ball_paddle_diff
 
 # Paddle init position
-var PADDLE_INIT_POSITION = Vector2(736, 960)
+var PADDLE_INIT_POSITION = Vector2(832, 1008)
 
 # Ball offset relative to paddle position (places the ball in the center of the paddle)
-var BALL_OFFSET = Vector2(64, 14)
+var BALL_OFFSET = Vector2(0, -34)
 
 # Paddle speed
 var SPEED = 700
@@ -44,6 +44,8 @@ func _connect_signals():
 	Events.connect("heavy_ball_equipped", switch_to_heavy_ball)
 	Events.connect("heavy_ball_dismantled", switch_to_regular_ball)
 	Events.connect("multiple_balls_equipped", switch_to_multiple_balls)
+	Events.connect("wide_paddle_equipped", switch_to_wide_paddle)
+	Events.connect("wide_paddle_dismantled", switch_to_regular_paddle)
 
 func _physics_process(delta):
 	motion.x = Input.get_axis("ui_left", "ui_right")
@@ -96,7 +98,7 @@ func restart():
 	ball_paddle_diff = BALL_OFFSET
 	init_ball_on_paddle()
 
-	# reset power-ups
+	# deactivate power-up
 	Globals.disable_powerup(null)
 
 # replaces ball sprite to heavy ball
@@ -123,3 +125,12 @@ func switch_to_multiple_balls():
 
 	extra_ball_1.launch(Vector2(1, -2).normalized())
 	extra_ball_2.launch(Vector2(-1, -2).normalized())
+
+# turns on wide paddle as a result of POWERUP_WIDE_PADDLE
+func switch_to_wide_paddle():
+	animation_player.play("switch_to_wide_paddle")
+	collision_shape.shape.set_height(192)
+
+func switch_to_regular_paddle():
+	animation_player.play("switch_to_regular_paddle")
+	collision_shape.shape.set_height(128)
