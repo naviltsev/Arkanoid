@@ -15,7 +15,8 @@ enum {
 #	POWERUP_FAST_BALL,
 	POWERUP_WIDE_PADDLE,
 	POWERUP_GLUE_PADDLE,
-#	POWERUP_BOTTOM_WALL
+	POWERUP_CLEAR_LEVEL,
+	POWERUP_BOTTOM_WALL
 }
 
 # Power-up timers, in seconds.
@@ -24,6 +25,7 @@ enum {
 # Such power-ups don't have their timers set here.
 const POWERUP_TIMER = {
 	POWERUP_HEAVY_BALL: 15,
+	POWERUP_BOTTOM_WALL: 30,
 }
 
 var POWERUP_NAME = {
@@ -32,6 +34,8 @@ var POWERUP_NAME = {
 	POWERUP_MULTIPLE_BALLS: "Multi Balls",
 	POWERUP_GLUE_PADDLE: "Glue Paddle",
 	POWERUP_WIDE_PADDLE: "Wide Paddle",
+	POWERUP_CLEAR_LEVEL: "Boomstick",
+	POWERUP_BOTTOM_WALL: "Bottom Wall",
 }
 
 # if power up is released and is visible on screen
@@ -85,6 +89,12 @@ func enable_powerup(powerup_type: int):
 	if get_active_powerup() == POWERUP_WIDE_PADDLE:
 		Events.wide_paddle_equipped.emit()
 	
+	if get_active_powerup() == POWERUP_CLEAR_LEVEL:
+		Events.powerup_clear_level.emit()
+
+	if get_active_powerup() == POWERUP_BOTTOM_WALL:
+		Events.bottom_wall_equipped.emit()
+	
 	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
 
 func disable_powerup(powerup_timer: Timer):
@@ -99,6 +109,9 @@ func disable_powerup(powerup_timer: Timer):
 
 	if get_active_powerup() == POWERUP_WIDE_PADDLE:
 		Events.wide_paddle_dismantled.emit()
+
+	if get_active_powerup() == POWERUP_BOTTOM_WALL:
+		Events.bottom_wall_dismantled.emit()
 
 	_deactivate_powerup()
 

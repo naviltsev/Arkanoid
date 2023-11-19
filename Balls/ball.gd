@@ -22,6 +22,9 @@ const MIN_MOTION_THRESHOLD = 0.2
 # initial ball motion
 var motion
 
+# is ball paused
+var paused = false
+
 # State enum
 enum {
 	STATE_IDLE, # ball is on the paddle - init state
@@ -32,12 +35,19 @@ enum {
 var _state
 
 func _ready():
+	paused = false
+
+	Events.connect("pause_ball", pause_ball)
+
 	obey_paddle_collisions()
 	reset_motion_vector()
 	set_state(STATE_IDLE)
 	switch_to_regular_ball()
 
 func _physics_process(delta):
+	if paused == true:
+		return
+
 	if _state == STATE_IDLE:
 		return
 
@@ -135,6 +145,9 @@ func switch_to_regular_ball():
 	regular_ball_sprite.visible = true
 	heavy_ball_sprite.visible = false
 	trail.regular_trail()
+
+func pause_ball():
+	paused = true
 
 # ball goes out of screen
 func _on_visible_on_screen_notifier_2d_screen_exited():

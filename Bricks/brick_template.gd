@@ -65,3 +65,15 @@ func take_damage():
 		tile_map.set_cell(0, BRICK_RIGHT_COORDS, 0, fully_cracked_coords[1])
 	else:
 		queue_free()
+
+# destroy brick completely disregarding its health value
+func take_full_damage():
+	Events.pause_ball.emit()
+
+	$ExplosionParticles.emitting = true
+
+	animation_player.play("hit")
+	await animation_player.animation_finished
+	$TileMap.visible = false
+	await get_tree().create_timer(7.0).timeout
+	queue_free()

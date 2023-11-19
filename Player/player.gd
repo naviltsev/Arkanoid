@@ -60,13 +60,6 @@ func _physics_process(delta):
 		set_state(STATE_BALL_DETACHED)
 		get_ball().launch(Vector2.ZERO)
 
-	if Input.is_action_just_pressed("ui_down"):
-		switch_to_wide_paddle()
-
-	if Input.is_action_just_pressed("ui_up"):
-		switch_to_regular_paddle()
-
-
 func set_state(state: int):
 	_state = state
 

@@ -25,3 +25,15 @@ signal wide_paddle_equipped()
 
 # wide paddle power-up has been dismantled
 signal wide_paddle_dismantled()
+
+# clear level power-up
+signal powerup_clear_level()
+
+# bottom wall power-up has been equipped
+signal bottom_wall_equipped()
+
+# bottom wall power-up has been dismantled
+signal bottom_wall_dismantled()
+
+# stop ball
+signal pause_ball()
