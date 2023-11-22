@@ -1,7 +1,16 @@
 TODO
+====
+
+CURRENT
+-------
+- mech - allow simultaneous power ups (eg. bottom wall + 3x balls)
+- mech - timer (~5 seconds) between current power up ends and new releases
 
 - bug - if power-up gets caught when ball is out of screen, get_ball() returns NULL
 
+
+PAST
+----
 + heavy / regular ball switch - trail length bug
 + glue powerup doesn't work - bug
 

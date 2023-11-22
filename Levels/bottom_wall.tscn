@@ -1,8 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://baldnoptudw5s"]
+[gd_scene load_steps=9 format=3 uid="uid://baldnoptudw5s"]
 
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="1_a7mcy"]
 [ext_resource type="Script" path="res://Levels/bottom_wall.gd" id="1_mi888"]
-[ext_resource type="Texture2D" uid="uid://bc3as4o7v6qdm" path="res://Assets/particletexture/blachole_1.png" id="3_vmaft"]
+[ext_resource type="Texture2D" uid="uid://dps5cl8mv6vbe" path="res://Assets/Particles/circle_05.png" id="3_fkoq8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y373u"]
 texture = ExtResource("1_a7mcy")
@@ -266,87 +266,25 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 12
 sources/0 = SubResource("TileSetAtlasSource_y373u")
 
-[sub_resource type="Animation" id="Animation_n2a3q"]
-resource_name = "flash"
-length = 1.2
+[sub_resource type="Gradient" id="Gradient_4txcx"]
+offsets = PackedFloat32Array(0, 0.395028)
+colors = PackedColorArray(1, 1, 1, 1, 0.607843, 0.592157, 0.631373, 1)
 
-[sub_resource type="Animation" id="Animation_p7cei"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GPUParticles2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(72, 1080)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("GPUParticles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_p4u1y"]
-resource_name = "particles_run"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("GPUParticles2D:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(72, 1080), Vector2(1512, 1080)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("GPUParticles2D:emitting")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_aqd8y"]
-_data = {
-"RESET": SubResource("Animation_p7cei"),
-"flash": SubResource("Animation_n2a3q"),
-"particles_run": SubResource("Animation_p4u1y")
-}
-
-[sub_resource type="Gradient" id="Gradient_jwrl5"]
-offsets = PackedFloat32Array(0, 0.348066)
-colors = PackedColorArray(0.968627, 0.74902, 0, 0.392157, 0.988235, 0.133333, 0.282353, 0.392157)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_n1k6v"]
-gradient = SubResource("Gradient_jwrl5")
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6n4yt"]
+gradient = SubResource("Gradient_4txcx")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_u3bti"]
 particle_flag_disable_z = true
 direction = Vector3(0, -1, 0)
+spread = 60.0
 gravity = Vector3(0, 1000, 0)
 initial_velocity_min = 200.0
 initial_velocity_max = 450.0
 orbit_velocity_min = 0.0
 orbit_velocity_max = 0.0
-color_ramp = SubResource("GradientTexture1D_n1k6v")
+scale_min = 0.05
+scale_max = 0.15
+color_ramp = SubResource("GradientTexture1D_6n4yt")
 
 [node name="BottomWall" type="Node2D"]
 texture_filter = 1
@@ -356,7 +294,6 @@ script = ExtResource("1_mi888")
 scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_yfkcx")
 format = 2
-layer_0/tile_data = PackedInt32Array(1441793, 917504, 0, 1441794, 917504, 0, 1441795, 917504, 0, 1441796, 917504, 0, 1441797, 917504, 0, 1441798, 917504, 0, 1441799, 917504, 0, 1441800, 917504, 0, 1441801, 917504, 0, 1441802, 917504, 0, 1441803, 917504, 0, 1441804, 917504, 0, 1441805, 917504, 0, 1441806, 917504, 0, 1441807, 917504, 0, 1441808, 917504, 0, 1441809, 917504, 0, 1441810, 917504, 0, 1441811, 917504, 0, 1441812, 917504, 0, 1441813, 917504, 0, 1441814, 917504, 0, 1441815, 917504, 0, 1441816, 917504, 0, 1441817, 917504, 0, 1441818, 917504, 0, 1441819, 917504, 0, 1441820, 917504, 0, 1441821, 917504, 0, 1441822, 917504, 0, 1441823, 917504, 0)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = 48.0
@@ -365,15 +302,12 @@ offset_right = 1536.0
 offset_bottom = 1104.0
 color = Color(1, 1, 1, 0)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_aqd8y")
-}
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-position = Vector2(72, 1080)
+[node name="Particles" type="GPUParticles2D" parent="."]
+position = Vector2(1512, 1080)
 emitting = false
-amount = 300
+amount = 450
 process_material = SubResource("ParticleProcessMaterial_u3bti")
-texture = ExtResource("3_vmaft")
+texture = ExtResource("3_fkoq8")
+lifetime = 1.2
 one_shot = true
+fixed_fps = 60
