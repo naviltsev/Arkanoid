@@ -3,6 +3,7 @@ class_name Brick extends StaticBody2D
 @onready var tile_map : TileMap = %TileMap
 @onready var animation_player : AnimationPlayer = %AnimationPlayer
 @onready var collision_shape : CollisionShape2D = %CollisionShape
+@onready var particles : GPUParticles2D = $ExplosionParticles
 
 # Local brick coordinates of left and right sides
 # Coords don't start in (0, 0) because brick's top left corner
@@ -70,10 +71,13 @@ func take_damage():
 func take_full_damage():
 	Events.pause_ball.emit()
 
-	$ExplosionParticles.emitting = true
+	particles.emitting = true
 
 	animation_player.play("hit")
 	await animation_player.animation_finished
-	$TileMap.visible = false
-	await get_tree().create_timer(7.0).timeout
+
+	tile_map.visible = false
+
+	await get_tree().create_timer(5.0).timeout
+
 	queue_free()

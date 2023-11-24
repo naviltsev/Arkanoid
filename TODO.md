@@ -3,14 +3,23 @@ TODO
 
 CURRENT
 -------
+
+
+- powerup - rocket
+- bug - add margin in bottom wall powerup tile
+- bug - bottom wall bugs
 - mech - allow simultaneous power ups (eg. bottom wall + 3x balls)
 - mech - timer (~5 seconds) between current power up ends and new releases
+
 
 - bug - if power-up gets caught when ball is out of screen, get_ball() returns NULL
 
 
 PAST
 ----
++ enh - explosion of bricks (Clear Level power-up) - use 1x1 brick of corresponding color as particle
+
+
 + heavy / regular ball switch - trail length bug
 + glue powerup doesn't work - bug
 

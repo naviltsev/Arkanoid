@@ -294,13 +294,13 @@ sources/1 = SubResource("TileSetScenesCollectionSource_wctal")
 script = ExtResource("1_ddd66")
 
 [node name="Background" type="Sprite2D" parent="."]
-visible = false
 z_index = -10
 texture_filter = 1
 texture = ExtResource("2_k318n")
 centered = false
 
 [node name="BackgroundTileMap" type="TileMap" parent="."]
+visible = false
 texture_filter = 1
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_dco4v")
