@@ -8,7 +8,7 @@ func _ready():
 	Events.connect("bottom_wall_dismantled", powerup_bottom_wall_disable)
 
 func powerup_clear_level():
-	Globals.disable_powerup(null)
+	Globals.disable_powerup()
 
 	var bricks = get_tree().get_nodes_in_group("bricks")
 	bricks.shuffle()
@@ -36,3 +36,7 @@ func powerup_bottom_wall_enable():
 func powerup_bottom_wall_disable():
 	var bottom_wall = get_node("BottomWall")
 	bottom_wall.dismantle()
+
+
+func _on_powerup_timer_timeout():
+	pass # Replace with function body.

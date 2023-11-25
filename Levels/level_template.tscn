@@ -339,4 +339,9 @@ layout_mode = 2
 size_flags_vertical = 3
 color = Color(0, 0, 0, 1)
 
+[node name="PowerupTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="PowerupTimer" to="." method="_on_powerup_timer_timeout"]
+
 [editable path="Player"]

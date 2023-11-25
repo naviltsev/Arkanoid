@@ -24,9 +24,9 @@ enum {
 # Some power-ups don't have timer and they are active while ball is on the screen.
 # Such power-ups don't have their timers set here.
 const POWERUP_TIMER = {
-	POWERUP_HEAVY_BALL: 15,
+	POWERUP_MISSILES: 10,
+	POWERUP_HEAVY_BALL: 10,
 	POWERUP_BOTTOM_WALL: 30,
-	POWERUP_MISSILES: 15,
 }
 
 var POWERUP_NAME = {
@@ -73,11 +73,8 @@ func enable_powerup(powerup_type: int):
 	# getting released,
 	# and some power-ups are active until the ball is out of screen
 	if POWERUP_TIMER.has(powerup_type):
-		var powerup_timer = Timer.new()
-		get_tree().get_root().add_child(powerup_timer)
-
-		powerup_timer.connect("timeout", disable_powerup.bind(powerup_timer))
-		powerup_timer.start(Globals.POWERUP_TIMER[powerup_type])
+		var powerup_timer = get_tree().current_scene.get_node("PowerupTimer")
+		powerup_timer.wait_time = POWERUP_TIMER[powerup_type]
 
 	if get_active_powerup() == POWERUP_HEAVY_BALL:
 		# trigger ball sprite change in player.gd
@@ -102,7 +99,10 @@ func enable_powerup(powerup_type: int):
 	
 	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
 
-func disable_powerup(powerup_timer: Timer):
+func disable_powerup():
+	var powerup_timer = get_tree().current_scene.get_node("PowerupTimer")
+	powerup_timer.stop()
+
 	if get_active_powerup() == POWERUP_HEAVY_BALL:
 		Events.heavy_ball_dismantled.emit()
 
@@ -124,9 +124,6 @@ func disable_powerup(powerup_timer: Timer):
 	_deactivate_powerup()
 
 	debug(["disabled powerup"])
-
-	if powerup_timer:
-		powerup_timer.queue_free()
 
 func should_release_powerup():
 	if randi() % 100 < POWERUP_RELEASE_CHANCE and \

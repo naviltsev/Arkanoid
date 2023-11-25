@@ -116,7 +116,7 @@ func restart():
 	init_ball_on_paddle()
 
 	# deactivate power-up
-	Globals.disable_powerup(null)
+	Globals.disable_powerup()
 
 # replaces ball sprite to heavy ball
 func switch_to_heavy_ball():

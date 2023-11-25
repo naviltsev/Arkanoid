@@ -158,7 +158,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	
 	# if 1 ball left, deactivate power-up
 	if balls_on_screen == 1:
-		Globals.disable_powerup(null)
+		Globals.disable_powerup()
 	
 	# no balls left on screen
 	if balls_on_screen == 0:
