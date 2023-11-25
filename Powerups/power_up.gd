@@ -7,6 +7,7 @@ const LOCAL_COORDS = Vector2i(0, 0)
 
 # Coordinates of a power-up tile in tilemap
 const POWERUP_COORDS = {
+	Globals.POWERUP_MISSILES: Vector2i(0, 0),
 	Globals.POWERUP_MULTIPLE_BALLS: Vector2i(2, 0),
 	Globals.POWERUP_HEAVY_BALL: Vector2i(4, 0),
 	Globals.POWERUP_GLUE_PADDLE: Vector2i(5, 0),
@@ -44,7 +45,7 @@ func init(pos: Vector2):
 	var great_random = randi() % 100
 
 	if true:
-		set_powerup_type(Globals.POWERUP_CLEAR_LEVEL)
+		set_powerup_type(Globals.POWERUP_MISSILES)
 	elif great_random <= 10:
 		set_powerup_type(Globals.POWERUP_CLEAR_LEVEL)
 	elif great_random > 10 and great_random < 20:

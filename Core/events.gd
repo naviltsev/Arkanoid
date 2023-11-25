@@ -35,5 +35,11 @@ signal bottom_wall_equipped()
 # bottom wall power-up has been dismantled
 signal bottom_wall_dismantled()
 
+# missiles power-up has been equipped
+signal missiles_equipped()
+
+# missiles power-up has been dismantled
+signal missiles_dismantled()
+
 # stop ball
 signal pause_ball()

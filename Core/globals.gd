@@ -6,7 +6,7 @@ var POWERUP_RELEASE_CHANCE = 100
 # Power-up types
 enum {
 	POWERUP_NONE,
-#	POWERUP_ROCKET,
+	POWERUP_MISSILES,
 #	POWERUP_DOUBLE_SCORE,
 	POWERUP_HEAVY_BALL,
 	POWERUP_MULTIPLE_BALLS,
@@ -26,10 +26,12 @@ enum {
 const POWERUP_TIMER = {
 	POWERUP_HEAVY_BALL: 15,
 	POWERUP_BOTTOM_WALL: 30,
+	POWERUP_MISSILES: 15,
 }
 
 var POWERUP_NAME = {
 	POWERUP_NONE: "None",
+	POWERUP_MISSILES: "Missiles",
 	POWERUP_HEAVY_BALL: "Heavy Ball",
 	POWERUP_MULTIPLE_BALLS: "Multi Balls",
 	POWERUP_GLUE_PADDLE: "Glue Paddle",
@@ -94,6 +96,9 @@ func enable_powerup(powerup_type: int):
 
 	if get_active_powerup() == POWERUP_BOTTOM_WALL:
 		Events.bottom_wall_equipped.emit()
+
+	if get_active_powerup() == POWERUP_MISSILES:
+		Events.missiles_equipped.emit()
 	
 	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
 
@@ -112,6 +117,9 @@ func disable_powerup(powerup_timer: Timer):
 
 	if get_active_powerup() == POWERUP_BOTTOM_WALL:
 		Events.bottom_wall_dismantled.emit()
+
+	if get_active_powerup() == POWERUP_MISSILES:
+		Events.missiles_dismantled.emit()
 
 	_deactivate_powerup()
 
