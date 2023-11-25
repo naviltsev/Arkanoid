@@ -74,7 +74,7 @@ func enable_powerup(powerup_type: int):
 	# and some power-ups are active until the ball is out of screen
 	if POWERUP_TIMER.has(powerup_type):
 		var powerup_timer = get_tree().current_scene.get_node("PowerupTimer")
-		powerup_timer.wait_time = POWERUP_TIMER[powerup_type]
+		powerup_timer.start(POWERUP_TIMER[powerup_type])
 
 	if get_active_powerup() == POWERUP_HEAVY_BALL:
 		# trigger ball sprite change in player.gd

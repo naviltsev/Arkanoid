@@ -37,6 +37,5 @@ func powerup_bottom_wall_disable():
 	var bottom_wall = get_node("BottomWall")
 	bottom_wall.dismantle()
 
-
 func _on_powerup_timer_timeout():
-	pass # Replace with function body.
+	Globals.disable_powerup()

@@ -17,7 +17,10 @@ var PADDLE_INIT_POSITION = Vector2(832, 1008)
 var BALL_OFFSET = Vector2(0, -32)
 
 # Paddle speed
-var SPEED = 700
+var SPEED = 220
+
+# Paddle acceleration
+var ACCELERATION = 110
 
 # State enum
 enum {
@@ -58,7 +61,8 @@ func _connect_signals():
 	Events.connect("wide_paddle_dismantled", switch_from_wide_to_regular_paddle)
 
 func _physics_process(delta):
-	motion.x = Input.get_axis("ui_left", "ui_right")
+	var input_vector = Input.get_axis("ui_left", "ui_right")
+	motion = motion.move_toward(Vector2(input_vector, 0) * SPEED * delta, ACCELERATION * delta)
 
 	move_and_collide(motion * SPEED * delta)
 	
