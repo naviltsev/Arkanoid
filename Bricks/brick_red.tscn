@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3d03i43d6p2a"]
+
+[ext_resource type="PackedScene" uid="uid://bof21uyaba8fh" path="res://Bricks/brick_template.tscn" id="1_oevcm"]
+[ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="2_k1niq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p3qe3"]
+size = Vector2(30, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2icm"]
+resource_local_to_scene = true
+atlas = ExtResource("2_k1niq")
+region = Rect2(240, 64, 16, 16)
+
+[node name="BrickRed" instance=ExtResource("1_oevcm")]
+collision_layer = 2
+collision_mask = 4
+
+[node name="TileMap" parent="." index="0"]
+layer_0/tile_data = PackedInt32Array(0, 458752, 4, 1, 524288, 4)
+
+[node name="CollisionShape" parent="." index="1"]
+shape = SubResource("RectangleShape2D_p3qe3")
+
+[node name="ExplosionParticles" parent="." index="4"]
+texture = SubResource("AtlasTexture_j2icm")

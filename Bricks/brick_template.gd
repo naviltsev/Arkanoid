@@ -11,23 +11,36 @@ const BRICK_RIGHT_COORDS = Vector2i(1, 0)
 
 
 # Brick max health.
-# Redefine in inherited class _ready() to set brick health
-# max brick health is 3 to accommodate 3 brick sprite
+# It is set in "health" custom data layer of a tile.
+# Max brick health is 3 to accommodate 3 brick sprite
 # types - whole, half-cracked and fully cracked
 # Health value of -1 is for indescructible bricks.
-var health = 1
+var health
 
 # Coordinates of tiles in atlas specific to half-cracked
 # and fully cracked brick.
-# Redefine in inherited brick classes if brick has max health >= 2.
-# If brick has health=1, it gets destroyed after being hit.
+# These coordinates are stored in "half_cracked_coords" and
+# "fully_cracked_coords" custom data layers in a tile map.
 var half_cracked_coords
 var fully_cracked_coords
 
 func _ready():
-	# just a safeguard against health > 3
+	# set brick health
+	health = tile_map.get_cell_tile_data(0, BRICK_LEFT_COORDS).get_custom_data("health")
+
 	if health > 3:
+		push_error("misconfiguration in brick health (shouldn't be greater than 3)")
 		health = 3
+
+	# set coordinates of half- and fully-cracked brick tiles
+	half_cracked_coords = [
+		tile_map.get_cell_tile_data(0, BRICK_LEFT_COORDS).get_custom_data("half_cracked_coords"),
+		tile_map.get_cell_tile_data(0, BRICK_RIGHT_COORDS).get_custom_data("half_cracked_coords"),
+	]
+	fully_cracked_coords = [
+		tile_map.get_cell_tile_data(0, BRICK_LEFT_COORDS).get_custom_data("fully_cracked_coords"),
+		tile_map.get_cell_tile_data(0, BRICK_RIGHT_COORDS).get_custom_data("fully_cracked_coords"),
+	]
 
 	# if tile has a non-empty array of alternate tiles of the current tile in "alternate_tile" custom data layer,
 	# randomly choose one of alternate tiles as a default brick tile
@@ -63,18 +76,21 @@ func disable_collision_shape():
 
 # a brick takes damage
 func take_damage():
-	# indestructible bricks are indestructible
-	if is_indestructible():
-		return
-
-	health -= 1
-	animation_player.play("hit")
+	if !is_indestructible():
+		health -= 1
 
 	# if heavy ball power-up is active - remove brick collision shape
 	# immediately to avoid brick collision shapes slow down the ball.
 	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
 		disable_collision_shape()
 
+	animation_player.play("hit")
+
+	# indestructible bricks are indestructible
+	if is_indestructible():
+		return
+
+	# wait for hit animation to finish
 	await animation_player.animation_finished
 
 	# remove the brick once hit animation is finished

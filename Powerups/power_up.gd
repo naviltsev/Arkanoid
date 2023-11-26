@@ -44,20 +44,20 @@ func init(pos: Vector2):
 
 	var great_random = randi() % 100
 
-	if true:
-		set_powerup_type(Globals.POWERUP_HEAVY_BALL)
-	elif great_random <= 10:
+	if great_random <= 10:
 		set_powerup_type(Globals.POWERUP_CLEAR_LEVEL)
 	elif great_random > 10 and great_random < 20:
 		set_powerup_type(Globals.POWERUP_GLUE_PADDLE)
 	elif great_random > 20 and great_random < 30:
 		set_powerup_type(Globals.POWERUP_HEAVY_BALL)
-	elif great_random > 30 and great_random < 40:
+	elif great_random > 30 and great_random < 50:
 		set_powerup_type(Globals.POWERUP_WIDE_PADDLE)
-	elif great_random > 40 and great_random < 50:
+	elif great_random > 50 and great_random < 70:
 		set_powerup_type(Globals.POWERUP_MULTIPLE_BALLS)
-	else:
+	elif great_random > 70 and great_random < 90:
 		set_powerup_type(Globals.POWERUP_BOTTOM_WALL)
+	else:
+		set_powerup_type(Globals.POWERUP_MISSILES)
 
 # Set tile of released power-up and store its type value in powerup_type
 func set_powerup_type(type: int) -> void:

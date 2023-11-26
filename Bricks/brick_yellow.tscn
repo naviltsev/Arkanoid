@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dkdyq477ex3na"]
+[gd_scene load_steps=5 format=3 uid="uid://dkdyq477ex3na"]
 
 [ext_resource type="PackedScene" uid="uid://bof21uyaba8fh" path="res://Bricks/brick_template.tscn" id="1_lt74t"]
-[ext_resource type="Script" path="res://Bricks/brick_yellow.gd" id="2_5igbt"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="3_pwi5q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bbkhs"]
@@ -10,12 +9,11 @@ size = Vector2(30, 14)
 [sub_resource type="AtlasTexture" id="AtlasTexture_5015n"]
 resource_local_to_scene = true
 atlas = ExtResource("3_pwi5q")
-region = Rect2(240, 0, 16, 16)
+region = Rect2(240, 32, 16, 16)
 
 [node name="BrickYellow" instance=ExtResource("1_lt74t")]
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("2_5igbt")
 
 [node name="TileMap" parent="." index="0"]
 layer_0/tile_data = PackedInt32Array(0, 458752, 2, 1, 524288, 2)

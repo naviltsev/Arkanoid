@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://dskwamthybycs"]
+[gd_scene load_steps=5 format=3 uid="uid://dskwamthybycs"]
 
 [ext_resource type="PackedScene" uid="uid://bof21uyaba8fh" path="res://Bricks/brick_template.tscn" id="1_agmx2"]
-[ext_resource type="Script" path="res://Bricks/brick_black.gd" id="2_oud8b"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="2_uq3xt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_umbqp"]
@@ -15,7 +14,6 @@ region = Rect2(240, 0, 16, 16)
 [node name="BrickBlack" instance=ExtResource("1_agmx2")]
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("2_oud8b")
 
 [node name="CollisionShape" parent="." index="1"]
 shape = SubResource("RectangleShape2D_umbqp")
