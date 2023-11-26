@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://g7b5ulsvgoox"]
+
+[ext_resource type="PackedScene" uid="uid://bof21uyaba8fh" path="res://Bricks/brick_template.tscn" id="1_oc5wf"]
+[ext_resource type="Script" path="res://Bricks/brick_orange.gd" id="2_ppt3b"]
+[ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="2_r5yh6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ltp6"]
+size = Vector2(30, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ygjsc"]
+resource_local_to_scene = true
+atlas = ExtResource("2_r5yh6")
+region = Rect2(240, 0, 16, 16)
+
+[node name="BrickOrange" instance=ExtResource("1_oc5wf")]
+collision_layer = 2
+collision_mask = 4
+script = ExtResource("2_ppt3b")
+
+[node name="TileMap" parent="." index="0"]
+layer_0/tile_data = PackedInt32Array(0, 458752, 3, 1, 524288, 3)
+
+[node name="CollisionShape" parent="." index="1"]
+shape = SubResource("RectangleShape2D_5ltp6")
+
+[node name="ExplosionParticles" parent="." index="4"]
+texture = SubResource("AtlasTexture_ygjsc")

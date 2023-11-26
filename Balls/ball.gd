@@ -94,8 +94,10 @@ func _physics_process(delta):
 				get_tree().root.add_child(powerup)
 				powerup.init(position)
 
-		# no bouncing if heavy ball power-up is on
-		if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL and collider.is_in_group("bricks"):
+		# no bouncing if heavy ball power-up is on (unless the brick is indestructible)
+		if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL and \
+			collider.is_in_group("bricks") and \
+			!collider.is_indestructible():
 			return
 
 		# bounce when collided

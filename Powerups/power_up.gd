@@ -45,7 +45,7 @@ func init(pos: Vector2):
 	var great_random = randi() % 100
 
 	if true:
-		set_powerup_type(Globals.POWERUP_MISSILES)
+		set_powerup_type(Globals.POWERUP_HEAVY_BALL)
 	elif great_random <= 10:
 		set_powerup_type(Globals.POWERUP_CLEAR_LEVEL)
 	elif great_random > 10 and great_random < 20:

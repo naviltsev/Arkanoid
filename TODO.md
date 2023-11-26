@@ -4,19 +4,23 @@ TODO
 CURRENT
 -------
 
-- powerup - rocket
+- enh - implement half/fully cracked coords in custom data layer of a tilemap
+- bug fix clear level - colors of brick particles
 - bug - add white contour in bottom wall powerup tile
-- bug - bottom wall bugs
+
 - mech - allow simultaneous power ups (eg. bottom wall + 3x balls)
 - mech - timer (~5 seconds) between current power up ends and new releases
-
 
 - bug - if power-up gets caught when ball is out of screen, get_ball() returns NULL
   + queue_free() power up if ball is out of screen
 
+- bug - missiles are equipped if ball is out of screen and at the same time missiles powerup gets collected
 
 PAST
 ----
++ powerup - rocket
++ bug - bottom wall bugs
+
 + enh - explosion of bricks (Clear Level power-up) - use 1x1 brick of corresponding color as particle
 
 

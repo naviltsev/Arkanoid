@@ -1,16 +1,16 @@
-[gd_scene load_steps=6 format=3 uid="uid://bg5id3nm4rra"]
+[gd_scene load_steps=6 format=3 uid="uid://w6l8a2f60a55"]
 
 [ext_resource type="PackedScene" uid="uid://bof21uyaba8fh" path="res://Bricks/brick_template.tscn" id="1_tfboi"]
 [ext_resource type="Script" path="res://Bricks/brick_green.gd" id="2_l6ynm"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="3_uo7rn"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3gyu8"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_08hc8"]
 size = Vector2(30, 14)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5c00n"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wu7bk"]
 resource_local_to_scene = true
 atlas = ExtResource("3_uo7rn")
-region = Rect2(240, 16, 16, 16)
+region = Rect2(240, 0, 16, 16)
 
 [node name="BrickGreen" instance=ExtResource("1_tfboi")]
 collision_layer = 2
@@ -18,11 +18,10 @@ collision_mask = 4
 script = ExtResource("2_l6ynm")
 
 [node name="TileMap" parent="." index="0"]
-position = Vector2(0, -8)
-layer_0/tile_data = PackedInt32Array(65535, 458752, 1, 0, 524288, 1)
+layer_0/tile_data = PackedInt32Array(0, 458752, 1, 1, 524288, 1)
 
 [node name="CollisionShape" parent="." index="1"]
-shape = SubResource("RectangleShape2D_3gyu8")
+shape = SubResource("RectangleShape2D_08hc8")
 
 [node name="ExplosionParticles" parent="." index="4"]
-texture = SubResource("AtlasTexture_5c00n")
+texture = SubResource("AtlasTexture_wu7bk")

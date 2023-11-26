@@ -8,9 +8,11 @@ texture = ExtResource("1_maqo4")
 7:0/0 = 0
 7:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 7:0/0/physics_layer_0/angular_velocity = 0.0
+7:0/0/custom_data_0 = [Vector2i(9, 0), Vector2i(11, 0)]
 8:0/0 = 0
 8:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 8:0/0/physics_layer_0/angular_velocity = 0.0
+8:0/0/custom_data_0 = [Vector2i(10, 0), Vector2i(12, 0)]
 9:0/0 = 0
 9:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 9:0/0/physics_layer_0/angular_velocity = 0.0
@@ -26,9 +28,11 @@ texture = ExtResource("1_maqo4")
 7:1/0 = 0
 7:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 7:1/0/physics_layer_0/angular_velocity = 0.0
+7:1/0/custom_data_0 = [Vector2i(9, 1), Vector2i(11, 1)]
 8:1/0 = 0
 8:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 8:1/0/physics_layer_0/angular_velocity = 0.0
+8:1/0/custom_data_0 = [Vector2i(10, 1), Vector2i(12, 1)]
 9:1/0 = 0
 9:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 9:1/0/physics_layer_0/angular_velocity = 0.0
@@ -44,9 +48,11 @@ texture = ExtResource("1_maqo4")
 7:2/0 = 0
 7:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 7:2/0/physics_layer_0/angular_velocity = 0.0
+7:2/0/custom_data_0 = [Vector2i(9, 2)]
 8:2/0 = 0
 8:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 8:2/0/physics_layer_0/angular_velocity = 0.0
+8:2/0/custom_data_0 = [Vector2i(10, 2)]
 9:2/0 = 0
 9:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 9:2/0/physics_layer_0/angular_velocity = 0.0
@@ -62,9 +68,11 @@ texture = ExtResource("1_maqo4")
 7:3/0 = 0
 7:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 7:3/0/physics_layer_0/angular_velocity = 0.0
+7:3/0/custom_data_0 = [Vector2i(9, 3)]
 8:3/0 = 0
 8:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 8:3/0/physics_layer_0/angular_velocity = 0.0
+8:3/0/custom_data_0 = [Vector2i(10, 3)]
 9:3/0 = 0
 9:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 9:3/0/physics_layer_0/angular_velocity = 0.0
@@ -261,6 +269,14 @@ texture = ExtResource("1_maqo4")
 [sub_resource type="TileSet" id="TileSet_l4gnt"]
 physics_layer_0/collision_layer = 2
 physics_layer_0/collision_mask = 0
+custom_data_layer_0/name = "alternate_tile"
+custom_data_layer_0/type = 28
+custom_data_layer_1/name = "health"
+custom_data_layer_1/type = 2
+custom_data_layer_2/name = "half_cracked_coords"
+custom_data_layer_2/type = 6
+custom_data_layer_3/name = "fully_cracked_coords"
+custom_data_layer_3/type = 6
 sources/0 = SubResource("TileSetAtlasSource_0tmd2")
 
 [sub_resource type="Animation" id="Animation_5ra3w"]
@@ -340,14 +356,15 @@ atlas = ExtResource("1_maqo4")
 region = Rect2(240, 0, 16, 16)
 
 [node name="BrickTemplate" type="StaticBody2D" groups=["bricks"]]
+texture_filter = 1
 script = ExtResource("1_2lilw")
 
 [node name="TileMap" type="TileMap" parent="."]
 unique_name_in_owner = true
-texture_filter = 1
+position = Vector2(-16, -8)
 tile_set = SubResource("TileSet_l4gnt")
 format = 2
-layer_0/tile_data = PackedInt32Array(65535, 720896, 0, 0, 786432, 0)
+layer_0/tile_data = PackedInt32Array(0, 458752, 0, 1, 524288, 0)
 
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

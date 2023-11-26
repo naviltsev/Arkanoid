@@ -6,16 +6,15 @@ class_name Brick extends StaticBody2D
 @onready var particles : GPUParticles2D = $ExplosionParticles
 
 # Local brick coordinates of left and right sides
-# Coords don't start in (0, 0) because brick's top left corner
-# is shifted to the left to be centered on the scene.
-const BRICK_LEFT_COORDS = Vector2i(-1, -1)
-const BRICK_RIGHT_COORDS = Vector2i(0, -1)
+const BRICK_LEFT_COORDS = Vector2i(0, 0)
+const BRICK_RIGHT_COORDS = Vector2i(1, 0)
 
 
 # Brick max health.
 # Redefine in inherited class _ready() to set brick health
 # max brick health is 3 to accommodate 3 brick sprite
 # types - whole, half-cracked and fully cracked
+# Health value of -1 is for indescructible bricks.
 var health = 1
 
 # Coordinates of tiles in atlas specific to half-cracked
@@ -30,16 +29,44 @@ func _ready():
 	if health > 3:
 		health = 3
 
+	# if tile has a non-empty array of alternate tiles of the current tile in "alternate_tile" custom data layer,
+	# randomly choose one of alternate tiles as a default brick tile
+	var alternate_tiles_left = tile_map.get_cell_tile_data(0, BRICK_LEFT_COORDS).get_custom_data("alternate_tile")
+	var alternate_tiles_right = tile_map.get_cell_tile_data(0, BRICK_RIGHT_COORDS).get_custom_data("alternate_tile")
+	
+	# length of both arrays should be equal
+	# otherwise it is considered a misconfiguration - an error will be thrown and the game continue
+	# with the set of default tiles
+	if alternate_tiles_left.size() != alternate_tiles_right.size():
+		push_error("misconfiguration in coords of alternate tiles of left/right pieces of brick - both pieces should have equal amount of alternate tiles")
+		return
+
+	# doesn't matter what array we use for checking it is not empty
+	if alternate_tiles_left.size() > 0:
+		# replace defaul brick tiles with one of alternatives
+		# "index" is the random number between 0 and array_size
+		# if 0 is chosen, default tile won't get changed
+		# otherwise, the number indicates the index from alternate_tiles array minus 1 of what alternate tile to use
+		var index = randi() % (alternate_tiles_left.size() + 1)
+
+		if index > 0:
+			tile_map.set_cell(0, BRICK_LEFT_COORDS, 0, alternate_tiles_left[index-1])
+			tile_map.set_cell(0, BRICK_RIGHT_COORDS, 0, alternate_tiles_right[index-1])
+
 func enable_collision_shape():
-	print("enabled collision shape!")
 	collision_shape.disabled = false
 
 func disable_collision_shape():
-	print("disabled collision shape!")
+	if is_indestructible():
+		return
 	collision_shape.disabled = true
 
 # a brick takes damage
 func take_damage():
+	# indestructible bricks are indestructible
+	if is_indestructible():
+		return
+
 	health -= 1
 	animation_player.play("hit")
 
@@ -81,3 +108,6 @@ func take_full_damage():
 	await get_tree().create_timer(5.0).timeout
 
 	queue_free()
+
+func is_indestructible():
+	return health < 0
