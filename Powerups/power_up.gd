@@ -16,13 +16,6 @@ const POWERUP_COORDS = {
 	Globals.POWERUP_BOTTOM_WALL : Vector2i(8, 0),
 }
 
-#const POWERUP_ROCKET_COORDS = Vector2i(0, 0)
-#const POWERUP_DOUBLE_SCORE_COORDS = Vector2i(1, 0)
-#const POWERUP_MULTIPLE_BALLS_COORDS = Vector2i(2, 0)
-#const POWERUP_HEALTH_COORDS = Vector2i(3, 0)
-#const POWERUP_HEAVY_BALL_COORDS = Vector2i(4, 0)
-#const POWERUP_GLUE_BALL_COORDS = Vector2i(5, 0)
-
 # Gravity value for power-up
 const GRAVITY = 700
 
@@ -31,6 +24,9 @@ var powerup_type
 
 # set initial power-up velocity
 var velocity = Vector2.ZERO
+
+func _ready():
+	Events.connect("ball_out_of_screen", _on_visible_on_screen_enabler_2d_screen_exited)
 
 func _physics_process(delta):
 	# move power-up

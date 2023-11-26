@@ -4,8 +4,7 @@ TODO
 CURRENT
 -------
 
-- enh - implement half/fully cracked coords in custom data layer of a tilemap
-- bug fix clear level - colors of brick particles
+
 - bug - add white contour in bottom wall powerup tile
 
 - mech - allow simultaneous power ups (eg. bottom wall + 3x balls)
@@ -18,6 +17,8 @@ CURRENT
 
 PAST
 ----
++ bug fix clear level - colors of brick particles
++ enh - implement half/fully cracked coords in custom data layer of a tilemap
 + powerup - rocket
 + bug - bottom wall bugs
 
