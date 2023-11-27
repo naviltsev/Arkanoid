@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://bb6sdkyyk56hd"]
+[gd_scene load_steps=13 format=3 uid="uid://bb6sdkyyk56hd"]
 
 [ext_resource type="Theme" uid="uid://cyattng0334b8" path="res://GUI/theme.tres" id="2_kb5dx"]
-[ext_resource type="Texture2D" uid="uid://bhx7snfa5feyk" path="res://Assets/Backgrounds/high-skies-pixel-art-4k-b3-1920x1080.jpg" id="2_rq4dd"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="3_nyqoe"]
 [ext_resource type="Script" path="res://GUI/powerup_icon.gd" id="4_0fqu3"]
 [ext_resource type="Texture2D" uid="uid://b7bjsjr5vaaf0" path="res://Assets/arkanoid_powerups.png" id="4_tvw7t"]
@@ -43,11 +42,6 @@ region = Rect2(0, 0, 16, 16)
 
 [node name="InfoPanel" type="Node2D"]
 texture_filter = 1
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("2_rq4dd")
-centered = false
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 offset_left = 1440.0
