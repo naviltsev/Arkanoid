@@ -19,6 +19,17 @@ enum {
 	POWERUP_BOTTOM_WALL
 }
 
+# Coordinates of a power-up tile in a tilemap
+const POWERUP_COORDS = {
+	POWERUP_MISSILES: Vector2i(0, 0),
+	POWERUP_MULTIPLE_BALLS: Vector2i(2, 0),
+	POWERUP_HEAVY_BALL: Vector2i(4, 0),
+	POWERUP_GLUE_PADDLE: Vector2i(5, 0),
+	POWERUP_WIDE_PADDLE: Vector2i(6, 0),
+	POWERUP_CLEAR_LEVEL: Vector2i(7, 0),
+	POWERUP_BOTTOM_WALL : Vector2i(8, 0),
+}
+
 # Power-up timers, in seconds.
 # While timer is on, power-up is active.
 # Some power-ups don't have timer and they are active while ball is on the screen.
@@ -122,6 +133,8 @@ func disable_powerup():
 		Events.missiles_dismantled.emit()
 
 	_deactivate_powerup()
+
+	Events.disable_powerup.emit()
 
 	debug(["disabled powerup"])
 

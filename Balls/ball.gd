@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var collision_timer : Timer = %PaddleCollisionTimer
 @onready var regular_ball_sprite : Sprite2D = %RegularBallSprite
 @onready var heavy_ball_sprite : Sprite2D = %HeavyBallSprite
+@onready var particles: GPUParticles2D = %HeavyBallSwitchParticles
 
 var powerup_scene = preload("res://Powerups/power_up.tscn")
 
@@ -141,11 +142,21 @@ func obey_paddle_collisions():
 func switch_to_heavy_ball():
 	regular_ball_sprite.visible = false
 	heavy_ball_sprite.visible = true
+	
+	# emit particles only if ball is in play
+	if _state == STATE_PLAY:
+		particles.emitting = true
+
 	trail.heavy_trail()
 
 func switch_to_regular_ball():
 	regular_ball_sprite.visible = true
 	heavy_ball_sprite.visible = false
+
+	# emit particles only if ball is in play
+	if _state == STATE_PLAY:
+		particles.emitting = true
+
 	trail.regular_trail()
 
 func pause_ball():

@@ -5,17 +5,6 @@ extends Area2D
 # Local coords
 const LOCAL_COORDS = Vector2i(0, 0)
 
-# Coordinates of a power-up tile in tilemap
-const POWERUP_COORDS = {
-	Globals.POWERUP_MISSILES: Vector2i(0, 0),
-	Globals.POWERUP_MULTIPLE_BALLS: Vector2i(2, 0),
-	Globals.POWERUP_HEAVY_BALL: Vector2i(4, 0),
-	Globals.POWERUP_GLUE_PADDLE: Vector2i(5, 0),
-	Globals.POWERUP_WIDE_PADDLE: Vector2i(6, 0),
-	Globals.POWERUP_CLEAR_LEVEL: Vector2i(7, 0),
-	Globals.POWERUP_BOTTOM_WALL : Vector2i(8, 0),
-}
-
 # Gravity value for power-up
 const GRAVITY = 700
 
@@ -40,7 +29,9 @@ func init(pos: Vector2):
 
 	var great_random = randi() % 100
 
-	if great_random <= 10:
+	if true:
+		set_powerup_type(Globals.POWERUP_HEAVY_BALL)
+	elif great_random <= 10:
 		set_powerup_type(Globals.POWERUP_CLEAR_LEVEL)
 	elif great_random > 10 and great_random < 20:
 		set_powerup_type(Globals.POWERUP_GLUE_PADDLE)
@@ -58,7 +49,7 @@ func init(pos: Vector2):
 # Set tile of released power-up and store its type value in powerup_type
 func set_powerup_type(type: int) -> void:
 	powerup_type = type
-	tile_map.set_cell(0, LOCAL_COORDS, 0, POWERUP_COORDS[type])
+	tile_map.set_cell(0, LOCAL_COORDS, 0, Globals.POWERUP_COORDS[type])
 
 # Destroy power-up when it's out of the screen
 func _on_visible_on_screen_enabler_2d_screen_exited():

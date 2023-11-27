@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cwkiawasj4e2f"]
+[gd_scene load_steps=24 format=3 uid="uid://cwkiawasj4e2f"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_ddd66"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="1_nvlga"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b3d03i43d6p2a" path="res://Bricks/brick_red.tscn" id="6_n5g7v"]
 [ext_resource type="PackedScene" uid="uid://cfve5a0lb0rm7" path="res://Bricks/brick_purple.tscn" id="7_bg63x"]
 [ext_resource type="PackedScene" uid="uid://g7b5ulsvgoox" path="res://Bricks/brick_orange.tscn" id="7_q7puo"]
+[ext_resource type="PackedScene" uid="uid://bb6sdkyyk56hd" path="res://GUI/info_panel.tscn" id="12_vdj26"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_035g1"]
 texture = ExtResource("2_qc4v0")
@@ -298,6 +299,36 @@ physics_layer_0/collision_mask = 12
 sources/0 = SubResource("TileSetAtlasSource_fb4xe")
 sources/1 = SubResource("TileSetScenesCollectionSource_wctal")
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_tn830"]
+resource_local_to_scene = true
+atlas = ExtResource("1_nvlga")
+region = Rect2(112, 16, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsbdo"]
+resource_local_to_scene = true
+atlas = ExtResource("1_nvlga")
+region = Rect2(112, 32, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u44ar"]
+resource_local_to_scene = true
+atlas = ExtResource("1_nvlga")
+region = Rect2(112, 48, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j11gc"]
+resource_local_to_scene = true
+atlas = ExtResource("1_nvlga")
+region = Rect2(112, 64, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wlhk5"]
+resource_local_to_scene = true
+atlas = ExtResource("1_nvlga")
+region = Rect2(112, 80, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gh1a8"]
+resource_local_to_scene = true
+atlas = ExtResource("1_nvlga")
+region = Rect2(112, 0, 32, 16)
+
 [node name="LevelTemplate" type="Node2D"]
 script = ExtResource("1_ddd66")
 
@@ -320,36 +351,37 @@ layer_0/tile_data = PackedInt32Array(131072, 458752, 0, 131073, 458752, 0, 13107
 scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_d4qix")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 917504, 0, 65536, 917504, 0, 131072, 917504, 0, 196608, 917504, 0, 262144, 917504, 0, 327680, 917504, 0, 393216, 917504, 0, 458752, 917504, 0, 524288, 917504, 0, 589824, 917504, 0, 655360, 917504, 0, 720896, 917504, 0, 786432, 917504, 0, 851968, 917504, 0, 917504, 917504, 0, 983040, 917504, 0, 1048576, 917504, 0, 1114112, 917504, 0, 1179648, 917504, 0, 1245184, 917504, 0, 1310720, 917504, 0, 1376256, 917504, 0, 1441792, 917504, 0, 32, 917504, 0, 65568, 917504, 0, 131104, 917504, 0, 196640, 917504, 0, 327712, 917504, 0, 393248, 917504, 0, 458784, 917504, 0, 524320, 917504, 0, 589856, 917504, 0, 655392, 917504, 0, 720928, 917504, 0, 786464, 917504, 0, 852000, 917504, 0, 917536, 917504, 0, 983072, 917504, 0, 1048608, 917504, 0, 1114144, 917504, 0, 1179680, 917504, 0, 1245216, 917504, 0, 1310752, 917504, 0, 1376288, 917504, 0, 1441824, 917504, 0, 1, 917504, 0, 2, 917504, 0, 3, 917504, 0, 4, 917504, 0, 5, 917504, 0, 6, 917504, 0, 7, 917504, 0, 8, 917504, 0, 9, 917504, 0, 10, 917504, 0, 11, 917504, 0, 12, 917504, 0, 13, 917504, 0, 14, 917504, 0, 15, 917504, 0, 16, 917504, 0, 17, 917504, 0, 18, 917504, 0, 19, 917504, 0, 20, 917504, 0, 21, 917504, 0, 22, 917504, 0, 23, 917504, 0, 24, 917504, 0, 25, 917504, 0, 26, 917504, 0, 27, 917504, 0, 28, 917504, 0, 29, 917504, 0, 30, 917504, 0, 31, 917504, 0, 262176, 917504, 0, 524291, 1, 262144, 589827, 1, 262144, 655363, 1, 262144, 720899, 1, 262144, 524293, 1, 262144, 589829, 1, 262144, 655365, 1, 262144, 720901, 1, 262144, 524295, 1, 327680, 589831, 1, 327680, 655367, 1, 327680, 720903, 1, 327680, 524297, 1, 327680, 589833, 1, 327680, 655369, 1, 327680, 720905, 1, 327680, 524299, 1, 393216, 589835, 1, 393216, 655371, 1, 393216, 720907, 1, 393216, 524301, 1, 393216, 589837, 1, 393216, 655373, 1, 393216, 720909, 1, 393216, 524303, 1, 393216, 589839, 1, 393216, 655375, 1, 393216, 720911, 1, 393216, 458768, 1, 65536, 458770, 1, 65536, 458772, 1, 65536, 393233, 1, 65536, 393235, 1, 65536, 327698, 1, 65536, 524306, 1, 65536, 589842, 1, 65536, 524308, 1, 65536, 589844, 1, 65536, 655381, 1, 65536, 655379, 1, 65536, 655377, 1, 65536, 786446, 1, 131072, 786448, 1, 131072, 786450, 1, 131072, 786444, 1, 131072, 786442, 1, 131072, 786440, 1, 131072, 720915, 1, 131072, 720913, 1, 131072, 720917, 1, 131072, 786452, 1, 196608, 851987, 1, 196608, 851985, 1, 196608, 851983, 1, 196608, 851981, 1, 196608, 851979, 1, 196608, 851977, 1, 196608, 851975, 1, 196608, 851973, 1, 196608, 786438, 1, 196608, 851989, 1, 196608, 786454, 1, 196608, 720919, 1, 196608, 655383, 1, 196608, 589846, 1, 196608)
+layer_0/tile_data = PackedInt32Array(0, 983040, 0, 65536, 983040, 0, 131072, 917504, 0, 196608, 917504, 0, 262144, 983040, 0, 327680, 917504, 0, 393216, 983040, 0, 458752, 917504, 0, 524288, 983040, 0, 589824, 917504, 0, 655360, 983040, 0, 720896, 917504, 0, 786432, 917504, 0, 851968, 917504, 0, 917504, 983040, 0, 983040, 917504, 0, 1048576, 983040, 0, 1114112, 917504, 0, 1179648, 917504, 0, 1245184, 983040, 0, 1310720, 917504, 0, 1376256, 983040, 0, 1441792, 917504, 0, 1, 917504, 0, 2, 917504, 0, 3, 917504, 0, 4, 983040, 0, 5, 983040, 0, 6, 917504, 0, 7, 917504, 0, 8, 917504, 0, 9, 983040, 0, 10, 917504, 0, 11, 917504, 0, 12, 983040, 0, 13, 917504, 0, 14, 983040, 0, 15, 917504, 0, 16, 917504, 0, 17, 983040, 0, 18, 917504, 0, 19, 983040, 0, 20, 917504, 0, 21, 917504, 0, 22, 917504, 0, 23, 983040, 0, 24, 983040, 0, 25, 917504, 0, 26, 917504, 0, 27, 983040, 0, 524291, 1, 262144, 589827, 1, 262144, 655363, 1, 262144, 720899, 1, 262144, 524293, 1, 262144, 589829, 1, 262144, 655365, 1, 262144, 720901, 1, 262144, 524295, 1, 327680, 589831, 1, 327680, 655367, 1, 327680, 720903, 1, 327680, 524297, 1, 327680, 589833, 1, 327680, 655369, 1, 327680, 720905, 1, 327680, 524299, 1, 393216, 589835, 1, 393216, 655371, 1, 393216, 720907, 1, 393216, 524301, 1, 393216, 589837, 1, 393216, 655373, 1, 393216, 720909, 1, 393216, 524303, 1, 393216, 589839, 1, 393216, 655375, 1, 393216, 720911, 1, 393216, 458768, 1, 65536, 458770, 1, 65536, 458772, 1, 65536, 393233, 1, 65536, 393235, 1, 65536, 327698, 1, 65536, 524306, 1, 65536, 589842, 1, 65536, 524308, 1, 65536, 589844, 1, 65536, 655381, 1, 65536, 655379, 1, 65536, 655377, 1, 65536, 786446, 1, 131072, 786448, 1, 131072, 786450, 1, 131072, 786444, 1, 131072, 786442, 1, 131072, 786440, 1, 131072, 720915, 1, 131072, 720913, 1, 131072, 720917, 1, 131072, 786452, 1, 196608, 851987, 1, 196608, 851985, 1, 196608, 851983, 1, 196608, 851981, 1, 196608, 851979, 1, 196608, 851977, 1, 196608, 851975, 1, 196608, 851973, 1, 196608, 786438, 1, 196608, 851989, 1, 196608, 786454, 1, 196608, 720919, 1, 196608, 655383, 1, 196608, 589846, 1, 196608, 29, 917504, 0, 65565, 917504, 0, 131101, 983040, 0, 196637, 917504, 0, 262173, 983040, 0, 327709, 917504, 0, 393245, 917504, 0, 458781, 983040, 0, 524317, 917504, 0, 589853, 917504, 0, 655389, 917504, 0, 720925, 983040, 0, 786461, 917504, 0, 851997, 917504, 0, 917533, 917504, 0, 983069, 983040, 0, 1048605, 917504, 0, 1114141, 983040, 0, 1179677, 917504, 0, 1245213, 983040, 0, 1310749, 983040, 0, 1376285, 917504, 0, 1441821, 983040, 0, 28, 917504, 0, 30, 917504, 0, 31, 983040, 0, 32, 917504, 0, 33, 917504, 0, 34, 983040, 0, 35, 917504, 0, 36, 917504, 0, 37, 917504, 0, 38, 983040, 0, 39, 983040, 0, 65575, 917504, 0, 131111, 917504, 0, 1441822, 983040, 0, 1441823, 917504, 0, 1441824, 983040, 0, 1441825, 917504, 0, 1441826, 983040, 0, 196647, 983040, 0, 262183, 917504, 0, 327719, 917504, 0, 393255, 983040, 0, 458791, 983040, 0, 524327, 917504, 0, 589863, 917504, 0, 655399, 983040, 0, 720935, 917504, 0, 786471, 917504, 0, 852007, 983040, 0, 917543, 917504, 0, 983079, 917504, 0, 1048615, 983040, 0, 1114151, 917504, 0, 1179687, 983040, 0, 1245223, 917504, 0, 1310759, 917504, 0, 1376295, 983040, 0, 1441831, 983040, 0, 1441827, 917504, 0, 1441828, 917504, 0, 1441829, 917504, 0, 1441830, 983040, 0)
 
 [node name="Player" parent="." instance=ExtResource("4_hke2u")]
 unique_name_in_owner = true
 position = Vector2(832, 1008)
 metadata/_edit_group_ = true
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 1584.0
-offset_right = 1920.0
-offset_bottom = 1088.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRect" type="ColorRect" parent="Control/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-color = Color(0, 0, 0, 1)
-
 [node name="PowerupTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="InfoPanel" parent="." instance=ExtResource("12_vdj26")]
+
+[node name="TextureRectGreen" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="0"]
+texture = SubResource("AtlasTexture_tn830")
+
+[node name="TextureRectYellow" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="2"]
+texture = SubResource("AtlasTexture_gsbdo")
+
+[node name="TextureRectOrange" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="4"]
+texture = SubResource("AtlasTexture_u44ar")
+
+[node name="TextureRectRed" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="6"]
+texture = SubResource("AtlasTexture_j11gc")
+
+[node name="TextureRectPurple" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="8"]
+texture = SubResource("AtlasTexture_wlhk5")
+
+[node name="TextureRectBlack" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="10"]
+texture = SubResource("AtlasTexture_gh1a8")
 
 [connection signal="timeout" from="PowerupTimer" to="." method="_on_powerup_timer_timeout"]
 
 [editable path="Player"]
+[editable path="InfoPanel"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ss5dilon8qol"]
+[gd_scene load_steps=9 format=3 uid="uid://ss5dilon8qol"]
 
 [ext_resource type="Script" path="res://Balls/ball.gd" id="1_3ijld"]
 [ext_resource type="Texture2D" uid="uid://b41kkka7ht36" path="res://Assets/paddles_and_balls.png" id="1_ro3vx"]
 [ext_resource type="Script" path="res://Balls/trail.gd" id="3_xk818"]
+[ext_resource type="Texture2D" uid="uid://dps5cl8mv6vbe" path="res://Assets/Particles/circle_05.png" id="4_1b6o4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w710u"]
 radius = 18.0
@@ -15,10 +16,23 @@ point_count = 2
 offsets = PackedFloat32Array(0.0110701, 0.656827)
 colors = PackedColorArray(0.678431, 0.647059, 0.317647, 0.784314, 0, 0, 0, 0.196078)
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_nnbor"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 180.0
+gravity = Vector3(0, 1000, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 400.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.03
+scale_max = 0.08
+color = Color(0.803922, 0.796078, 0, 1)
+
 [node name="Ball" type="CharacterBody2D" groups=["balls"]]
 top_level = true
 collision_layer = 4
-collision_mask = 15
+collision_mask = 11
 script = ExtResource("1_3ijld")
 
 [node name="RegularBallSprite" type="Sprite2D" parent="."]
@@ -55,6 +69,15 @@ script = ExtResource("3_xk818")
 unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
+
+[node name="HeavyBallSwitchParticles" type="GPUParticles2D" parent="."]
+unique_name_in_owner = true
+emitting = false
+amount = 50
+process_material = SubResource("ParticleProcessMaterial_nnbor")
+texture = ExtResource("4_1b6o4")
+one_shot = true
+explosiveness = 0.85
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="PaddleCollisionTimer" to="." method="_on_paddle_collision_timer_timeout"]
