@@ -81,7 +81,7 @@ func take_damage():
 
 	# if heavy ball power-up is active - remove brick collision shape
 	# immediately to avoid brick collision shapes slow down the ball.
-	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
+	if Globals.is_powerup_active(Globals.POWERUP_HEAVY_BALL):
 		disable_collision_shape()
 
 	animation_player.play("hit")
@@ -94,7 +94,7 @@ func take_damage():
 	await animation_player.animation_finished
 
 	# remove the brick once hit animation is finished
-	if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL:
+	if Globals.is_powerup_active(Globals.POWERUP_HEAVY_BALL):
 		queue_free()
 		return
 

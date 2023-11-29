@@ -358,9 +358,6 @@ unique_name_in_owner = true
 position = Vector2(832, 1008)
 metadata/_edit_group_ = true
 
-[node name="PowerupTimer" type="Timer" parent="."]
-one_shot = true
-
 [node name="InfoPanel" parent="." instance=ExtResource("12_vdj26")]
 
 [node name="TextureRectGreen" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="0"]
@@ -380,8 +377,6 @@ texture = SubResource("AtlasTexture_wlhk5")
 
 [node name="TextureRectBlack" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainer/GridContainer" index="10"]
 texture = SubResource("AtlasTexture_gh1a8")
-
-[connection signal="timeout" from="PowerupTimer" to="." method="_on_powerup_timer_timeout"]
 
 [editable path="Player"]
 [editable path="InfoPanel"]

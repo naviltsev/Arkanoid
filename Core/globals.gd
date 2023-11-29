@@ -54,21 +54,21 @@ var POWERUP_NAME = {
 # if power up is released and is visible on screen
 var is_powerup_on_screen = false
 
-# currently active power up
-var active_powerup = POWERUP_NONE
+# currently active power ups
+var active_powerup = {}
 
 func _ready():
 	Events.connect("enable_powerup", enable_powerup)
 
 func _activate_powerup(powerup_type: int):
-	active_powerup = powerup_type
+	active_powerup[powerup_type] = null
 	is_powerup_on_screen = false
 
-func _deactivate_powerup():
-	active_powerup = POWERUP_NONE
+func _deactivate_powerup(powerup_type: int):
+	active_powerup.erase(powerup_type)
 
-func get_active_powerup():
-	return active_powerup
+func is_powerup_active(powerup_type: int):
+	return active_powerup.has(powerup_type)
 
 func debug(msgs: Array[String]) -> void:
 	var debug_str = ""
@@ -79,42 +79,41 @@ func debug(msgs: Array[String]) -> void:
 func enable_powerup(powerup_type: int):
 	_activate_powerup(powerup_type)
 
-	# init and start powerup timer,
-	# while timer is on, the powerup is active, no other powerups are
-	# getting released,
-	# and some power-ups are active until the ball is out of screen
+	# Init and start powerup timer.
+	# As long as timer is active, the powerup is active
 	if POWERUP_TIMER.has(powerup_type):
-		var powerup_timer = get_tree().current_scene.get_node("PowerupTimer")
-		powerup_timer.start(POWERUP_TIMER[powerup_type])
+		var timer = get_tree().create_timer(POWERUP_TIMER[powerup_type], false)
+		timer.timeout.connect(disable_powerup.bind(powerup_type))
+		
 
-	if get_active_powerup() == POWERUP_HEAVY_BALL:
+	if is_powerup_active(POWERUP_HEAVY_BALL):
 		# trigger ball sprite change in player.gd
 		Events.heavy_ball_equipped.emit()
 
 	# trigger multiple balls in player.gd
-	if get_active_powerup() == POWERUP_MULTIPLE_BALLS:
+	if is_powerup_active(POWERUP_MULTIPLE_BALLS):
 		Events.multiple_balls_equipped.emit()
 	
 	# trigger wide paddle
-	if get_active_powerup() == POWERUP_WIDE_PADDLE:
+	if is_powerup_active(POWERUP_WIDE_PADDLE):
 		Events.wide_paddle_equipped.emit()
 	
-	if get_active_powerup() == POWERUP_CLEAR_LEVEL:
+	if is_powerup_active(POWERUP_CLEAR_LEVEL):
 		Events.powerup_clear_level.emit()
 
-	if get_active_powerup() == POWERUP_BOTTOM_WALL:
+	if is_powerup_active(POWERUP_BOTTOM_WALL):
 		Events.bottom_wall_equipped.emit()
 
-	if get_active_powerup() == POWERUP_MISSILES:
+	if is_powerup_active(POWERUP_MISSILES):
 		Events.missiles_equipped.emit()
 	
 	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
 
-func disable_powerup():
-	var powerup_timer = get_tree().current_scene.get_node("PowerupTimer")
-	powerup_timer.stop()
+func disable_powerup(powerup_type: int):
+#	var powerup_timer = get_tree().current_scene.get_node("PowerupTimer")
+#	powerup_timer.stop()
 
-	if get_active_powerup() == POWERUP_HEAVY_BALL:
+	if is_powerup_active(POWERUP_HEAVY_BALL):
 		Events.heavy_ball_dismantled.emit()
 
 		# re-enable collision shapes on all bricks - this is a workaround
@@ -123,24 +122,28 @@ func disable_powerup():
 		# doesn't turn on back
 		get_tree().call_group("bricks", "enable_collision_shape")
 
-	if get_active_powerup() == POWERUP_WIDE_PADDLE:
+	if is_powerup_active(POWERUP_WIDE_PADDLE):
 		Events.wide_paddle_dismantled.emit()
 
-	if get_active_powerup() == POWERUP_BOTTOM_WALL:
+	if is_powerup_active(POWERUP_BOTTOM_WALL):
 		Events.bottom_wall_dismantled.emit()
 
-	if get_active_powerup() == POWERUP_MISSILES:
+	if is_powerup_active(POWERUP_MISSILES):
 		Events.missiles_dismantled.emit()
 
-	_deactivate_powerup()
+	_deactivate_powerup(powerup_type)
 
-	Events.disable_powerup.emit()
+	Events.disable_powerup.emit(powerup_type)
 
 	debug(["disabled powerup"])
 
+func disable_all_powerups():
+	for powerup_type in active_powerup.keys():
+		disable_powerup(powerup_type)
+
 func should_release_powerup():
 	if randi() % 100 < POWERUP_RELEASE_CHANCE and \
-		get_active_powerup() == POWERUP_NONE and \
+		active_powerup.is_empty() and \
 		not is_powerup_on_screen:
 		return true
 

@@ -58,7 +58,7 @@ func _physics_process(delta):
 		var col_pos = collision.get_position()
 		
 		# if glue powerup is enabled and collider is player - glue ball to the paddle
-		if Globals.get_active_powerup() == Globals.POWERUP_GLUE_PADDLE and \
+		if Globals.is_powerup_active(Globals.POWERUP_GLUE_PADDLE) and \
 			collider.name == "Player" and \
 			collider.is_ball_above_paddle():
 			Events.ball_attaches_to_paddle.emit(col_pos)
@@ -96,7 +96,7 @@ func _physics_process(delta):
 				powerup.init(position)
 
 		# no bouncing if heavy ball power-up is on (unless the brick is indestructible)
-		if Globals.get_active_powerup() == Globals.POWERUP_HEAVY_BALL and \
+		if Globals.is_powerup_active(Globals.POWERUP_HEAVY_BALL) and \
 			collider.is_in_group("bricks") and \
 			!collider.is_indestructible():
 			return
@@ -171,7 +171,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 	
 	# if 1 ball left, deactivate power-up
 	if balls_on_screen == 1:
-		Globals.disable_powerup()
+		Globals.disable_powerup(Globals.POWERUP_MULTIPLE_BALLS)
 	
 	# no balls left on screen
 	if balls_on_screen == 0:

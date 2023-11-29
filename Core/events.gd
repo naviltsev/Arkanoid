@@ -10,7 +10,7 @@ signal ball_attaches_to_paddle(coords: Vector2)
 signal enable_powerup(powerup_type: int)
 
 # powerup time ended
-signal disable_powerup()
+signal disable_powerup(powerup_type: int)
 
 # heavy ball power-up has been equipped
 # triggers adjustments to ball sprite and collision shape in player.gd
