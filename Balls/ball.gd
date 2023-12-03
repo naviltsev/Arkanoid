@@ -85,15 +85,12 @@ func _physics_process(delta):
 		if collider.is_in_group("bricks"):
 			collider.take_damage()
 
-			# Release power-up in POWERUP_CHANCE% of cases,
-			# if there are no other power-ups on screen,
-			# and if player doesn't have an active power-up
-			if Globals.should_release_powerup():
+			# Should release power-up?
+			var powerup_type = Globals.should_release_powerup_type()
+			if powerup_type != Globals.POWERUP_NONE:
 				var powerup = powerup_scene.instantiate()
-				
-				# add to the scene first and then iniialize powerup
 				get_tree().root.add_child(powerup)
-				powerup.init(position)
+				powerup.init(position, powerup_type)
 
 		# no bouncing if heavy ball power-up is on (unless the brick is indestructible)
 		if Globals.is_powerup_active(Globals.POWERUP_HEAVY_BALL) and \
@@ -161,6 +158,9 @@ func switch_to_regular_ball():
 
 func pause_ball():
 	paused = true
+
+func unpause_ball():
+	paused = false
 
 # ball goes out of screen
 func _on_visible_on_screen_notifier_2d_screen_exited():

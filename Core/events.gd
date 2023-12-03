@@ -46,3 +46,10 @@ signal missiles_dismantled()
 
 # stop ball
 signal pause_ball()
+
+# display power-up icon on info panel if power-up was taken
+signal info_panel_powerup_icon_display(powerup_type: int)
+
+# on power-up get caught, initialize a progress bar displaying time left
+# before power-up times out
+signal info_panel_powerup_timer_init(powerup_type: int)

@@ -34,11 +34,14 @@ enum {
 	MISSILES_DISABLED,
 }
 
+var _game_paused
 var _state
 var _missiles_state
 var motion
 
 func _ready():
+	_game_paused = false
+
 	# init local ball coords
 	ball_paddle_diff = BALL_OFFSET
 
@@ -76,6 +79,14 @@ func _physics_process(delta):
 
 	if _missiles_state == MISSILES_ENABLED and Input.is_action_just_pressed("ui_accept"):
 		shoot()
+
+	if Input.is_action_just_pressed("ui_cancel"):
+		if _game_paused:
+			_game_paused = false
+			get_ball().pause_ball()
+		else:
+			_game_paused = true
+			get_ball().unpause_ball()
 
 func set_state(state: int):
 	_state = state

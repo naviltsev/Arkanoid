@@ -8,7 +8,7 @@ const LOCAL_COORDS = Vector2i(0, 0)
 # Gravity value for power-up
 const GRAVITY = 700
 
-# currently active power-up type
+# power-up type
 var powerup_type
 
 # set initial power-up velocity
@@ -22,30 +22,11 @@ func _physics_process(delta):
 	velocity.y += GRAVITY * delta
 	position.y += velocity.y * delta
 
-# Initialize the power-up
-func init(pos: Vector2):
+# Initialize the power-up of particular type and at particular position
+func init(pos: Vector2, type: int):
 	position = pos
 	Globals.is_powerup_on_screen = true
 
-	var great_random = randi() % 100
-
-	if great_random <= 10:
-		set_powerup_type(Globals.POWERUP_CLEAR_LEVEL)
-	elif great_random > 10 and great_random < 20:
-		set_powerup_type(Globals.POWERUP_GLUE_PADDLE)
-	elif great_random > 20 and great_random < 30:
-		set_powerup_type(Globals.POWERUP_HEAVY_BALL)
-	elif great_random > 30 and great_random < 50:
-		set_powerup_type(Globals.POWERUP_WIDE_PADDLE)
-	elif great_random > 50 and great_random < 70:
-		set_powerup_type(Globals.POWERUP_MULTIPLE_BALLS)
-	elif great_random > 70 and great_random < 90:
-		set_powerup_type(Globals.POWERUP_BOTTOM_WALL)
-	else:
-		set_powerup_type(Globals.POWERUP_MISSILES)
-
-# Set tile of released power-up and store its type value in powerup_type
-func set_powerup_type(type: int) -> void:
 	powerup_type = type
 	tile_map.set_cell(0, LOCAL_COORDS, 0, Globals.POWERUP_COORDS[type])
 

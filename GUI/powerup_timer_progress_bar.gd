@@ -1,20 +1,25 @@
 extends ProgressBar
 
-# PowerupTimer timer is located on the level scene
-#@onready var powerup_timer : Timer = get_tree().current_scene.get_node("PowerupTimer")
+# a reference to a power-up timer
+# Timer node is instantiated by globals.gd and added to the main scene
+var timer : Timer
 
 # Called when the node enters the scene tree for the first time.
-#func _ready():
-#	Events.connect("disable_powerup", reset)
-#	reset(0)
+func _ready():
+	value = 0
+	Events.info_panel_powerup_timer_init.connect(init)
 
-#func _process(delta):
-#	visible = true
-#	if powerup_timer.get_time_left() > 0:
-#		var time_left = powerup_timer.get_time_left()
-#		var time_total = powerup_timer.get_wait_time()
-#		value = time_left / time_total
-#
-#func reset(powerup_type: int):
-#	value = 0
-#	visible = false
+func init(powerup_type: int):
+	if get_parent().get_meta("powerup_type") != powerup_type:
+		return
+
+	timer = Globals.get_powerup_timer_node(powerup_type)
+
+func _process(delta):
+	if !timer:
+		return
+
+	if timer.get_time_left() > 0:
+		var time_left = timer.get_time_left()
+		var time_total = timer.get_wait_time()
+		value = time_left / time_total

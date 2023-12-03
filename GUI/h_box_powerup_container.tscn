@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0ntafa7upx6a"]
+
+[ext_resource type="Texture2D" uid="uid://b7bjsjr5vaaf0" path="res://Assets/arkanoid_powerups.png" id="1_1p0sd"]
+[ext_resource type="Script" path="res://GUI/powerup_icon.gd" id="2_qaqtd"]
+[ext_resource type="Script" path="res://GUI/powerup_timer_progress_bar.gd" id="3_8dy2b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmyuw"]
+resource_local_to_scene = true
+atlas = ExtResource("1_1p0sd")
+region = Rect2(0, 0, 16, 16)
+
+[node name="HBoxPowerupContainer" type="HBoxContainer"]
+
+[node name="PowerupIcon" type="TextureRect" parent="."]
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_fmyuw")
+expand_mode = 2
+script = ExtResource("2_qaqtd")
+
+[node name="PowerupProgressBar" type="ProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 92
+max_value = 1.0
+value = 1.0
+show_percentage = false
+script = ExtResource("3_8dy2b")
