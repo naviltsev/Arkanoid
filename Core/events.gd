@@ -23,6 +23,9 @@ signal heavy_ball_dismantled()
 # multiple balls power-up has been equipped
 signal multiple_balls_equipped()
 
+# multiple balls power-up has been dismantled
+signal multiple_balls_dismantled()
+
 # wide paddle power-up has been equipped
 signal wide_paddle_equipped()
 

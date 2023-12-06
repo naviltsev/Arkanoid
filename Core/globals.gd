@@ -39,6 +39,7 @@ const POWERUP_TIMER = {
 	POWERUP_MISSILES: 10,
 	POWERUP_HEAVY_BALL: 10,
 	POWERUP_BOTTOM_WALL: 30,
+	POWERUP_MULTIPLE_BALLS: 2,  # TODO need a timer for multiple balls?
 }
 
 # Power-up human readable name for debugging purposes
@@ -60,30 +61,32 @@ var CONCURRENT_POWERUP = {
 	POWERUP_BOTTOM_WALL: [
 		POWERUP_MISSILES,
 		POWERUP_MULTIPLE_BALLS,
-		POWERUP_CLEAR_LEVEL,
+#		POWERUP_CLEAR_LEVEL,
 	],
-	POWERUP_MISSILES: [
-		POWERUP_MULTIPLE_BALLS,
-		POWERUP_BOTTOM_WALL,
-		POWERUP_CLEAR_LEVEL,
-	],
+#	POWERUP_MISSILES: [
+#		POWERUP_MULTIPLE_BALLS,
+#		POWERUP_BOTTOM_WALL,
+#		POWERUP_CLEAR_LEVEL,
+#	],
 	POWERUP_MULTIPLE_BALLS: [
 		POWERUP_BOTTOM_WALL,
 		POWERUP_MISSILES,
-		POWERUP_CLEAR_LEVEL,
+		
+		#POWERUP_CLEAR_LEVEL,
 	],
 	POWERUP_HEAVY_BALL: [
-		POWERUP_BOTTOM_WALL,
-	],
-	POWERUP_WIDE_PADDLE: [
-		POWERUP_GLUE_PADDLE,
-		POWERUP_CLEAR_LEVEL,
-	],
-	POWERUP_GLUE_PADDLE: [
+		#POWERUP_BOTTOM_WALL,
 		POWERUP_MULTIPLE_BALLS,
-		POWERUP_HEAVY_BALL,
-		POWERUP_CLEAR_LEVEL,
-	]
+	],
+#	POWERUP_WIDE_PADDLE: [
+#		POWERUP_GLUE_PADDLE,
+#		POWERUP_CLEAR_LEVEL,
+#	],
+#	POWERUP_GLUE_PADDLE: [
+#		POWERUP_MULTIPLE_BALLS,
+#		POWERUP_HEAVY_BALL,
+#		POWERUP_CLEAR_LEVEL,
+#	]
 }
 
 # if power up is released and is visible on screen
@@ -142,49 +145,45 @@ func enable_powerup(powerup_type: int):
 	if POWERUP_TIMER.has(powerup_type):
 		setup_powerup_timer_node(powerup_type)
 
-	if is_powerup_active(POWERUP_HEAVY_BALL):
-		# trigger ball sprite change in player.gd
-		Events.heavy_ball_equipped.emit()
 
-	# trigger multiple balls in player.gd
-	if is_powerup_active(POWERUP_MULTIPLE_BALLS):
-		Events.multiple_balls_equipped.emit()
-	
-	# trigger wide paddle
-	if is_powerup_active(POWERUP_WIDE_PADDLE):
-		Events.wide_paddle_equipped.emit()
-	
-	if is_powerup_active(POWERUP_CLEAR_LEVEL):
-		Events.powerup_clear_level.emit()
-
-	if is_powerup_active(POWERUP_BOTTOM_WALL):
-		Events.bottom_wall_equipped.emit()
-
-	if is_powerup_active(POWERUP_MISSILES):
-		Events.missiles_equipped.emit()
+	match powerup_type:
+		POWERUP_HEAVY_BALL:
+			# triggers ball sprite change in player.gd
+			Events.heavy_ball_equipped.emit()
+		POWERUP_MULTIPLE_BALLS:
+			# trigger multiple balls in player.gd
+			Events.multiple_balls_equipped.emit()
+		POWERUP_WIDE_PADDLE:
+			Events.wide_paddle_equipped.emit()
+		POWERUP_CLEAR_LEVEL:
+			Events.powerup_clear_level.emit()
+		POWERUP_BOTTOM_WALL:
+			Events.bottom_wall_equipped.emit()
+		POWERUP_MISSILES:
+			Events.missiles_equipped.emit()
 	
 	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
 
 func disable_powerup(powerup_type: int):
 	dismantle_powerup_timer_node(powerup_type)
 
-	if is_powerup_active(POWERUP_HEAVY_BALL):
-		Events.heavy_ball_dismantled.emit()
+	match powerup_type:
+		POWERUP_HEAVY_BALL:
+			Events.heavy_ball_dismantled.emit()
 
-		# re-enable collision shapes on all bricks - this is a workaround
-		# for a bug: if heavy ball is inside a brick and power-up gets disabled,
-		# the collision shape for the brick that the ball is inside of
-		# doesn't turn on back
-		get_tree().call_group("bricks", "enable_collision_shape")
-
-	if is_powerup_active(POWERUP_WIDE_PADDLE):
-		Events.wide_paddle_dismantled.emit()
-
-	if is_powerup_active(POWERUP_BOTTOM_WALL):
-		Events.bottom_wall_dismantled.emit()
-
-	if is_powerup_active(POWERUP_MISSILES):
-		Events.missiles_dismantled.emit()
+			# re-enable collision shapes on all bricks - this is a workaround
+			# for a bug: if heavy ball is inside a brick and power-up gets disabled,
+			# the collision shape for the brick that the ball is inside of
+			# doesn't turn on back
+			get_tree().call_group("bricks", "enable_collision_shape")
+		POWERUP_WIDE_PADDLE:
+			Events.wide_paddle_dismantled.emit()
+		POWERUP_BOTTOM_WALL:
+			Events.bottom_wall_dismantled.emit()
+		POWERUP_MISSILES:
+			Events.missiles_dismantled.emit()
+		POWERUP_MULTIPLE_BALLS:
+			Events.multiple_balls_dismantled.emit()
 
 	_deactivate_powerup(powerup_type)
 
@@ -195,14 +194,6 @@ func disable_powerup(powerup_type: int):
 func disable_all_powerups():
 	for powerup_type in active_powerup.keys():
 		disable_powerup(powerup_type)
-
-func should_release_powerup():
-	if randi() < POWERUP_RELEASE_CHANCE and \
-		active_powerup.is_empty() and \
-		not is_powerup_on_screen:
-		return true
-
-	return false
 
 # Checks if power up should be released based on the list of criteria.
 # Returns power-up type to be activated.
@@ -226,6 +217,7 @@ func should_release_powerup_type() -> int:
 	# If no active power-ups...
 	if active_powerup.is_empty():
 		print("[no powerups]")
+
 		# Choose power-up to release
 		var p = randf()
 		if p < 0.3: # in 30% of cases

@@ -295,13 +295,6 @@ scale = Vector2(3, 3)
 tile_set = SubResource("TileSet_yfkcx")
 format = 2
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = 48.0
-offset_top = 1056.0
-offset_right = 1536.0
-offset_bottom = 1104.0
-color = Color(1, 1, 1, 0)
-
 [node name="Particles" type="GPUParticles2D" parent="."]
 position = Vector2(1512, 1080)
 emitting = false

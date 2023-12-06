@@ -137,8 +137,10 @@ func obey_paddle_collisions():
 	set_collision_mask_value(PLAYER_COLLISION_MASK_BIT, true)
 
 func switch_to_heavy_ball():
-	regular_ball_sprite.visible = false
-	heavy_ball_sprite.visible = true
+	if regular_ball_sprite:
+		regular_ball_sprite.visible = false
+	if heavy_ball_sprite:
+		heavy_ball_sprite.visible = true
 	
 	# emit particles only if ball is in play
 	if _state == STATE_PLAY:
@@ -162,19 +164,56 @@ func pause_ball():
 func unpause_ball():
 	paused = false
 
-# ball goes out of screen
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	set_state(STATE_IDLE)
+# Kills a ball by hiding it, pausing, running explosion articles,
+# and then freeing the object
+func kill_ball():
+	regular_ball_sprite.visible = false
+	heavy_ball_sprite.visible = false
+	pause_ball()
+
+	# start emitting red particles
+	particles.process_material.color = Color(255, 0, 0, 0.7)
+	particles.emitting = true
+
+	# create a timer to wait for all particles to emit
+	await get_tree().create_timer(particles.lifetime + 0.1).timeout
+	
 	queue_free()
 
-	var balls_on_screen = get_tree().get_nodes_in_group("balls").size() -1
-	
+# ball goes out of screen
+func _on_visible_on_screen_notifier_2d_screen_exited():
+	queue_free()
+
+	var remaining_balls = get_tree().get_nodes_in_group("balls")
+
+	# -1 because the ball that's out of screen still exists
+	var count = remaining_balls.size() - 1
+
+	# if multiple balls power up is equipped, and if "main" ball 
+	# (ie. not the one from "extra_balls" group) goes out of the screen,
+	# we should make the remaining ball (or one of the remaining balls)
+	# the main one by removing it from "extra_balls" group
+	if not is_in_group("extra_balls"):
+		if count > 0:
+			# pick the ball with lowest Y position and set it as the main ball
+			var min_y = ProjectSettings.get_setting("display/window/size/viewport_height")
+			var y_positions = []
+			for ball in remaining_balls:
+				var y_pos = round(ball.global_position.y)
+				y_positions.append(y_pos)
+				min_y = min(min_y, y_pos)
+
+			var idx = y_positions.find(min_y)
+
+			# set this ball as the main one now
+			remaining_balls[idx].remove_from_group("extra_balls")
+
 	# if 1 ball left, deactivate power-up
-	if balls_on_screen == 1:
+	if count == 1:
 		Globals.disable_powerup(Globals.POWERUP_MULTIPLE_BALLS)
-	
+
 	# no balls left on screen
-	if balls_on_screen == 0:
+	if count == 0:
 		Events.ball_out_of_screen.emit()
 
 # re-enable paddle collision when paddle collision timer times out

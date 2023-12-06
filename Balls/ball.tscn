@@ -72,6 +72,7 @@ one_shot = true
 
 [node name="HeavyBallSwitchParticles" type="GPUParticles2D" parent="."]
 unique_name_in_owner = true
+process_mode = 3
 emitting = false
 amount = 50
 process_material = SubResource("ParticleProcessMaterial_nnbor")

@@ -60,6 +60,7 @@ func _connect_signals():
 	Events.connect("missiles_equipped", switch_from_regular_to_missile_paddle)
 	Events.connect("missiles_dismantled", switch_from_missile_to_regular_paddle)
 	Events.connect("multiple_balls_equipped", switch_to_multiple_balls)
+	Events.connect("multiple_balls_dismantled", dismantle_multiple_balls)
 	Events.connect("wide_paddle_equipped", switch_from_regular_to_wide_paddle)
 	Events.connect("wide_paddle_dismantled", switch_from_wide_to_regular_paddle)
 
@@ -133,30 +134,37 @@ func restart():
 	# deactivate power-up
 	Globals.disable_all_powerups()
 
-# replaces ball sprite to heavy ball
+# replaces ball sprite(s) to heavy ball
 func switch_to_heavy_ball():
-	get_ball().switch_to_heavy_ball()
+	get_tree().call_group("balls", "switch_to_heavy_ball")
 
-# replaces ball sprite to regular ball
+# replaces ball sprite(s) to regular ball
 func switch_to_regular_ball():
-	get_ball().switch_to_regular_ball()
+	get_tree().call_group("balls", "switch_to_regular_ball")
 
-# adds 2 extra balls upon POWERUP_MULTIPLE_BALLS
-# TODO set position of extra balls based on whether the main ball is close to screen edge
-# TODO so that an extra ball doesn't appear inside the wall or something
+# adds 2 extra balls for POWERUP_MULTIPLE_BALLS
 func switch_to_multiple_balls():
 	var ball = get_ball()
 
-	var extra_ball_1 = ball_scene.instantiate()
-	extra_ball_1.position = ball.position + Vector2(25, 0)
-	var extra_ball_2 = ball_scene.instantiate()
-	extra_ball_2.position = ball.position + Vector2(-25, 0)
+	# add 2 extra balls
+	for n in 2:
+		var extra_ball = ball_scene.instantiate()
+		extra_ball.position = ball.position # + Vector2(25, 0)
+		extra_ball.add_to_group("extra_balls")
 
-	add_child(extra_ball_1)
-	add_child(extra_ball_2)
+		add_child(extra_ball)
 
-	extra_ball_1.launch(Vector2(1, -2).normalized())
-	extra_ball_2.launch(Vector2(-1, -2).normalized())
+		# make a ball heavy if heavy ball power-up is active
+		if Globals.is_powerup_active(Globals.POWERUP_HEAVY_BALL):
+			extra_ball.switch_to_heavy_ball()
+
+		# launch the 1st ball with motion: main ball motion - 45deg
+		# launch the 2nd ball with motion: main ball motion + 45deg
+		var motion = ball.motion.rotated(deg_to_rad(-45+n*90))
+		extra_ball.launch(motion)
+
+func dismantle_multiple_balls():
+	get_tree().call_group("extra_balls", "kill_ball")
 
 # turns on wide paddle as a result of POWERUP_WIDE_PADDLE
 func switch_from_regular_to_wide_paddle():
