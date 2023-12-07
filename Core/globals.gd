@@ -1,7 +1,7 @@
 extends Node
 
 # how frequently does power-up release
-var POWERUP_RELEASE_CHANCE = 1.0
+var POWERUP_RELEASE_CHANCE = 0.1
 
 # Powerup Timer node name
 const POWERUP_TIMER_NAME = "PowerupTimer"
@@ -38,8 +38,10 @@ const POWERUP_COORDS = {
 const POWERUP_TIMER = {
 	POWERUP_MISSILES: 10,
 	POWERUP_HEAVY_BALL: 10,
+	POWERUP_MULTIPLE_BALLS: 20,  # TODO need a timer for multiple balls?
+	POWERUP_WIDE_PADDLE: 30,
+	POWERUP_GLUE_PADDLE: 40,
 	POWERUP_BOTTOM_WALL: 30,
-	POWERUP_MULTIPLE_BALLS: 2,  # TODO need a timer for multiple balls?
 }
 
 # Power-up human readable name for debugging purposes
@@ -55,58 +57,52 @@ var POWERUP_NAME = {
 }
 
 # Setup for concurrent power ups.
-# Key is currently active powerup,
-# value is a list of power-ups allowed to be active at the same time
+# Key is first powerup caught by the paddle,
+# value is a list of power-ups allowed to be active at the same time.
 var CONCURRENT_POWERUP = {
 	POWERUP_BOTTOM_WALL: [
 		POWERUP_MISSILES,
 		POWERUP_MULTIPLE_BALLS,
-#		POWERUP_CLEAR_LEVEL,
 	],
-#	POWERUP_MISSILES: [
-#		POWERUP_MULTIPLE_BALLS,
-#		POWERUP_BOTTOM_WALL,
-#		POWERUP_CLEAR_LEVEL,
-#	],
+	POWERUP_MISSILES: [
+		POWERUP_MULTIPLE_BALLS,
+		POWERUP_BOTTOM_WALL,
+	],
 	POWERUP_MULTIPLE_BALLS: [
 		POWERUP_BOTTOM_WALL,
 		POWERUP_MISSILES,
-		
-		#POWERUP_CLEAR_LEVEL,
 	],
 	POWERUP_HEAVY_BALL: [
-		#POWERUP_BOTTOM_WALL,
+		POWERUP_BOTTOM_WALL,
 		POWERUP_MULTIPLE_BALLS,
 	],
-#	POWERUP_WIDE_PADDLE: [
-#		POWERUP_GLUE_PADDLE,
-#		POWERUP_CLEAR_LEVEL,
-#	],
-#	POWERUP_GLUE_PADDLE: [
-#		POWERUP_MULTIPLE_BALLS,
-#		POWERUP_HEAVY_BALL,
-#		POWERUP_CLEAR_LEVEL,
-#	]
+	POWERUP_WIDE_PADDLE: [
+		POWERUP_GLUE_PADDLE,
+		POWERUP_BOTTOM_WALL,
+	],
+	POWERUP_GLUE_PADDLE: [
+		POWERUP_HEAVY_BALL,
+	]
 }
 
 # if power up is released and is visible on screen
 var is_powerup_on_screen = false
 
 # currently active power ups
-var active_powerup = {}
+var active_powerup = []
 
 func _ready():
 	Events.connect("enable_powerup", enable_powerup)
 
 func _activate_powerup(powerup_type: int):
-	active_powerup[powerup_type] = null
+	active_powerup.push_back(powerup_type)
 	is_powerup_on_screen = false
 
 func _deactivate_powerup(powerup_type: int):
-	active_powerup.erase(powerup_type)
+	active_powerup.remove_at(active_powerup.find(powerup_type))
 
 func is_powerup_active(powerup_type: int):
-	return active_powerup.has(powerup_type)
+	return active_powerup.find(powerup_type) > -1
 
 func debug(msgs: Array[String]) -> void:
 	var debug_str = ""
@@ -145,13 +141,10 @@ func enable_powerup(powerup_type: int):
 	if POWERUP_TIMER.has(powerup_type):
 		setup_powerup_timer_node(powerup_type)
 
-
 	match powerup_type:
 		POWERUP_HEAVY_BALL:
-			# triggers ball sprite change in player.gd
 			Events.heavy_ball_equipped.emit()
 		POWERUP_MULTIPLE_BALLS:
-			# trigger multiple balls in player.gd
 			Events.multiple_balls_equipped.emit()
 		POWERUP_WIDE_PADDLE:
 			Events.wide_paddle_equipped.emit()
@@ -192,8 +185,8 @@ func disable_powerup(powerup_type: int):
 	debug(["disabled powerup"])
 
 func disable_all_powerups():
-	for powerup_type in active_powerup.keys():
-		disable_powerup(powerup_type)
+	for p in active_powerup:
+		disable_powerup(p)
 
 # Checks if power up should be released based on the list of criteria.
 # Returns power-up type to be activated.
@@ -211,13 +204,10 @@ func should_release_powerup_type() -> int:
 		return 0
 
 	# Figure out power-up type to be released
-
 	var release_powerup = POWERUP_NONE
 
 	# If no active power-ups...
 	if active_powerup.is_empty():
-		print("[no powerups]")
-
 		# Choose power-up to release
 		var p = randf()
 		if p < 0.3: # in 30% of cases
@@ -237,26 +227,21 @@ func should_release_powerup_type() -> int:
 
 	# or if there's an active power-up already...
 	else:
-		print("[active powerup - ", active_powerup, "]")
+		var first_active = active_powerup[0]
 
-		# what are active power-up(s)
-		for active in active_powerup.keys():
+		# if currently active power-up can have a concurrent power-up...
+		if first_active not in CONCURRENT_POWERUP:
+			return POWERUP_NONE
 
-			# if currently active power-up can have a concurrent power-up...
-			if active not in CONCURRENT_POWERUP:
-				continue
+		var allowed_concurrent_powerups = CONCURRENT_POWERUP[first_active]
+		
+		# shuffle allowed concurrent powerups
+		allowed_concurrent_powerups.shuffle()
+		for concur in allowed_concurrent_powerups:
 
-			var allowed_concurrent_powerups = CONCURRENT_POWERUP[active]
-			
-			# shuffle allowed concurrent powerups
-			allowed_concurrent_powerups.shuffle()
-			for concur in allowed_concurrent_powerups:
-
-				# return if potential concurrent power-up isn't active yet
-				if !is_powerup_active(concur):
-					release_powerup = concur
-					break
-
-	print("release powerup - ", POWERUP_NAME[release_powerup])
+			# return if potential concurrent power-up isn't active yet
+			if !is_powerup_active(concur):
+				release_powerup = concur
+				break
 
 	return release_powerup
