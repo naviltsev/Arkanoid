@@ -20,8 +20,8 @@ func powerup_clear_level():
 			if b:
 				b.take_full_damage()
 
-		# wait for 0.05 seconds before destroying next group of bricks
-		await get_tree().create_timer(0.05).timeout
+		# wait for 0.2 seconds before destroying next group of bricks
+		await get_tree().create_timer(0.2).timeout
 
 func powerup_bottom_wall_enable():
 	var bottom_wall

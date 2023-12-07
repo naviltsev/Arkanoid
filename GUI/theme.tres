@@ -9,12 +9,12 @@ bg_color = Color(0.0352941, 0.0352941, 0.0352941, 1)
 bg_color = Color(0.0351563, 0.0351563, 0.0351563, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cb1ce"]
-bg_color = Color(0.419608, 0.0509804, 0.0117647, 1)
+bg_color = Color(0.542969, 0.25, 0.285156, 1)
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color(0.741176, 0, 0, 1)
+border_color = Color(0.421875, 0.269531, 0.347656, 1)
 border_blend = true
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -27,7 +27,7 @@ anti_aliasing_size = 10.0
 Label/font_sizes/font_size = 92
 Label/fonts/font = ExtResource("1_hmqwg")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_p4yip")
-ProgressBar/colors/font_color = Color(0.760784, 0, 0, 1)
+ProgressBar/colors/font_color = Color(0.542969, 0.25, 0.285156, 1)
 ProgressBar/colors/font_outline_color = Color(0.54902, 0, 0, 1)
 ProgressBar/constants/outline_size = 4
 ProgressBar/font_sizes/font_size = 36

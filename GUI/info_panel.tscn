@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bb6sdkyyk56hd"]
+[gd_scene load_steps=12 format=3 uid="uid://bb6sdkyyk56hd"]
 
 [ext_resource type="Script" path="res://GUI/info_panel.gd" id="1_tvbpj"]
 [ext_resource type="Theme" uid="uid://cyattng0334b8" path="res://GUI/theme.tres" id="2_kb5dx"]
+[ext_resource type="Script" path="res://GUI/info_panel_score.gd" id="3_khtot"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="3_nyqoe"]
+[ext_resource type="PackedScene" uid="uid://d0ntafa7upx6a" path="res://GUI/h_box_powerup_container.tscn" id="4_h7jtc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b61rs"]
 resource_local_to_scene = true
@@ -63,12 +65,12 @@ theme_override_constants/separation = 40
 
 [node name="LevelLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.769531, 0.0703125, 0.0703125, 1)
+theme_override_colors/font_color = Color(0.542969, 0.25, 0.285156, 1)
 text = "ROUND:"
 
 [node name="Level" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.765625, 0.0703125, 0.0703125, 1)
+theme_override_colors/font_color = Color(0.542969, 0.25, 0.285156, 1)
 text = "1"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainerTop"]
@@ -76,13 +78,31 @@ layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/separation = 40
 
-[node name="LabelLives" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer2"]
+[node name="LabelScore" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer2"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.3125, 0.4375, 0.265625, 1)
+text = "SCORE:"
+
+[node name="Score" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.359375, 0.476563, 0.316406, 1)
+text = "9999"
+script = ExtResource("3_khtot")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainerTop"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 40
+
+[node name="LabelLives" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.375, 0.378906, 0.4375, 1)
 text = "LIVES:"
 
-[node name="Lives" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer2"]
+[node name="Lives" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerTop/HBoxContainer3"]
 layout_mode = 2
-text = "3"
+theme_override_colors/font_color = Color(0.375, 0.378906, 0.4375, 1)
+text = "99"
 
 [node name="EmptySpace" type="Control" parent="PanelContainer/MarginContainer/VBoxContainerTop"]
 custom_minimum_size = Vector2(0, 30)
@@ -99,7 +119,7 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/h_separation = 40
-theme_override_constants/v_separation = 20
+theme_override_constants/v_separation = 10
 columns = 2
 
 [node name="TextureRectGreen" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainerTop/GridContainer"]
@@ -162,10 +182,6 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 64
 text = "***"
 
-[node name="EmptySpace2" type="Control" parent="PanelContainer/MarginContainer/VBoxContainerTop"]
-layout_mode = 2
-size_flags_vertical = 3
-
 [node name="VBoxContainerBottom" type="VBoxContainer" parent="PanelContainer/MarginContainer"]
 custom_minimum_size = Vector2(0, 275)
 layout_mode = 2
@@ -178,5 +194,17 @@ size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainerBottom/HBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.773438, 0.0703125, 0.0703125, 1)
+theme_override_colors/font_color = Color(0.539063, 0.25, 0.285156, 1)
 text = "POWERUPS"
+
+[node name="HBoxPowerupContainer" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
+visible = false
+layout_mode = 2
+
+[node name="HBoxPowerupContainer2" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
+visible = false
+layout_mode = 2
+
+[node name="HBoxPowerupContainer3" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
+visible = false
+layout_mode = 2

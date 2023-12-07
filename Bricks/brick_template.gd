@@ -90,6 +90,8 @@ func take_damage():
 	if is_indestructible():
 		return
 
+	Events.player_score_increment.emit(1)
+
 	# wait for hit animation to finish
 	await animation_player.animation_finished
 
@@ -112,6 +114,9 @@ func take_damage():
 
 # destroy brick completely disregarding its health value
 func take_full_damage():
+	# add as many points as how much health left in the brick
+	Events.player_score_increment.emit(health)
+
 	Events.pause_ball.emit()
 
 	particles.emitting = true

@@ -1,7 +1,7 @@
 extends Node
 
 # how frequently does power-up release
-var POWERUP_RELEASE_CHANCE = 0.1
+const POWERUP_RELEASE_CHANCE = 0.1
 
 # Powerup Timer node name
 const POWERUP_TIMER_NAME = "PowerupTimer"
@@ -201,7 +201,7 @@ func should_release_powerup_type() -> int:
 		should_release = true
 
 	if !should_release:
-		return 0
+		return POWERUP_NONE
 
 	# Figure out power-up type to be released
 	var release_powerup = POWERUP_NONE
