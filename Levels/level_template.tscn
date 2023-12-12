@@ -378,5 +378,9 @@ texture = SubResource("AtlasTexture_1kpjw")
 [node name="TextureRectBlack" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="10"]
 texture = SubResource("AtlasTexture_0766g")
 
+[node name="PowerupCooldownTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [editable path="Player"]
 [editable path="InfoPanel"]

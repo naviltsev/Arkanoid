@@ -4,7 +4,6 @@ extends ProgressBar
 # Timer node is instantiated by globals.gd and added to the main scene
 var timer : Timer
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	value = 0
 	Events.info_panel_powerup_timer_init.connect(init)

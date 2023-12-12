@@ -199,14 +199,14 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.539063, 0.25, 0.285156, 1)
 text = "POWERUPS"
 
-[node name="HBoxPowerupContainer" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
+[node name="test_HBoxPowerupContainer" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
 visible = false
 layout_mode = 2
 
-[node name="HBoxPowerupContainer2" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
+[node name="test_HBoxPowerupContainer2" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
 visible = false
 layout_mode = 2
 
-[node name="HBoxPowerupContainer3" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
+[node name="test_HBoxPowerupContainer3" parent="PanelContainer/MarginContainer/VBoxContainerBottom" instance=ExtResource("4_h7jtc")]
 visible = false
 layout_mode = 2

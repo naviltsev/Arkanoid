@@ -164,6 +164,9 @@ func enable_powerup(powerup_type: int):
 func disable_powerup(powerup_type: int):
 	dismantle_powerup_timer_node(powerup_type)
 
+	# start power-up cooldown timer
+	get_tree().current_scene.get_node("PowerupCooldownTimer").start()
+
 	match powerup_type:
 		POWERUP_HEAVY_BALL:
 			Events.heavy_ball_dismantled.emit()
@@ -197,6 +200,10 @@ func disable_all_powerups():
 # Returns 0 if power-up shouldn't be released.
 func should_release_powerup_type() -> int:
 	if active_powerup.size() >= 3:
+		return POWERUP_NONE
+
+	# if power-up cooldown timer is ticking
+	if not get_tree().current_scene.get_node("PowerupCooldownTimer").is_stopped():
 		return POWERUP_NONE
 
 	var should_release = false
