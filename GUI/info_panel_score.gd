@@ -5,4 +5,8 @@ func _ready():
 	text = str(0)
 
 func increment_score(delta: int):
-	text = str(text.to_int() + delta)
+	var multiplier = 1
+	if Globals.is_powerup_active(Globals.POWERUP_DOUBLE_SCORE):
+		multiplier = 2
+
+	text = str(text.to_int() + delta * multiplier)

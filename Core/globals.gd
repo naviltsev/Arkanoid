@@ -10,20 +10,22 @@ const POWERUP_TIMER_NAME = "PowerupTimer"
 enum {
 	POWERUP_NONE,
 	POWERUP_MISSILES,
-	POWERUP_DOUBLE_SCORE, # todo
+	POWERUP_DOUBLE_SCORE,
 	POWERUP_HEAVY_BALL,
 	POWERUP_MULTIPLE_BALLS,
-	POWERUP_HEALTH, # todo
+	POWERUP_EXTRA_HEALTH,
 	POWERUP_WIDE_PADDLE,
 	POWERUP_GLUE_PADDLE,
 	POWERUP_CLEAR_LEVEL,
-	POWERUP_BOTTOM_WALL
+	POWERUP_BOTTOM_WALL,
 }
 
-# Coordinates of a power-up tile in a tilemap
+# Coordinates of a power-up tile in a tilemap to be displayed in info panel
 const POWERUP_COORDS = {
 	POWERUP_MISSILES: Vector2i(0, 0),
+	POWERUP_DOUBLE_SCORE: Vector2i(1, 0),
 	POWERUP_MULTIPLE_BALLS: Vector2i(2, 0),
+	POWERUP_EXTRA_HEALTH: Vector2i(3, 0),
 	POWERUP_HEAVY_BALL: Vector2i(4, 0),
 	POWERUP_GLUE_PADDLE: Vector2i(5, 0),
 	POWERUP_WIDE_PADDLE: Vector2i(6, 0),
@@ -37,8 +39,9 @@ const POWERUP_COORDS = {
 # Such power-ups don't have their timers set here.
 const POWERUP_TIMER = {
 	POWERUP_MISSILES: 10,
+	POWERUP_DOUBLE_SCORE: 40,
 	POWERUP_HEAVY_BALL: 10,
-	POWERUP_MULTIPLE_BALLS: 20,  # TODO need a timer for multiple balls?
+	POWERUP_MULTIPLE_BALLS: 20,
 	POWERUP_WIDE_PADDLE: 30,
 	POWERUP_GLUE_PADDLE: 40,
 	POWERUP_BOTTOM_WALL: 30,
@@ -48,8 +51,10 @@ const POWERUP_TIMER = {
 var POWERUP_NAME = {
 	POWERUP_NONE: "None",
 	POWERUP_MISSILES: "Missiles",
+	POWERUP_DOUBLE_SCORE: "Double Score",
 	POWERUP_HEAVY_BALL: "Heavy Ball",
 	POWERUP_MULTIPLE_BALLS: "Multi Balls",
+	POWERUP_EXTRA_HEALTH: "Extra Health",
 	POWERUP_GLUE_PADDLE: "Glue Paddle",
 	POWERUP_WIDE_PADDLE: "Wide Paddle",
 	POWERUP_CLEAR_LEVEL: "Boomstick",
@@ -63,25 +68,37 @@ var CONCURRENT_POWERUP = {
 	POWERUP_BOTTOM_WALL: [
 		POWERUP_MISSILES,
 		POWERUP_MULTIPLE_BALLS,
+		POWERUP_DOUBLE_SCORE,
+		POWERUP_EXTRA_HEALTH,
 	],
 	POWERUP_MISSILES: [
 		POWERUP_MULTIPLE_BALLS,
 		POWERUP_BOTTOM_WALL,
+		POWERUP_DOUBLE_SCORE,
+		POWERUP_EXTRA_HEALTH,
 	],
 	POWERUP_MULTIPLE_BALLS: [
 		POWERUP_BOTTOM_WALL,
 		POWERUP_MISSILES,
+		POWERUP_DOUBLE_SCORE,
+		POWERUP_EXTRA_HEALTH,
 	],
 	POWERUP_HEAVY_BALL: [
 		POWERUP_BOTTOM_WALL,
 		POWERUP_MULTIPLE_BALLS,
+		POWERUP_DOUBLE_SCORE,
+		POWERUP_EXTRA_HEALTH,
 	],
 	POWERUP_WIDE_PADDLE: [
 		POWERUP_GLUE_PADDLE,
 		POWERUP_BOTTOM_WALL,
+		POWERUP_DOUBLE_SCORE,
+		POWERUP_EXTRA_HEALTH,
 	],
 	POWERUP_GLUE_PADDLE: [
 		POWERUP_HEAVY_BALL,
+		POWERUP_DOUBLE_SCORE,
+		POWERUP_EXTRA_HEALTH,
 	]
 }
 
@@ -137,13 +154,13 @@ func dismantle_powerup_timer_node(powerup_type: int):
 		get_tree().current_scene.remove_child(timer)
 
 func enable_powerup(powerup_type: int):
-	_activate_powerup(powerup_type)
-
 	# Init Timer node, attach it to the main scene
 	# and start the timer.
 	# As long as timer is active, the powerup is active
 	if POWERUP_TIMER.has(powerup_type):
 		setup_powerup_timer_node(powerup_type)
+
+	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
 
 	match powerup_type:
 		POWERUP_HEAVY_BALL:
@@ -158,8 +175,17 @@ func enable_powerup(powerup_type: int):
 			Events.bottom_wall_equipped.emit()
 		POWERUP_MISSILES:
 			Events.missiles_equipped.emit()
-	
-	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
+		POWERUP_EXTRA_HEALTH:
+			lives += 1
+			Events.player_lives_updated.emit(lives)
+			
+			# return after extra health power-up
+			# extra-health is not a usual power-up, it only bumps lives counter
+			# and doesn't get added as a power-up in power-ups stack
+			return
+
+	_activate_powerup(powerup_type)
+
 
 func disable_powerup(powerup_type: int):
 	dismantle_powerup_timer_node(powerup_type)
@@ -221,7 +247,11 @@ func should_release_powerup_type() -> int:
 	if active_powerup.is_empty():
 		# Choose power-up to release
 		var p = randf()
-		if p < 0.3: # in 30% of cases
+		if p < 0.1: # in 10% of cases
+			release_powerup = POWERUP_DOUBLE_SCORE
+		elif p < 0.2: # in 10% of cases
+			release_powerup = POWERUP_EXTRA_HEALTH
+		elif p < 0.3: # in 10% of cases
 			release_powerup = POWERUP_WIDE_PADDLE
 		elif p < 0.45: # in 15% of cases
 			release_powerup = POWERUP_GLUE_PADDLE
