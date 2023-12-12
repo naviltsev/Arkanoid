@@ -34,6 +34,9 @@ enum {
 	MISSILES_DISABLED,
 }
 
+# initially start with 3 lives
+const INIT_LIVES = 3
+
 var _game_paused
 var _state
 var _missiles_state
@@ -125,6 +128,24 @@ func is_ball_above_paddle() -> bool:
 # Restart the paddle by placing it in the middle of the screen
 # with the ball attached
 func restart():
+	# when game starts and paddle gets initialized, lives is Nil
+	# in this case initialize it with INIT_LIVES
+	# otherwise, restart() means ball was out of the screen
+	# and lives count must be decremented
+	if not Globals.lives:
+		Globals.lives = INIT_LIVES
+	else:
+		Globals.lives -= 1
+
+	# after game started, this event gets triggered BEFORE
+	# Lives label is ready, so Lives panel resets lives counter on itself
+	Events.player_lives_updated.emit(Globals.lives)
+
+	# game over
+	if Globals.lives < 1:
+		Events.game_over.emit()
+		return
+
 	set_state(STATE_BALL_ATTACHED)
 	set_missiles_state(MISSILES_DISABLED)
 

@@ -58,3 +58,7 @@ signal info_panel_powerup_icon_display(powerup_type: int)
 signal info_panel_powerup_timer_init(powerup_type: int)
 
 signal player_score_increment(delta: int)
+
+signal player_lives_updated(lives: int)
+
+signal game_over()

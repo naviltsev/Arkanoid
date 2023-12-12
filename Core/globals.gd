@@ -91,8 +91,12 @@ var is_powerup_on_screen = false
 # currently active power ups
 var active_powerup = []
 
+# Player lives counter resides here in globals.gd
+var lives
+
 func _ready():
 	Events.connect("enable_powerup", enable_powerup)
+	Events.connect("game_over", game_over)
 
 func _activate_powerup(powerup_type: int):
 	active_powerup.push_back(powerup_type)
@@ -245,3 +249,6 @@ func should_release_powerup_type() -> int:
 				break
 
 	return release_powerup
+
+func game_over():
+	print("game over")

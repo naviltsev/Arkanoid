@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://bb6sdkyyk56hd"]
+[gd_scene load_steps=13 format=3 uid="uid://bb6sdkyyk56hd"]
 
 [ext_resource type="Script" path="res://GUI/info_panel.gd" id="1_tvbpj"]
 [ext_resource type="Theme" uid="uid://cyattng0334b8" path="res://GUI/theme.tres" id="2_kb5dx"]
 [ext_resource type="Script" path="res://GUI/info_panel_score.gd" id="3_khtot"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="3_nyqoe"]
+[ext_resource type="Script" path="res://GUI/info_panel_lives.gd" id="4_adoe4"]
 [ext_resource type="PackedScene" uid="uid://d0ntafa7upx6a" path="res://GUI/h_box_powerup_container.tscn" id="4_h7jtc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b61rs"]
@@ -103,6 +104,7 @@ text = "LIVES:"
 layout_mode = 2
 theme_override_colors/font_color = Color(0.375, 0.378906, 0.4375, 1)
 text = "99"
+script = ExtResource("4_adoe4")
 
 [node name="EmptySpace" type="Control" parent="PanelContainer/MarginContainer/VBoxContainerTop"]
 custom_minimum_size = Vector2(0, 30)
