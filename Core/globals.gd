@@ -251,8 +251,10 @@ func should_release_powerup_type() -> int:
 	if active_powerup.size() >= 3:
 		return POWERUP_NONE
 
-	# never release a power-up if 1 brick left
-	if get_tree().get_nodes_in_group("bricks").size() <= 1:
+	# never release a power-up if 1 destructible brick left
+	var total_bricks = get_tree().get_nodes_in_group("bricks").size()
+	var indestructible_bricks = get_tree().get_nodes_in_group("indestructible_bricks").size()
+	if total_bricks - indestructible_bricks <= 1:
 		return POWERUP_NONE
 
 	# if power-up cooldown timer is ticking

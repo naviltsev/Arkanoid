@@ -8,7 +8,7 @@ extends CharacterBody2D
 
 var powerup_scene = preload("res://Powerups/power_up.tscn")
 
-var SPEED = 500
+var SPEED = 650
 
 const INITIAL_MOTION_VECTOR = Vector2(1, -2)
 

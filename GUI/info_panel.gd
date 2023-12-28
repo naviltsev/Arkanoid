@@ -14,8 +14,8 @@ func _ready():
 	Events.connect("disable_powerup", disable_powerup)
 
 func enable_powerup(powerup_type: int):
-	# no need to instantiate a UI for Clear Level / Extra Health powerup
-	if powerup_type in [Globals.POWERUP_CLEAR_LEVEL, Globals.POWERUP_EXTRA_HEALTH]:
+	# no need to instantiate a UI for one-off power-ups
+	if powerup_type in Globals.POWERUP_ONE_OFF:
 		return
 
 	var powerup_container = powerup_container_scene.instantiate()

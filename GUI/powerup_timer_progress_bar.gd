@@ -1,7 +1,7 @@
 extends ProgressBar
 
 # a reference to a power-up timer
-# Timer node is instantiated by globals.gd and added to the main scene
+# Timer node is instantiated by globals.gd and added to the level scene
 var timer : Timer
 
 func _ready():

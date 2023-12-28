@@ -17,10 +17,7 @@ var PADDLE_INIT_POSITION = Vector2(732, 1008)
 var BALL_OFFSET = Vector2(0, -32)
 
 # Paddle speed
-var SPEED = 220
-
-# Paddle acceleration
-var ACCELERATION = 110
+var SPEED = 250
 
 # State enum
 enum {
@@ -69,7 +66,7 @@ func _connect_signals():
 
 func _physics_process(delta):
 	var input_vector = Input.get_axis("ui_left", "ui_right")
-	motion = motion.move_toward(Vector2(input_vector, 0) * SPEED * delta, ACCELERATION * delta)
+	motion = Vector2(input_vector, 0) * SPEED * delta
 
 	move_and_collide(motion * SPEED * delta)
 	
@@ -84,13 +81,16 @@ func _physics_process(delta):
 	if _missiles_state == MISSILES_ENABLED and Input.is_action_just_pressed("ui_accept"):
 		shoot()
 
+	# TODO fix pause
 	if Input.is_action_just_pressed("ui_cancel"):
 		if _game_paused:
 			_game_paused = false
-			get_ball().pause_ball()
+			#get_ball().pause_ball()
+			get_tree().paused = false
 		else:
 			_game_paused = true
-			get_ball().unpause_ball()
+			#get_ball().unpause_ball()
+			get_tree().paused = true
 
 func set_state(state: int):
 	_state = state

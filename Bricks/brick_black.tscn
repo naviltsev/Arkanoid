@@ -11,7 +11,7 @@ resource_local_to_scene = true
 atlas = ExtResource("2_uq3xt")
 region = Rect2(240, 0, 16, 16)
 
-[node name="BrickBlack" instance=ExtResource("1_agmx2")]
+[node name="BrickBlack" groups=["indestructible_bricks"] instance=ExtResource("1_agmx2")]
 collision_layer = 2
 collision_mask = 4
 
