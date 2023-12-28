@@ -177,8 +177,8 @@ func switch_to_multiple_balls():
 
 		# launch the 1st ball with motion: main ball motion - 45deg
 		# launch the 2nd ball with motion: main ball motion + 45deg
-		var motion = ball.motion.rotated(deg_to_rad(-45+n*90))
-		extra_ball.launch(motion)
+		var ball_motion = ball.motion.rotated(deg_to_rad(-45+n*90))
+		extra_ball.launch(ball_motion)
 
 func dismantle_multiple_balls():
 	get_tree().call_group("extra_balls", "kill_ball")

@@ -6,7 +6,7 @@ func _ready():
 	# save original position of the logo
 	original_position = position
 
-func _process(delta):
+func _process(_delta):
 	var pos_x_delta = randi_range(-5, 5)
 	var pos_y_delta = randi_range(-5, 5)
 

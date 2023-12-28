@@ -19,14 +19,11 @@ func _ready():
 	visible = false
 	width = DEFAULT_WIDTH
 
-func _process(delta):
+func _process(_delta):
 	var pos = get_parent().position
 
 	points_queue.push_front(pos)
 
-	#
-	# FIXME points_queue don't get shrinked when ball turns from heavy to regular
-	#
 	if points_queue.size() > length:
 		points_queue.pop_back()
 

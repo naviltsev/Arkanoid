@@ -14,7 +14,7 @@ func init(powerup_type: int):
 
 	timer = Globals.get_powerup_timer_node(powerup_type)
 
-func _process(delta):
+func _process(_delta):
 	if !timer:
 		return
 
