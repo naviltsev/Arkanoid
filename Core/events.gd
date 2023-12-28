@@ -61,4 +61,8 @@ signal player_score_increment(delta: int)
 
 signal player_lives_updated(lives: int)
 
+# no more lives, game over
 signal game_over()
+
+# no more bricks, level cleared
+signal level_cleared()

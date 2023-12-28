@@ -1,0 +1,148 @@
+[gd_scene load_steps=9 format=3 uid="uid://bxanb3xd5hsqk"]
+
+[ext_resource type="Script" path="res://GUI/scene_transitioner.gd" id="1_w1qan"]
+[ext_resource type="Theme" uid="uid://cyattng0334b8" path="res://GUI/theme.tres" id="2_detkb"]
+
+[sub_resource type="Gradient" id="Gradient_56fi8"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.132653, 0.285714, 0.428571, 0.568878, 0.704082)
+colors = PackedColorArray(0.0768708, 0.0768577, 0.112616, 1, 0.091853, 0.0918408, 0.131605, 1, 0.108818, 0.108808, 0.153085, 1, 0.120718, 0.12071, 0.168135, 1, 0.139531, 0.139528, 0.191893, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0vn1l"]
+gradient = SubResource("Gradient_56fi8")
+width = 512
+height = 512
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_c4p3n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LevelAnnouncer/CenterContainer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_omjth"]
+resource_name = "fade_in"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(25, 25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LevelAnnouncer/CenterContainer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1e-05, 1e-05), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_r5a6h"]
+resource_name = "fade_out"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(25, 25), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LevelAnnouncer/CenterContainer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_upt1t"]
+_data = {
+"RESET": SubResource("Animation_c4p3n"),
+"fade_in": SubResource("Animation_omjth"),
+"fade_out": SubResource("Animation_r5a6h")
+}
+
+[node name="Transitioner" type="Node2D"]
+z_index = 10
+script = ExtResource("1_w1qan")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(960, 540)
+scale = Vector2(1e-05, 1e-05)
+texture = SubResource("GradientTexture2D_0vn1l")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_upt1t")
+}
+
+[node name="LevelAnnouncer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="LevelAnnouncer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 720.0
+offset_top = 464.0
+offset_right = -680.0
+offset_bottom = -416.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1e-05, 1e-05)
+pivot_offset = Vector2(260, 100)
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="LevelAnnouncer/CenterContainer"]
+layout_mode = 2
+theme = ExtResource("2_detkb")
+theme_override_colors/font_color = Color(0.542969, 0.25, 0.285156, 1)
+theme_override_font_sizes/font_size = 164
+text = "Round 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true

@@ -2,7 +2,7 @@ extends Label
 
 func _ready():
 	Events.connect("player_score_increment", increment_score)
-	text = str(0)
+	text = str(Globals.player_score)
 
 func increment_score(delta: int):
 	var multiplier = 1

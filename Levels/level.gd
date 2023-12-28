@@ -6,6 +6,7 @@ func _ready():
 	Events.connect("powerup_clear_level", powerup_clear_level)
 	Events.connect("bottom_wall_equipped", powerup_bottom_wall_enable)
 	Events.connect("bottom_wall_dismantled", powerup_bottom_wall_disable)
+	Events.connect("level_cleared", level_cleared)
 
 func powerup_clear_level():
 	Globals.disable_all_powerups()
@@ -23,6 +24,12 @@ func powerup_clear_level():
 		# wait for 0.2 seconds before destroying next group of bricks
 		await get_tree().create_timer(0.2).timeout
 
+	# pause before advancing to the next level
+	# to allow particles to complete
+	await get_tree().create_timer(1.5).timeout
+
+	Events.level_cleared.emit()
+
 func powerup_bottom_wall_enable():
 	var bottom_wall
 	if has_node("BottomWall"):
@@ -36,3 +43,9 @@ func powerup_bottom_wall_enable():
 func powerup_bottom_wall_disable():
 	var bottom_wall = get_node("BottomWall")
 	bottom_wall.dismantle()
+
+func level_cleared():
+	# wait a moment before showing up a transitioner and
+	# advancing to the next level
+	await get_tree().create_timer(1.5).timeout
+	Globals.load_next_level()

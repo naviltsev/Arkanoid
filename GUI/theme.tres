@@ -1,6 +1,63 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cyattng0334b8"]
+[gd_resource type="Theme" load_steps=9 format=3 uid="uid://cyattng0334b8"]
 
 [ext_resource type="FontFile" uid="uid://ckhf6tyskrjfb" path="res://Assets/Fonts/Kenney Pixel.ttf" id="1_hmqwg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g55q6"]
+bg_color = Color(0.148438, 0.148438, 0.203125, 1)
+border_width_bottom = 10
+border_color = Color(0.421875, 0.269531, 0.347656, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dotjp"]
+bg_color = Color(0.148438, 0.148438, 0.203125, 1)
+border_width_bottom = 10
+border_color = Color(0.421875, 0.269531, 0.347656, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m4dg5"]
+bg_color = Color(0.148438, 0.148438, 0.203125, 1)
+border_width_bottom = 10
+border_color = Color(0.421875, 0.269531, 0.347656, 1)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fuxk3"]
+bg_color = Color(0.148438, 0.148438, 0.203125, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 10.0
+expand_margin_top = 10.0
+expand_margin_right = 10.0
+expand_margin_bottom = 10.0
+anti_aliasing = false
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4yip"]
 bg_color = Color(0.0352941, 0.0352941, 0.0352941, 1)
@@ -24,6 +81,17 @@ anti_aliasing = false
 anti_aliasing_size = 10.0
 
 [resource]
+Button/colors/font_color = Color(0.710938, 0.65625, 0.683594, 1)
+Button/colors/font_focus_color = Color(0.421875, 0.269531, 0.347656, 1)
+Button/colors/font_hover_color = Color(0.421875, 0.269531, 0.347656, 1)
+Button/colors/font_hover_pressed_color = Color(0.421875, 0.269531, 0.347656, 1)
+Button/colors/font_pressed_color = Color(0.421875, 0.269531, 0.347656, 1)
+Button/font_sizes/font_size = 92
+Button/fonts/font = ExtResource("1_hmqwg")
+Button/styles/focus = SubResource("StyleBoxFlat_g55q6")
+Button/styles/hover = SubResource("StyleBoxFlat_dotjp")
+Button/styles/normal = SubResource("StyleBoxFlat_m4dg5")
+Button/styles/pressed = SubResource("StyleBoxFlat_fuxk3")
 Label/font_sizes/font_size = 92
 Label/fonts/font = ExtResource("1_hmqwg")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_p4yip")

@@ -86,16 +86,19 @@ func take_damage():
 
 	animation_player.play("hit")
 
+	# check if level is finished
+	is_level_cleared()
+
 	# indestructible bricks are indestructible
 	if is_indestructible():
 		return
 
+	Globals.player_score += 1
 	Events.player_score_increment.emit(1)
 
 	# wait for hit animation to finish
 	await animation_player.animation_finished
 
-	# remove the brick once hit animation is finished
 	if Globals.is_powerup_active(Globals.POWERUP_HEAVY_BALL):
 		queue_free()
 		return
@@ -115,6 +118,7 @@ func take_damage():
 # destroy brick completely disregarding its health value
 func take_full_damage():
 	# add as many points as how much health left in the brick
+	Globals.player_score += health
 	Events.player_score_increment.emit(health)
 
 	Events.pause_ball.emit()
@@ -126,9 +130,17 @@ func take_full_damage():
 
 	tile_map.visible = false
 
-	await get_tree().create_timer(5.0).timeout
+	await get_tree().create_timer(3.0).timeout
 
 	queue_free()
 
 func is_indestructible():
 	return health < 0
+
+# checks how many (destructible) bricks left on the level
+func is_level_cleared():
+	var is_live_bricks = get_tree().get_nodes_in_group("bricks").any(func(brick): return brick.health > 0)
+	if !is_live_bricks:
+		# Pause ball before advancing to the next level
+		Events.pause_ball.emit()
+		Events.level_cleared.emit()

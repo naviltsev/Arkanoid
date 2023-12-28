@@ -11,7 +11,7 @@ var missile_scene = preload("res://Player/missile.tscn")
 var ball_paddle_diff
 
 # Paddle init position
-var PADDLE_INIT_POSITION = Vector2(832, 1008)
+var PADDLE_INIT_POSITION = Vector2(732, 1008)
 
 # Ball offset relative to paddle position (places the ball in the center of the paddle)
 var BALL_OFFSET = Vector2(0, -32)
@@ -130,12 +130,8 @@ func is_ball_above_paddle() -> bool:
 func restart():
 	# when game starts and paddle gets initialized, lives is Nil
 	# in this case initialize it with INIT_LIVES
-	# otherwise, restart() means ball was out of the screen
-	# and lives count must be decremented
 	if not Globals.lives:
 		Globals.lives = INIT_LIVES
-	else:
-		Globals.lives -= 1
 
 	# after game started, this event gets triggered BEFORE
 	# Lives label is ready, so Lives panel resets lives counter on itself

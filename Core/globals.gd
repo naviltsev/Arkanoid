@@ -1,5 +1,7 @@
 extends Node
 
+var scene_transitioner = preload("res://GUI/scene_transitioner.tscn")
+
 # how frequently does power-up release
 const POWERUP_RELEASE_CHANCE = 0.1
 
@@ -32,6 +34,11 @@ const POWERUP_COORDS = {
 	POWERUP_CLEAR_LEVEL: Vector2i(7, 0),
 	POWERUP_BOTTOM_WALL : Vector2i(8, 0),
 }
+
+# One-off power-ups
+# These won't be added to the list of active power-ups
+# if they get caught by the paddle
+const POWERUP_ONE_OFF = [POWERUP_CLEAR_LEVEL, POWERUP_EXTRA_HEALTH]
 
 # Power-up timers, in seconds.
 # While timer is on, power-up is active.
@@ -111,11 +118,23 @@ var active_powerup = []
 # Player lives counter resides here in globals.gd
 var lives
 
+# Player score resides here in globals.gd
+var player_score = 0
+
+# Current level
+var current_level
+
 func _ready():
+	current_level = 0
 	Events.connect("enable_powerup", enable_powerup)
 	Events.connect("game_over", game_over)
+	Events.connect("ball_out_of_screen", ball_out_of_screen)
 
 func _activate_powerup(powerup_type: int):
+	# do not to active power-ups if power-up is a one-off
+	if powerup_type in POWERUP_ONE_OFF:
+		return
+
 	active_powerup.push_back(powerup_type)
 	is_powerup_on_screen = false
 
@@ -131,6 +150,11 @@ func debug(msgs: Array[String]) -> void:
 		debug_str += " " + m
 	print("[debug] ", debug_str)
 
+# Get current level scene node.
+# All levels share the same node name "Level"
+func get_current_level_node():
+	return get_tree().root.get_node("Level")
+
 # create a Timer node, add it to the current scene,
 # start the timer based on power-up timer value
 func setup_powerup_timer_node(powerup_type: int):
@@ -139,19 +163,19 @@ func setup_powerup_timer_node(powerup_type: int):
 		timer.name = POWERUP_TIMER_NAME + str(powerup_type)
 		timer.one_shot = true
 
-		get_tree().current_scene.add_child(timer)
+		get_current_level_node().add_child(timer)
 		timer.start(POWERUP_TIMER[powerup_type])
 
 		timer.timeout.connect(disable_powerup.bind(powerup_type))
 
 # gets the Timer node for specific power-up type
 func get_powerup_timer_node(powerup_type: int):
-	return get_tree().current_scene.get_node(POWERUP_TIMER_NAME + str(powerup_type))
+	return get_current_level_node().get_node(POWERUP_TIMER_NAME + str(powerup_type))
 
 func dismantle_powerup_timer_node(powerup_type: int):
-	var timer = get_tree().current_scene.get_node(POWERUP_TIMER_NAME + str(powerup_type))
+	var timer = get_powerup_timer_node(powerup_type)
 	if timer:
-		get_tree().current_scene.remove_child(timer)
+		get_current_level_node().remove_child(timer)
 
 func enable_powerup(powerup_type: int):
 	# Init Timer node, attach it to the main scene
@@ -186,12 +210,11 @@ func enable_powerup(powerup_type: int):
 
 	_activate_powerup(powerup_type)
 
-
 func disable_powerup(powerup_type: int):
 	dismantle_powerup_timer_node(powerup_type)
 
 	# start power-up cooldown timer
-	get_tree().current_scene.get_node("PowerupCooldownTimer").start()
+	get_current_level_node().get_node("PowerupCooldownTimer").start()
 
 	match powerup_type:
 		POWERUP_HEAVY_BALL:
@@ -228,8 +251,12 @@ func should_release_powerup_type() -> int:
 	if active_powerup.size() >= 3:
 		return POWERUP_NONE
 
+	# never release a power-up if 1 brick left
+	if get_tree().get_nodes_in_group("bricks").size() <= 1:
+		return POWERUP_NONE
+
 	# if power-up cooldown timer is ticking
-	if not get_tree().current_scene.get_node("PowerupCooldownTimer").is_stopped():
+	if not get_current_level_node().get_node("PowerupCooldownTimer").is_stopped():
 		return POWERUP_NONE
 
 	var should_release = false
@@ -287,5 +314,46 @@ func should_release_powerup_type() -> int:
 
 	return release_powerup
 
+func ball_out_of_screen():
+	lives -= 1
+	Events.player_lives_updated.emit(lives)
+
+func load_next_level():
+	current_level += 1
+
+	# start inter-level transition scene
+	var trans_scene = load("res://GUI/scene_transitioner.tscn").instantiate()
+	get_tree().root.add_child(trans_scene)
+
+	# set transition scene text
+	trans_scene.set_text("Round %s" % current_level)
+	await trans_scene.fade_in()
+
+	# delete current level if needed
+	# all level scenes has same name - "Level"
+	var cur_level = get_current_level_node()
+	if cur_level:
+		cur_level.free()
+
+	# load next level scene
+	var level_scene = load("res://Levels/level_%s.tscn" % current_level).instantiate()
+	level_scene.name = "Level"
+
+	get_tree().root.add_child(level_scene)
+
+	get_tree().current_scene = level_scene
+
+	# wait a second
+	await get_tree().create_timer(1).timeout
+
+	await trans_scene.fade_out()
+	trans_scene.queue_free()
+
+func start_game():
+	current_level = 0
+	load_next_level()
+
 func game_over():
-	print("game over")
+	var transition_scene = scene_transitioner.instantiate()
+	get_current_level_node().add_child(transition_scene)
+	transition_scene.fade_in(transition_scene.circle_transition)
