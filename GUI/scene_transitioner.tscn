@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://bxanb3xd5hsqk"]
+[gd_scene load_steps=8 format=3 uid="uid://bxanb3xd5hsqk"]
 
 [ext_resource type="Script" path="res://GUI/scene_transitioner.gd" id="1_w1qan"]
-[ext_resource type="Theme" uid="uid://cyattng0334b8" path="res://GUI/theme.tres" id="2_detkb"]
 
 [sub_resource type="Gradient" id="Gradient_56fi8"]
 interpolation_mode = 1
@@ -139,8 +138,7 @@ size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="LevelAnnouncer/CenterContainer"]
 layout_mode = 2
-theme = ExtResource("2_detkb")
-theme_override_colors/font_color = Color(0.542969, 0.25, 0.285156, 1)
+theme_override_colors/font_color = Color(0.541176, 0.25098, 0.286275, 1)
 theme_override_font_sizes/font_size = 164
 text = "Round 100"
 horizontal_alignment = 1

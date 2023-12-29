@@ -7,6 +7,7 @@
 height = 32.0
 
 [node name="Missile" type="StaticBody2D"]
+process_mode = 1
 top_level = true
 texture_filter = 1
 collision_layer = 0

@@ -129,6 +129,20 @@ func _ready():
 	Events.connect("enable_powerup", enable_powerup)
 	Events.connect("game_over", game_over)
 	Events.connect("ball_out_of_screen", ball_out_of_screen)
+	Events.connect("game_paused", game_paused)
+
+# show/hide game paused screen
+func game_paused():
+	# toggle paused
+	get_tree().paused = !get_tree().paused
+
+	# paused screen on or off
+	if get_tree().paused:
+		var game_paused_scene = load("res://GUI/paused_screen.tscn").instantiate()
+		get_tree().root.add_child(game_paused_scene)
+	else:
+		var game_paused_scene = get_tree().root.get_node("GamePaused")
+		get_tree().root.remove_child(game_paused_scene)
 
 func _activate_powerup(powerup_type: int):
 	# do not to active power-ups if power-up is a one-off
@@ -324,17 +338,22 @@ func load_next_level():
 	current_level += 1
 
 	# start inter-level transition scene
-	var trans_scene = load("res://GUI/scene_transitioner.tscn").instantiate()
-	get_tree().root.add_child(trans_scene)
+	var transitioner_scene = scene_transitioner.instantiate()
+	get_tree().root.add_child(transitioner_scene)
 
 	# set transition scene text
-	trans_scene.set_text("Round %s" % current_level)
-	await trans_scene.fade_in()
+	transitioner_scene.set_text("Round %s" % current_level)
+	await transitioner_scene.fade_in()
 
 	# delete current level if needed
 	# all level scenes has same name - "Level"
 	var cur_level = get_current_level_node()
 	if cur_level:
+		# TODO if queue_free() used, next level don't get "Level" name
+		# TODO this is possibly because queue_free() unloads the node after
+		# TODO processing the frame, and when we're setting "Level" node name below,
+		# TODO previous level is still unloaded (with "Level" name) and thus
+		# TODO new level node can't get "Level" name
 		cur_level.free()
 
 	# load next level scene
@@ -348,14 +367,27 @@ func load_next_level():
 	# wait a second
 	await get_tree().create_timer(1).timeout
 
-	await trans_scene.fade_out()
-	trans_scene.queue_free()
+	await transitioner_scene.fade_out()
+	transitioner_scene.queue_free()
 
 func start_game():
+	# reset stats
 	current_level = 0
+	lives = 0
+	player_score = 0
+
 	load_next_level()
 
 func game_over():
-	var transition_scene = scene_transitioner.instantiate()
-	get_current_level_node().add_child(transition_scene)
-	transition_scene.fade_in(transition_scene.circle_transition)
+	var transitioner_scene = scene_transitioner.instantiate()
+	get_current_level_node().add_child(transitioner_scene)
+	transitioner_scene.fade_in()
+
+func main_menu():
+	var main_menu_scene = load("res://GUI/main_menu.tscn").instantiate()
+	get_tree().root.add_child(main_menu_scene)
+
+	# delete level
+	var level_node = get_current_level_node()
+	if level_node:
+		level_node.queue_free()

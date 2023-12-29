@@ -50,6 +50,9 @@ signal missiles_dismantled()
 # stop ball
 signal pause_ball()
 
+# game paused
+signal game_paused()
+
 # display power-up icon on info panel if power-up was taken
 signal info_panel_powerup_icon_display(powerup_type: int)
 

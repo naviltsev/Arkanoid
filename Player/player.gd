@@ -65,6 +65,15 @@ func _connect_signals():
 	Events.connect("wide_paddle_dismantled", switch_from_wide_to_regular_paddle)
 
 func _physics_process(delta):
+	# pause game
+	if Input.is_action_just_pressed("ui_cancel"):
+		Events.game_paused.emit()
+
+	# player node is in Process mode = Always process, and in order to pause the player
+	# _game_paused flag is used.
+	if get_tree().paused:
+		return
+
 	var input_vector = Input.get_axis("ui_left", "ui_right")
 	motion = Vector2(input_vector, 0) * SPEED * delta
 
@@ -80,17 +89,6 @@ func _physics_process(delta):
 
 	if _missiles_state == MISSILES_ENABLED and Input.is_action_just_pressed("ui_accept"):
 		shoot()
-
-	# TODO fix pause
-	if Input.is_action_just_pressed("ui_cancel"):
-		if _game_paused:
-			_game_paused = false
-			#get_ball().pause_ball()
-			get_tree().paused = false
-		else:
-			_game_paused = true
-			#get_ball().unpause_ball()
-			get_tree().paused = true
 
 func set_state(state: int):
 	_state = state
