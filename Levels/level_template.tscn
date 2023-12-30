@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cwkiawasj4e2f"]
+[gd_scene load_steps=25 format=3 uid="uid://cwkiawasj4e2f"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_ddd66"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="1_nvlga"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cfve5a0lb0rm7" path="res://Bricks/brick_purple.tscn" id="7_bg63x"]
 [ext_resource type="PackedScene" uid="uid://g7b5ulsvgoox" path="res://Bricks/brick_orange.tscn" id="7_q7puo"]
 [ext_resource type="PackedScene" uid="uid://bb6sdkyyk56hd" path="res://GUI/info_panel.tscn" id="12_vdj26"]
+[ext_resource type="AudioStream" uid="uid://dbhbvsfl45bnv" path="res://Assets/SFX/powerup_clear_level.wav" id="12_yme1h"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_035g1"]
 texture = ExtResource("2_qc4v0")
@@ -335,7 +336,11 @@ region = Rect2(112, 0, 32, 16)
 [node name="LevelTemplate" type="Node2D"]
 script = ExtResource("1_ddd66")
 
+[node name="BackgroundPicture" type="Sprite2D" parent="."]
+centered = false
+
 [node name="BackgroundTileMap" type="TileMap" parent="."]
+visible = false
 texture_filter = 1
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_dco4v")
@@ -384,6 +389,16 @@ texture = SubResource("AtlasTexture_0766g")
 [node name="PowerupCooldownTimer" type="Timer" parent="."]
 wait_time = 10.0
 one_shot = true
+
+[node name="AudioSoundtrack" type="AudioStreamPlayer" parent="."]
+volume_db = -12.0
+autoplay = true
+bus = &"Music"
+
+[node name="AudioPowerupClearLevel" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_yme1h")
+volume_db = -6.0
+bus = &"SFX"
 
 [editable path="Player"]
 [editable path="InfoPanel"]

@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://baldnoptudw5s"]
+[gd_scene load_steps=11 format=3 uid="uid://baldnoptudw5s"]
 
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="1_a7mcy"]
 [ext_resource type="Script" path="res://Levels/bottom_wall.gd" id="1_mi888"]
 [ext_resource type="Texture2D" uid="uid://dps5cl8mv6vbe" path="res://Assets/Particles/circle_05.png" id="3_fkoq8"]
+[ext_resource type="AudioStream" uid="uid://ct0eco4ey471u" path="res://Assets/SFX/bottom_wall_equip.wav" id="4_8ioly"]
+[ext_resource type="AudioStream" uid="uid://db4yvkwjt426h" path="res://Assets/SFX/bottom_wall_dismantle.wav" id="5_x7a17"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_y373u"]
 texture = ExtResource("1_a7mcy")
@@ -304,3 +306,13 @@ texture = ExtResource("3_fkoq8")
 lifetime = 1.2
 one_shot = true
 fixed_fps = 60
+
+[node name="AudioEquip" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_8ioly")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="AudioDismantle" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_x7a17")
+volume_db = -6.0
+bus = &"SFX"

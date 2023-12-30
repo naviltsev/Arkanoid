@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var bottom_wall_scene = preload("res://Levels/bottom_wall.tscn")
+@onready var audio_clear_level : AudioStreamPlayer = $AudioPowerupClearLevel
 
 func _ready():
 	Events.connect("powerup_clear_level", powerup_clear_level)
@@ -10,6 +11,12 @@ func _ready():
 
 func powerup_clear_level():
 	Globals.disable_all_powerups()
+
+	# kill ball(s) on the screen
+	get_tree().call_group("balls", "kill_ball")
+	get_tree().call_group("extra_balls", "kill_ball")
+
+	audio_clear_level.play()
 
 	var bricks = get_tree().get_nodes_in_group("bricks")
 	bricks.shuffle()
@@ -42,10 +49,15 @@ func powerup_bottom_wall_enable():
 
 func powerup_bottom_wall_disable():
 	var bottom_wall = get_node("BottomWall")
-	bottom_wall.dismantle()
+	if bottom_wall:
+		bottom_wall.dismantle()
 
 func level_cleared():
-	# wait a moment before showing up a transitioner and
+	# kill ball(s) on the screen
+	get_tree().call_group("balls", "kill_ball")
+	get_tree().call_group("extra_balls", "kill_ball")
+
+	# wait a moment to allow transitioner to fade in before
 	# advancing to the next level
 	await get_tree().create_timer(1.5).timeout
 	Globals.load_next_level()

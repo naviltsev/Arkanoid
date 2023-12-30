@@ -1,6 +1,8 @@
 extends Area2D
 
 @onready var tile_map : TileMap = %TileMap
+@onready var audio_powerup_released : AudioStreamPlayer = $AudioPowerupReleased
+@onready var audio_powerup_caught : AudioStreamPlayer = $AudioPowerupCaught
 
 # Local coords
 const LOCAL_COORDS = Vector2i(0, 0)
@@ -29,6 +31,8 @@ func init(pos: Vector2, type: int):
 
 	powerup_type = type
 	tile_map.set_cell(0, LOCAL_COORDS, 0, Globals.POWERUP_COORDS[type])
+	
+	audio_powerup_released.play()
 
 # Destroy power-up when it's out of the screen
 func _on_visible_on_screen_enabler_2d_screen_exited():
@@ -42,4 +46,11 @@ func _on_body_entered(_body):
 	# as PowerUp's collision mask set to
 	# only interact with the player node
 	Events.enable_powerup.emit(powerup_type)
+
+	# hide while playing the sound
+	visible = false
+
+	audio_powerup_caught.play()
+	await audio_powerup_caught.finished
+
 	queue_free()

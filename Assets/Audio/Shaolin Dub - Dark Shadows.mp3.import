@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dfs7rnky110pd"
+path="res://.godot/imported/Shaolin Dub - Dark Shadows.mp3-3984fbdc056c4142f69e7f4565f0af3e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Shaolin Dub - Dark Shadows.mp3"
+dest_files=["res://.godot/imported/Shaolin Dub - Dark Shadows.mp3-3984fbdc056c4142f69e7f4565f0af3e.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

@@ -121,6 +121,7 @@ func take_full_damage():
 	Globals.player_score += health
 	Events.player_score_increment.emit(health)
 
+	# TODO ??? this function gets called multiple times from level.gd, why pausing the ball every time?
 	Events.pause_ball.emit()
 
 	particles.emitting = true
@@ -141,6 +142,4 @@ func is_indestructible():
 func is_level_cleared():
 	var is_live_bricks = get_tree().get_nodes_in_group("bricks").any(func(brick): return brick.health > 0)
 	if !is_live_bricks:
-		# Pause ball before advancing to the next level
-		Events.pause_ball.emit()
 		Events.level_cleared.emit()

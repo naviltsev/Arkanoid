@@ -2,6 +2,8 @@ extends Node2D
 
 @onready var tile_map : TileMap = $BricksTileMap
 @onready var particles : GPUParticles2D = $Particles
+@onready var audio_equip : AudioStreamPlayer = $AudioEquip
+@onready var audio_dismantle : AudioStreamPlayer = $AudioDismantle
 
 # Coordinates of a tile the bottom wall consists of in tile map atlas.
 const BRICK_ATLAS_COORDS = Vector2i(14, 0)
@@ -38,8 +40,10 @@ func animate(tile_source_id: int):
 
 # builds a bottom wall, brick by brick from left to right
 func equip():
+	audio_equip.play()
 	animate(0)
 
 # removes a bottom wall, brick by brick from left to right
 func dismantle():
+	audio_dismantle.play()
 	animate(-1)

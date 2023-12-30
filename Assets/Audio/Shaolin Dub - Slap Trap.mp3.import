@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c5bhwkh4s5wso"
+path="res://.godot/imported/Shaolin Dub - Slap Trap.mp3-148e331d709def025d5bf6ed3a6bee81.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Shaolin Dub - Slap Trap.mp3"
+dest_files=["res://.godot/imported/Shaolin Dub - Slap Trap.mp3-148e331d709def025d5bf6ed3a6bee81.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

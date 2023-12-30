@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ch6e40qayffnn"]
+[gd_scene load_steps=8 format=3 uid="uid://ch6e40qayffnn"]
 
 [ext_resource type="Texture2D" uid="uid://b7bjsjr5vaaf0" path="res://Assets/arkanoid_powerups.png" id="1_m62ji"]
 [ext_resource type="Script" path="res://Powerups/power_up.gd" id="1_tthbf"]
+[ext_resource type="AudioStream" uid="uid://o88arhor1ima" path="res://Assets/SFX/powerup_released.wav" id="3_bqlbv"]
+[ext_resource type="AudioStream" uid="uid://cuh8vhtf63f05" path="res://Assets/SFX/powerup_caught.wav" id="4_dmkgt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g4hy1"]
 resource_name = "powerups"
@@ -40,6 +42,16 @@ layer_0/tile_data = PackedInt32Array(0, 0, 0)
 shape = SubResource("RectangleShape2D_jqqir")
 
 [node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+
+[node name="AudioPowerupReleased" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_bqlbv")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="AudioPowerupCaught" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_dmkgt")
+volume_db = -6.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="_on_visible_on_screen_enabler_2d_screen_exited"]

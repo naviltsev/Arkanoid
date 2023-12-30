@@ -17,7 +17,7 @@ var PADDLE_INIT_POSITION = Vector2(732, 1008)
 var BALL_OFFSET = Vector2(0, -32)
 
 # Paddle speed
-var SPEED = 250
+var SPEED = 600
 
 # State enum
 enum {
@@ -65,6 +65,10 @@ func _connect_signals():
 	Events.connect("wide_paddle_dismantled", switch_from_wide_to_regular_paddle)
 
 func _physics_process(delta):
+	# debug - clear level
+	if Input.is_action_just_pressed("ui_page_up"):
+		Globals.get_current_level_node().powerup_clear_level()
+
 	# pause game
 	if Input.is_action_just_pressed("ui_cancel"):
 		Events.game_paused.emit()
@@ -77,7 +81,7 @@ func _physics_process(delta):
 	var input_vector = Input.get_axis("ui_left", "ui_right")
 	motion = Vector2(input_vector, 0) * SPEED * delta
 
-	move_and_collide(motion * SPEED * delta)
+	move_and_collide(motion)
 	
 	# move ball along with the paddle
 	if _state == STATE_BALL_ATTACHED:

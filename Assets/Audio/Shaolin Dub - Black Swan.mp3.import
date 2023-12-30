@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://hys082nukjx3"
+path="res://.godot/imported/Shaolin Dub - Black Swan.mp3-1ae2f3da6c7c0433dd4d9c25a9c4f51e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Shaolin Dub - Black Swan.mp3"
+dest_files=["res://.godot/imported/Shaolin Dub - Black Swan.mp3-1ae2f3da6c7c0433dd4d9c25a9c4f51e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

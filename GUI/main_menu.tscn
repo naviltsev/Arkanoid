@@ -1,10 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://dcb0f2pl3g8bb"]
+[gd_scene load_steps=12 format=3 uid="uid://dcb0f2pl3g8bb"]
 
 [ext_resource type="Script" path="res://GUI/main_menu.gd" id="1_uhw86"]
 [ext_resource type="Texture2D" uid="uid://ds1tbfvo7p1rw" path="res://Assets/MainMenu/bg.jpg" id="2_m7hmh"]
 [ext_resource type="Texture2D" uid="uid://dps5cl8mv6vbe" path="res://Assets/Particles/circle_05.png" id="3_wd0hq"]
 [ext_resource type="Script" path="res://GUI/main_menu_logo.gd" id="4_bra77"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="4_yus56"]
+[ext_resource type="AudioStream" uid="uid://7ycd0sqb2607" path="res://Assets/Audio/Shaolin Dub - Holy War.mp3" id="6_skn14"]
+[ext_resource type="AudioStream" uid="uid://wb6csdws23i3" path="res://Assets/SFX/button_focus.wav" id="7_ra7my"]
+[ext_resource type="AudioStream" uid="uid://dy5a32ni1h53p" path="res://Assets/SFX/button_click.wav" id="8_pj5qf"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_fnwfg"]
 texture = ExtResource("4_yus56")
@@ -184,5 +187,23 @@ layout_mode = 2
 size_flags_vertical = 4
 text = "Exit"
 
+[node name="AudioSoundtrack" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_skn14")
+volume_db = -12.0
+autoplay = true
+bus = &"Main Menu Music"
+
+[node name="AudioButtonFocus" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ra7my")
+volume_db = -6.0
+bus = &"Main Menu SFX"
+
+[node name="AudioButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_pj5qf")
+volume_db = -6.0
+bus = &"Main Menu SFX"
+
+[connection signal="focus_exited" from="PanelContainer/MarginContainer/VBoxContainer/BottomHBoxContainer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_focus_exited"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/BottomHBoxContainer/MarginContainer/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="focus_exited" from="PanelContainer/MarginContainer/VBoxContainer/BottomHBoxContainer/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_focus_exited"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/BottomHBoxContainer/MarginContainer/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

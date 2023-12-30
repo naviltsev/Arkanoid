@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://br6ffj42hhqnx"]
+[gd_scene load_steps=4 format=3 uid="uid://br6ffj42hhqnx"]
 
 [ext_resource type="Script" path="res://GUI/paused_screen.gd" id="1_cfpou"]
+[ext_resource type="AudioStream" uid="uid://wb6csdws23i3" path="res://Assets/SFX/button_focus.wav" id="2_b2wnu"]
+[ext_resource type="AudioStream" uid="uid://dy5a32ni1h53p" path="res://Assets/SFX/button_click.wav" id="3_ugg81"]
 
 [node name="GamePaused" type="CenterContainer"]
 process_mode = 3
@@ -39,5 +41,17 @@ text = "Back"
 layout_mode = 2
 text = "Main Menu"
 
+[node name="AudioButtonFocus" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_b2wnu")
+volume_db = -6.0
+bus = &"Main Menu SFX"
+
+[node name="AudioButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_ugg81")
+volume_db = -6.0
+bus = &"Main Menu SFX"
+
+[connection signal="focus_exited" from="VBoxContainer/BackButton" to="." method="_on_back_button_focus_exited"]
 [connection signal="pressed" from="VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="focus_exited" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_focus_exited"]
 [connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

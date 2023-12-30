@@ -1,9 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://ss5dilon8qol"]
+[gd_scene load_steps=12 format=3 uid="uid://ss5dilon8qol"]
 
 [ext_resource type="Script" path="res://Balls/ball.gd" id="1_3ijld"]
 [ext_resource type="Texture2D" uid="uid://b41kkka7ht36" path="res://Assets/paddles_and_balls.png" id="1_ro3vx"]
 [ext_resource type="Script" path="res://Balls/trail.gd" id="3_xk818"]
 [ext_resource type="Texture2D" uid="uid://dps5cl8mv6vbe" path="res://Assets/Particles/circle_05.png" id="4_1b6o4"]
+[ext_resource type="AudioStream" uid="uid://c288ln4p7bgln" path="res://Assets/SFX/ball_hit.wav" id="5_jlylm"]
+[ext_resource type="AudioStream" uid="uid://dlm52xfgc8f2k" path="res://Assets/SFX/brick_hit.wav" id="6_2d51k"]
+[ext_resource type="AudioStream" uid="uid://b22ie5yjbhrey" path="res://Assets/SFX/brick_killed.wav" id="7_n1rje"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w710u"]
 radius = 18.0
@@ -80,6 +83,26 @@ process_material = SubResource("ParticleProcessMaterial_nnbor")
 texture = ExtResource("4_1b6o4")
 one_shot = true
 explosiveness = 0.85
+
+[node name="AudioBallHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_jlylm")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="AudioBrickHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_2d51k")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="AudioBrickKilled" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_n1rje")
+volume_db = -6.0
+bus = &"SFX"
+
+[node name="AudioBallKilled" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_n1rje")
+volume_db = -6.0
+bus = &"SFX"
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="PaddleCollisionTimer" to="." method="_on_paddle_collision_timer_timeout"]

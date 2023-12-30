@@ -1,60 +1,68 @@
-[gd_scene load_steps=9 format=3 uid="uid://djmi2jwn2sqah"]
+[gd_scene load_steps=11 format=3 uid="uid://cog3o1blo4sjf"]
 
-[ext_resource type="PackedScene" uid="uid://cwkiawasj4e2f" path="res://Levels/level_template.tscn" id="1_14bgs"]
-[ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="2_d11xh"]
+[ext_resource type="PackedScene" uid="uid://cwkiawasj4e2f" path="res://Levels/level_template.tscn" id="1_sg0wy"]
+[ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="2_amhek"]
+[ext_resource type="Texture2D" uid="uid://ckwry6t0yfrls" path="res://Assets/Level Backgrounds/level_3.jpg" id="2_uh54a"]
+[ext_resource type="AudioStream" uid="uid://hys082nukjx3" path="res://Assets/Audio/Shaolin Dub - Black Swan.mp3" id="4_mdvfb"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ub7u2"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_3rhhf"]
 resource_local_to_scene = true
-atlas = ExtResource("2_d11xh")
+atlas = ExtResource("2_amhek")
 region = Rect2(112, 16, 32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_r1efd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_vko6a"]
 resource_local_to_scene = true
-atlas = ExtResource("2_d11xh")
+atlas = ExtResource("2_amhek")
 region = Rect2(112, 32, 32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_n2wf3"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkyfo"]
 resource_local_to_scene = true
-atlas = ExtResource("2_d11xh")
+atlas = ExtResource("2_amhek")
 region = Rect2(112, 48, 32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_qdah6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_22nbt"]
 resource_local_to_scene = true
-atlas = ExtResource("2_d11xh")
+atlas = ExtResource("2_amhek")
 region = Rect2(112, 64, 32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8wsi0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptcv6"]
 resource_local_to_scene = true
-atlas = ExtResource("2_d11xh")
+atlas = ExtResource("2_amhek")
 region = Rect2(112, 80, 32, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_78fc0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wku7c"]
 resource_local_to_scene = true
-atlas = ExtResource("2_d11xh")
+atlas = ExtResource("2_amhek")
 region = Rect2(112, 0, 32, 16)
 
-[node name="Level" instance=ExtResource("1_14bgs")]
+[node name="Level" instance=ExtResource("1_sg0wy")]
 
-[node name="BricksTileMap" parent="." index="2"]
-layer_0/tile_data = PackedInt32Array(393222, 1, 262144, 458759, 1, 262144, 327687, 1, 262144, 393224, 1, 262144, 327689, 1, 262144, 458761, 1, 262144, 393226, 1, 262144, 327691, 1, 262144, 458763, 1, 262144, 393230, 1, 262144, 393232, 1, 262144, 393236, 1, 262144, 393238, 1, 262144, 393240, 1, 262144, 327693, 1, 262144, 327695, 1, 262144, 327697, 1, 262144, 327699, 1, 262144, 327701, 1, 262144, 327703, 1, 262144, 458765, 1, 262144, 458767, 1, 262144, 458769, 1, 262144, 458771, 1, 262144, 458773, 1, 262144, 458775, 1, 262144, 524296, 1, 262144, 524298, 1, 262144, 524300, 1, 262144, 524302, 1, 262144, 524304, 1, 262144, 524306, 1, 262144, 524308, 1, 262144, 524310, 1, 262144, 589833, 1, 262144, 589836, 1, 262144, 589842, 1, 262144, 589845, 1, 262144, 655373, 1, 262144, 655379, 1, 262144, 655371, 1, 262144, 655377, 1, 262144, 720909, 1, 262144, 720911, 1, 262144, 720913, 1, 262144, 786446, 1, 262144, 786448, 1, 262144, 851983, 1, 262144, 262156, 1, 262144, 262158, 1, 262144, 262160, 1, 262144, 262162, 1, 262144, 196621, 1, 262144, 196623, 1, 262144, 196625, 1, 262144, 262150, 1, 262144, 196613, 1, 262144, 262168, 1, 262144, 196633, 1, 262144, 393228, 1, 327680, 393234, 1, 327680, 589838, 1, 65536, 589840, 1, 65536, 655375, 1, 65536)
+[node name="BackgroundPicture" parent="." index="0"]
+texture = ExtResource("2_uh54a")
+
+[node name="BricksTileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(524294, 1, 262144, 589829, 1, 262144, 655366, 1, 262144, 458759, 1, 262144, 393224, 1, 262144, 327690, 1, 262144, 720904, 1, 262144, 786442, 1, 262144, 786444, 1, 262144, 786446, 1, 262144, 720912, 1, 262144, 720914, 1, 262144, 655379, 1, 262144, 655381, 1, 262144, 327692, 1, 262144, 327694, 1, 262144, 393232, 1, 262144, 458770, 1, 262144, 589846, 1, 262144, 655383, 1, 262144, 524311, 1, 262144, 458776, 1, 262144, 393241, 1, 262144, 524313, 1, 262144, 589848, 1, 262144, 720920, 1, 262144, 786457, 1, 262144, 720918, 1, 262144, 851994, 1, 262144, 327706, 1, 262144, 786459, 1, 262144, 720922, 1, 262144, 393243, 1, 262144, 458778, 1, 262144, 655385, 1, 262144, 458774, 1, 262144, 524309, 1, 262144, 524307, 1, 262144, 589844, 1, 262144, 262156, 1, 262144, 196621, 1, 262144, 131086, 1, 262144, 65551, 1, 262144, 131088, 1, 262144, 196623, 1, 262144, 262158, 1, 262144, 327696, 1, 262144, 262160, 1, 262144, 65553, 1, 262144, 851980, 1, 262144, 917517, 1, 262144, 917519, 1, 262144, 851982, 1, 262144, 983056, 1, 262144, 983058, 1, 262144, 458761, 1, 65536, 524298, 1, 65536, 524296, 1, 65536, 393226, 1, 393216, 393228, 1, 393216, 458763, 1, 393216, 589831, 1, 393216, 655368, 1, 393216, 655370, 1, 393216, 720908, 1, 393216, 458765, 1, 327680, 393230, 1, 327680, 720906, 1, 327680, 589833, 1, 327680, 589835, 1, 327680, 524300, 1, 327680, 655372, 1, 327680, 720910, 1, 327680, 589839, 1, 131072, 524303, 1, 131072, 458768, 1, 131072, 655376, 1, 131072, 589841, 1, 131072, 524305, 1, 131072)
 
 [node name="TextureRectGreen" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="0"]
-texture = SubResource("AtlasTexture_ub7u2")
+texture = SubResource("AtlasTexture_3rhhf")
 
 [node name="TextureRectYellow" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="2"]
-texture = SubResource("AtlasTexture_r1efd")
+texture = SubResource("AtlasTexture_vko6a")
 
 [node name="TextureRectOrange" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="4"]
-texture = SubResource("AtlasTexture_n2wf3")
+texture = SubResource("AtlasTexture_wkyfo")
 
 [node name="TextureRectRed" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="6"]
-texture = SubResource("AtlasTexture_qdah6")
+texture = SubResource("AtlasTexture_22nbt")
 
 [node name="TextureRectPurple" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="8"]
-texture = SubResource("AtlasTexture_8wsi0")
+texture = SubResource("AtlasTexture_ptcv6")
 
 [node name="TextureRectBlack" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="10"]
-texture = SubResource("AtlasTexture_78fc0")
+texture = SubResource("AtlasTexture_wku7c")
+
+[node name="AudioSoundtrack" parent="." index="7"]
+stream = ExtResource("4_mdvfb")
 
 [editable path="Player"]
 [editable path="InfoPanel"]

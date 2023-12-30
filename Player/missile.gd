@@ -1,13 +1,14 @@
 extends StaticBody2D
 
+@onready var audio_missile_fire : AudioStreamPlayer = $AudioMissileFire
+
 var missile_explosion = load("res://Player/missile_explosion.tscn")
 
 # Acceleration value for power-up
 const ACCELERATION = 700
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	audio_missile_fire.play()
 
 func _physics_process(delta):
 	var collision = move_and_collide(Vector2.UP * ACCELERATION * delta)

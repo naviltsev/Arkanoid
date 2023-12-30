@@ -5,6 +5,13 @@ extends CharacterBody2D
 @onready var regular_ball_sprite : Sprite2D = %RegularBallSprite
 @onready var heavy_ball_sprite : Sprite2D = %HeavyBallSprite
 @onready var particles: GPUParticles2D = %HeavyBallSwitchParticles
+@onready var audio_ball_hit : AudioStreamPlayer = $AudioBallHit
+@onready var audio_ball_killed : AudioStreamPlayer = $AudioBallKilled
+@onready var audio_brick_hit : AudioStreamPlayer = $AudioBrickHit
+@onready var audio_brick_killed : AudioStreamPlayer = $AudioBrickKilled
+
+const HEAVY_BALL_PARTICLES_COLOR = Color(205, 203, 0, 1)
+const KILL_BALL_PARTICLES_COLOR = Color(255, 0, 0, 0.7)
 
 var powerup_scene = preload("res://Powerups/power_up.tscn")
 
@@ -52,6 +59,8 @@ func _physics_process(delta):
 	if _state == STATE_IDLE:
 		return
 
+	var should_play_click = true
+
 	var collision = move_and_collide(motion * SPEED * delta)
 	if collision:
 		var collider = collision.get_collider()
@@ -83,6 +92,14 @@ func _physics_process(delta):
 
 		# collider is brick - brick takes damage
 		if collider.is_in_group("bricks"):
+			should_play_click = false
+			if collider.health > 1:
+				audio_brick_hit.play()
+			elif collider.health == 1:
+				audio_brick_killed.play()
+			else:  # indestructible brick, health = -1
+				audio_ball_hit.play()
+
 			collider.take_damage()
 
 			# Should release power-up?
@@ -97,6 +114,9 @@ func _physics_process(delta):
 			collider.is_in_group("bricks") and \
 			!collider.is_indestructible():
 			return
+
+		if should_play_click:
+			audio_ball_hit.play()
 
 		# bounce when collided
 		motion = motion.bounce(collision.get_normal()).normalized()
@@ -144,11 +164,15 @@ func switch_to_heavy_ball():
 	
 	# emit particles only if ball is in play
 	if _state == STATE_PLAY:
+		particles.process_material.color = HEAVY_BALL_PARTICLES_COLOR
 		particles.emitting = true
 
 	trail.heavy_trail()
 
 func switch_to_regular_ball():
+	if _state == STATE_PLAY:
+		audio_ball_killed.play()
+
 	regular_ball_sprite.visible = true
 	heavy_ball_sprite.visible = false
 
@@ -167,12 +191,14 @@ func unpause_ball():
 # Kills a ball by hiding it, pausing, running explosion articles,
 # and then freeing the object
 func kill_ball():
+	audio_ball_killed.play()
+
 	regular_ball_sprite.visible = false
 	heavy_ball_sprite.visible = false
 	pause_ball()
 
 	# start emitting red particles
-	particles.process_material.color = Color(255, 0, 0, 0.7)
+	particles.process_material.color = KILL_BALL_PARTICLES_COLOR
 	particles.emitting = true
 
 	# create a timer to wait for all particles to emit
