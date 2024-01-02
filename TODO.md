@@ -4,6 +4,8 @@ TODO
 CURRENT
 -------
 
+- [2.1.2024] bug - heavy ball doesn't get dismantled when ball goes out of screen?
+
 
 - bug - missiles are equipped if ball is out of screen and at the same time missiles powerup gets collected
 - bug - if power-up gets caught when ball is out of screen, get_ball() returns NULL
@@ -11,6 +13,7 @@ CURRENT
 
 PAST
 ----
++ [2.1.2024] bug - wide paddle sticks in the walls
 + finish double score and extra health power ups
 + mech - timer (10 seconds) between current power up ends and new releases
 

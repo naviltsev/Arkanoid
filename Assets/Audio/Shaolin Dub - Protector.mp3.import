@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://tyr672jyf2hu"
+path="res://.godot/imported/Shaolin Dub - Protector.mp3-0048aebc5853680c77e317126c5ed642.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Shaolin Dub - Protector.mp3"
+dest_files=["res://.godot/imported/Shaolin Dub - Protector.mp3-0048aebc5853680c77e317126c5ed642.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -5,6 +5,10 @@ var missile_scene = preload("res://Player/missile.tscn")
 
 @onready var animation_player : AnimationPlayer = $AnimationPlayer
 @onready var collision_shape : CollisionShape2D = $CollisionShape
+@onready var dash_cooldown_timer : Timer = $DashCooldownTimer
+@onready var audio_dash : AudioStreamPlayer = $AudioDash
+@onready var particles_dash_left : GPUParticles2D = $ParticlesDashLeft
+@onready var particles_dash_right : GPUParticles2D = $ParticlesDashRight
 
 # Ball coords in relation to paddle coords
 # Effectively, this is a ball cordinates in paddle coord system
@@ -17,7 +21,9 @@ var PADDLE_INIT_POSITION = Vector2(732, 1008)
 var BALL_OFFSET = Vector2(0, -32)
 
 # Paddle speed
-var SPEED = 600
+const NORMAL_SPEED = 600
+const DASH_SPEED = 6000
+var speed = NORMAL_SPEED
 
 # State enum
 enum {
@@ -66,8 +72,8 @@ func _connect_signals():
 
 func _physics_process(delta):
 	# debug - clear level
-	if Input.is_action_just_pressed("ui_page_up"):
-		Globals.get_current_level_node().powerup_clear_level()
+#	if Input.is_action_just_pressed("ui_page_up"):
+#		Globals.get_current_level_node().powerup_clear_level()
 
 	# pause game
 	if Input.is_action_just_pressed("ui_cancel"):
@@ -79,7 +85,7 @@ func _physics_process(delta):
 		return
 
 	var input_vector = Input.get_axis("ui_left", "ui_right")
-	motion = Vector2(input_vector, 0) * SPEED * delta
+	motion = Vector2(input_vector, 0) * speed * delta
 
 	move_and_collide(motion)
 	
@@ -91,8 +97,20 @@ func _physics_process(delta):
 		set_state(STATE_BALL_DETACHED)
 		get_ball().launch(Vector2.ZERO)
 
-	if _missiles_state == MISSILES_ENABLED and Input.is_action_just_pressed("ui_accept"):
-		shoot()
+	if Input.is_action_just_pressed("ui_accept"):
+		if _missiles_state == MISSILES_ENABLED:
+			shoot()
+		
+		if input_vector != 0 and _missiles_state == MISSILES_DISABLED and _state == STATE_BALL_DETACHED:
+			audio_dash.play()
+			speed = DASH_SPEED
+			if input_vector > 0:
+				particles_dash_left.emitting = true
+			else:
+				particles_dash_right.emitting = true
+
+	else:
+		speed = NORMAL_SPEED
 
 func set_state(state: int):
 	_state = state
@@ -130,19 +148,14 @@ func is_ball_above_paddle() -> bool:
 # Restart the paddle by placing it in the middle of the screen
 # with the ball attached
 func restart():
-	# when game starts and paddle gets initialized, lives is Nil
+	# when game starts and paddle gets initialized, lives is -1
 	# in this case initialize it with INIT_LIVES
-	if not Globals.lives:
+	if Globals.lives == -1:
 		Globals.lives = INIT_LIVES
 
 	# after game started, this event gets triggered BEFORE
 	# Lives label is ready, so Lives panel resets lives counter on itself
 	Events.player_lives_updated.emit(Globals.lives)
-
-	# game over
-	if Globals.lives < 1:
-		Events.game_over.emit()
-		return
 
 	set_state(STATE_BALL_ATTACHED)
 	set_missiles_state(MISSILES_DISABLED)
@@ -193,8 +206,8 @@ func switch_from_regular_to_wide_paddle():
 	# shift paddle to the safe place if it's too close to the wall
 	if position.x <= 145:
 		position.x = 145
-	if position.x >= 1440:
-		position.x = 1440
+	if position.x >= 1295:
+		position.x = 1295
 
 func switch_from_wide_to_regular_paddle():
 	collision_shape.shape.set_height(128)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cwkiawasj4e2f"]
+[gd_scene load_steps=27 format=3 uid="uid://cwkiawasj4e2f"]
 
 [ext_resource type="Script" path="res://Levels/level.gd" id="1_ddd66"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="1_nvlga"]
@@ -303,6 +303,37 @@ physics_layer_0/collision_layer = 1
 physics_layer_0/collision_mask = 12
 sources/1 = SubResource("TileSetScenesCollectionSource_wctal")
 
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2w4oq"]
+resource_local_to_scene = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 15.0
+gravity = Vector3(0, 200, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m1tip"]
+resource_local_to_scene = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+particle_flag_disable_z = true
+spread = 15.0
+gravity = Vector3(0, 200, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_6isjq"]
 resource_local_to_scene = true
 atlas = ExtResource("1_nvlga")
@@ -333,10 +364,11 @@ resource_local_to_scene = true
 atlas = ExtResource("1_nvlga")
 region = Rect2(112, 0, 32, 16)
 
-[node name="LevelTemplate" type="Node2D"]
+[node name="Level" type="Node2D"]
 script = ExtResource("1_ddd66")
 
 [node name="BackgroundPicture" type="Sprite2D" parent="."]
+texture_filter = 1
 centered = false
 
 [node name="BackgroundTileMap" type="TileMap" parent="."]
@@ -365,6 +397,12 @@ format = 2
 unique_name_in_owner = true
 position = Vector2(736, 1008)
 metadata/_edit_group_ = true
+
+[node name="ParticlesDashLeft" parent="Player" index="0"]
+process_material = SubResource("ParticleProcessMaterial_2w4oq")
+
+[node name="ParticlesDashRight" parent="Player" index="1"]
+process_material = SubResource("ParticleProcessMaterial_m1tip")
 
 [node name="InfoPanel" parent="." instance=ExtResource("12_vdj26")]
 

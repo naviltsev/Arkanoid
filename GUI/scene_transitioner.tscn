@@ -126,21 +126,18 @@ libraries = {
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 720.0
-offset_top = 464.0
-offset_right = -680.0
-offset_bottom = -416.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1e-05, 1e-05)
-pivot_offset = Vector2(260, 100)
+pivot_offset = Vector2(960, 540)
 size_flags_vertical = 3
 
 [node name="Label" type="Label" parent="LevelAnnouncer/CenterContainer"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.541176, 0.25098, 0.286275, 1)
 theme_override_font_sizes/font_size = 164
-text = "Round 100"
+text = "Round 100
+A second line"
 horizontal_alignment = 1
 vertical_alignment = 1
 uppercase = true

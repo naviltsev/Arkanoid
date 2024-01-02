@@ -8,6 +8,19 @@ const POWERUP_RELEASE_CHANCE = 0.1
 # Powerup Timer node name
 const POWERUP_TIMER_NAME = "PowerupTimer"
 
+const SCENE_TRANSITIONER_LEVEL_NAMES = [
+	"Space Invader",
+	"Withering Trees",
+	"Moonfish",
+	"Cursed Leaf",
+	"Two Moons",
+	"Red In The Sky",
+	"Big City Lights",
+	"Departure",
+]
+
+const LAST_LEVEL = 8
+
 # Power-up types
 enum {
 	POWERUP_NONE,
@@ -116,7 +129,7 @@ var is_powerup_on_screen = false
 var active_powerup = []
 
 # Player lives counter resides here in globals.gd
-var lives
+var lives = -1
 
 # Player score resides here in globals.gd
 var player_score = 0
@@ -198,8 +211,6 @@ func enable_powerup(powerup_type: int):
 	if POWERUP_TIMER.has(powerup_type):
 		setup_powerup_timer_node(powerup_type)
 
-	debug(["enabled powerup: ", POWERUP_NAME[powerup_type]])
-
 	match powerup_type:
 		POWERUP_HEAVY_BALL:
 			Events.heavy_ball_equipped.emit()
@@ -251,8 +262,6 @@ func disable_powerup(powerup_type: int):
 	_deactivate_powerup(powerup_type)
 
 	Events.disable_powerup.emit(powerup_type)
-
-	debug(["disabled powerup"])
 
 func disable_all_powerups():
 	for p in active_powerup:
@@ -334,7 +343,15 @@ func ball_out_of_screen():
 	lives -= 1
 	Events.player_lives_updated.emit(lives)
 
+	if lives == 0:
+		Events.game_over.emit()
+		return
+
 func load_next_level():
+	if current_level == LAST_LEVEL:
+		complete_game()
+		return
+
 	current_level += 1
 
 	# start inter-level transition scene
@@ -342,7 +359,8 @@ func load_next_level():
 	get_tree().root.add_child(transitioner_scene)
 
 	# set transition scene text
-	transitioner_scene.set_text("Round %s" % current_level)
+	var level_name = SCENE_TRANSITIONER_LEVEL_NAMES[current_level-1]
+	transitioner_scene.set_text("Round %s" % current_level + "\n%s" % level_name)
 	await transitioner_scene.fade_in()
 
 	# delete current level if needed
@@ -373,15 +391,45 @@ func load_next_level():
 func start_game():
 	# reset stats
 	current_level = 0
-	lives = 0
+	lives = -1  # reset to -1 - a new game
 	player_score = 0
 
 	load_next_level()
 
+func complete_game():
+	var transitioner_scene = scene_transitioner.instantiate()
+	get_tree().root.add_child(transitioner_scene)
+
+	transitioner_scene.set_text("This is over")
+	await transitioner_scene.fade_in()
+	
+	await get_tree().create_timer(2).timeout
+	
+	transitioner_scene.set_text("Bye!\nUntil next time")
+	await get_tree().create_timer(2).timeout
+
+	Globals.main_menu()
+
+	# wait a second
+	await get_tree().create_timer(1).timeout
+
+	await transitioner_scene.fade_out()
+	transitioner_scene.queue_free()
+
 func game_over():
 	var transitioner_scene = scene_transitioner.instantiate()
-	get_current_level_node().add_child(transitioner_scene)
-	transitioner_scene.fade_in()
+	get_tree().root.add_child(transitioner_scene)
+
+	transitioner_scene.set_text("Wasted")
+	await transitioner_scene.fade_in()
+
+	Globals.main_menu()
+
+	# wait a second
+	await get_tree().create_timer(1).timeout
+
+	await transitioner_scene.fade_out()
+	transitioner_scene.queue_free()
 
 func main_menu():
 	var main_menu_scene = load("res://GUI/main_menu.tscn").instantiate()

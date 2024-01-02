@@ -74,9 +74,10 @@ func _physics_process(delta):
 			land()
 			return
 
-		# add player's motion to ball motion
+		
 		if collider.name == "Player":
-			motion = motion - collider.motion
+			# add player's motion to ball motion
+#			motion = motion - collider.motion
 
 			# disable ball<->paddle collisions until paddle collision timer timout() event
 			# to fix the ball sticking to the paddle sides

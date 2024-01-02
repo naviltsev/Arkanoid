@@ -1,7 +1,38 @@
-[gd_scene load_steps=9 format=3 uid="uid://ctwh6jrx1pw56"]
+[gd_scene load_steps=11 format=3 uid="uid://ctwh6jrx1pw56"]
 
 [ext_resource type="PackedScene" uid="uid://cwkiawasj4e2f" path="res://Levels/level_template.tscn" id="1_l5gyd"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="2_xbxea"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fjwgu"]
+resource_local_to_scene = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 15.0
+gravity = Vector3(0, 200, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5s8lr"]
+resource_local_to_scene = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+particle_flag_disable_z = true
+spread = 15.0
+gravity = Vector3(0, 200, 0)
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5qdpr"]
 resource_local_to_scene = true
@@ -42,7 +73,13 @@ visible = false
 visible = true
 
 [node name="BricksTileMap" parent="." index="3"]
-layer_0/tile_data = PackedInt32Array(917520, 1, 262144, 458761, 1, 65536, 720902, 1, 196608, 720904, 1, 196608, 262155, 1, 196608, 262157, 1, 196608, 262161, 1, 196608, 262165, 1, 196608, 262169, 1, 196608, 524300, 1, 196608, 393232, 1, 196608, 458772, 1, 196608, 655383, 1, 196608, 393241, 1, 196608)
+layer_0/tile_data = PackedInt32Array(917520, 1, 262144, 458761, 1, 65536, 720902, 1, 196608, 720904, 1, 196608, 262155, 1, 196608, 262157, 1, 196608, 262161, 1, 196608, 262165, 1, 196608, 262169, 1, 196608, 524300, 1, 196608, 393232, 1, 196608, 458772, 1, 196608, 655383, 1, 196608, 393241, 1, 196608, 786459, 1, 131072, 851995, 1, 131072, 851993, 1, 131072, 786457, 1, 131072, 786455, 1, 131072, 851991, 1, 131072, 786434, 1, 131072, 786436, 1, 131072, 786438, 1, 131072, 786440, 1, 131072)
+
+[node name="ParticlesDashLeft" parent="Player" index="7"]
+process_material = SubResource("ParticleProcessMaterial_fjwgu")
+
+[node name="ParticlesDashRight" parent="Player" index="8"]
+process_material = SubResource("ParticleProcessMaterial_5s8lr")
 
 [node name="TextureRectGreen" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="0"]
 texture = SubResource("AtlasTexture_5qdpr")
