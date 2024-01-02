@@ -327,7 +327,6 @@ texture = ExtResource("4_y1fmm")
 lifetime = 0.5
 one_shot = true
 explosiveness = 0.2
-trail_enabled = true
 trail_lifetime = 0.2
 
 [node name="ParticlesDashRight" type="GPUParticles2D" parent="."]
@@ -339,7 +338,6 @@ texture = ExtResource("4_y1fmm")
 lifetime = 0.5
 one_shot = true
 explosiveness = 0.2
-trail_enabled = true
 trail_lifetime = 0.2
 
 [node name="WidePaddleSpriteGroup" type="Node2D" parent="."]
