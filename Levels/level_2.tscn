@@ -1,9 +1,36 @@
-[gd_scene load_steps=11 format=3 uid="uid://ca6q47v6d81d3"]
+[gd_scene load_steps=13 format=3 uid="uid://ca6q47v6d81d3"]
 
 [ext_resource type="PackedScene" uid="uid://cwkiawasj4e2f" path="res://Levels/level_template.tscn" id="1_nbchq"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="2_2s2di"]
 [ext_resource type="Texture2D" uid="uid://d00g53n11epje" path="res://Assets/Level Backgrounds/level_2.jpg" id="2_oeuwh"]
 [ext_resource type="AudioStream" uid="uid://c5bhwkh4s5wso" path="res://Assets/Audio/Shaolin Dub - Slap Trap.mp3" id="4_pmwli"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dkrnj"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+direction = Vector3(-1, 0, 0)
+spread = 15.0
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 200, 0)
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_op410"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+spread = 15.0
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 200, 0)
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7gko1"]
 resource_local_to_scene = true
@@ -35,13 +62,19 @@ resource_local_to_scene = true
 atlas = ExtResource("2_2s2di")
 region = Rect2(112, 0, 32, 16)
 
-[node name="Level" instance=ExtResource("1_nbchq")]
+[node name="Level3" instance=ExtResource("1_nbchq")]
 
 [node name="BackgroundPicture" parent="." index="0"]
 texture = ExtResource("2_oeuwh")
 
 [node name="BricksTileMap" parent="." index="3"]
 layer_0/tile_data = PackedInt32Array(524296, 1, 65536, 589831, 1, 65536, 655368, 1, 65536, 720903, 1, 65536, 786440, 1, 65536, 524309, 1, 65536, 589844, 1, 65536, 655381, 1, 65536, 720916, 1, 65536, 786453, 1, 65536, 458759, 1, 262144, 393222, 1, 262144, 393224, 1, 262144, 458761, 1, 262144, 393226, 1, 262144, 327688, 1, 262144, 327685, 1, 262144, 327691, 1, 262144, 262156, 1, 262144, 262148, 1, 262144, 262151, 1, 262144, 196616, 1, 262144, 131079, 1, 262144, 196621, 1, 262144, 196611, 1, 262144, 262146, 1, 262144, 458772, 1, 262144, 458774, 1, 262144, 393235, 1, 262144, 393237, 1, 262144, 393239, 1, 262144, 327698, 1, 262144, 262161, 1, 262144, 196624, 1, 262144, 327701, 1, 262144, 262166, 1, 262144, 196629, 1, 262144, 131094, 1, 262144, 327704, 1, 262144, 262169, 1, 262144, 196634, 1, 262144, 262171, 1, 262144, 327707, 1, 262144, 327682, 1, 262144, 131084, 1, 262144, 131089, 1, 262144)
+
+[node name="ParticlesDashLeft" parent="Player" index="0"]
+process_material = SubResource("ParticleProcessMaterial_dkrnj")
+
+[node name="ParticlesDashRight" parent="Player" index="1"]
+process_material = SubResource("ParticleProcessMaterial_op410")
 
 [node name="TextureRectGreen" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="0"]
 texture = SubResource("AtlasTexture_7gko1")

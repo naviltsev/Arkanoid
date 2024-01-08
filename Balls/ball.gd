@@ -107,7 +107,7 @@ func _physics_process(delta):
 			var powerup_type = Globals.should_release_powerup_type()
 			if powerup_type != Globals.POWERUP_NONE:
 				var powerup = powerup_scene.instantiate()
-				get_tree().root.add_child(powerup)
+				Globals.get_current_level_node().add_child(powerup)
 				powerup.init(position, powerup_type)
 
 		# no bouncing if heavy ball power-up is on (unless the brick is indestructible)

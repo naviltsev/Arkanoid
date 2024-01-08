@@ -305,31 +305,27 @@ sources/1 = SubResource("TileSetScenesCollectionSource_wctal")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_2w4oq"]
 resource_local_to_scene = true
+particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 30.0
-particle_flag_disable_z = true
 direction = Vector3(-1, 0, 0)
 spread = 15.0
-gravity = Vector3(0, 200, 0)
 initial_velocity_min = 150.0
 initial_velocity_max = 250.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 200, 0)
 scale_min = 0.01
 scale_max = 0.03
 color = Color(0.509804, 0.513726, 0.580392, 1)
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_m1tip"]
 resource_local_to_scene = true
+particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 30.0
-particle_flag_disable_z = true
 spread = 15.0
-gravity = Vector3(0, 200, 0)
 initial_velocity_min = 150.0
 initial_velocity_max = 250.0
-orbit_velocity_min = 0.0
-orbit_velocity_max = 0.0
+gravity = Vector3(0, 200, 0)
 scale_min = 0.01
 scale_max = 0.03
 color = Color(0.509804, 0.513726, 0.580392, 1)
@@ -376,7 +372,7 @@ visible = false
 texture_filter = 1
 scale = Vector2(4, 4)
 tile_set = SubResource("TileSet_dco4v")
-cell_quadrant_size = 32
+rendering_quadrant_size = 32
 format = 2
 layer_0/tile_data = PackedInt32Array(131072, 458752, 0, 131073, 458752, 0, 131074, 458752, 0, 131075, 458752, 0, 131076, 458752, 0, 131077, 458752, 0, 131078, 458752, 0, 131079, 458752, 0, 131080, 458752, 0, 131081, 458752, 0, 131082, 458752, 0, 131083, 458752, 0, 131084, 458752, 0, 131085, 458752, 0, 131086, 458752, 0, 131087, 458752, 0, 131088, 458752, 0, 131089, 458752, 0, 131090, 458752, 0, 131091, 458752, 0, 131092, 458752, 0, 131093, 458752, 0, 131094, 458752, 0, 131095, 458752, 0, 131096, 458752, 0, 131097, 458752, 0, 131098, 458752, 0, 131099, 458752, 0, 131100, 458752, 0, 131101, 458752, 0, 524288, 393216, 0, 524289, 393216, 0, 524290, 393216, 0, 524291, 393216, 0, 524292, 393216, 0, 524293, 393216, 0, 524294, 393216, 0, 524295, 393216, 0, 524296, 393216, 0, 524297, 393216, 0, 524298, 393216, 0, 524299, 393216, 0, 524300, 393216, 0, 524301, 393216, 0, 524302, 393216, 0, 524303, 393216, 0, 524304, 393216, 0, 524305, 393216, 0, 524306, 393216, 0, 524307, 393216, 0, 524308, 393216, 0, 524309, 393216, 0, 524310, 393216, 0, 524311, 393216, 0, 524312, 393216, 0, 524313, 393216, 0, 524314, 393216, 0, 524315, 393216, 0, 524316, 393216, 0, 524317, 393216, 0, 917504, 458752, 0, 917505, 458752, 0, 917506, 458752, 0, 917507, 458752, 0, 917508, 458752, 0, 917509, 458752, 0, 917510, 458752, 0, 917511, 458752, 0, 917512, 458752, 0, 917513, 458752, 0, 917514, 458752, 0, 917515, 458752, 0, 917516, 458752, 0, 917517, 458752, 0, 917518, 458752, 0, 917519, 458752, 0, 917520, 458752, 0, 917521, 458752, 0, 917522, 458752, 0, 917523, 458752, 0, 917524, 458752, 0, 917525, 458752, 0, 917526, 458752, 0, 917527, 458752, 0, 917528, 458752, 0, 917529, 458752, 0, 917530, 458752, 0, 917531, 458752, 0, 917532, 458752, 0, 917533, 458752, 0)
 

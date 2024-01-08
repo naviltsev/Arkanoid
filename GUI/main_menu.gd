@@ -24,6 +24,8 @@ func _on_exit_button_pressed():
 
 func _on_start_button_focus_exited():
 	audio_button_focus.play()
+	await audio_button_focus.finished
 
 func _on_exit_button_focus_exited():
 	audio_button_focus.play()
+	await audio_button_focus.finished

@@ -9,7 +9,7 @@ func _ready():
 	Events.info_panel_powerup_timer_init.connect(init)
 
 func init(powerup_type: int):
-	if get_parent().get_meta("powerup_type") != powerup_type:
+	if get_parent().get_meta("powerup_type", 0) != powerup_type:
 		return
 
 	timer = Globals.get_powerup_timer_node(powerup_type)

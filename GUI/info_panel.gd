@@ -19,14 +19,14 @@ func enable_powerup(powerup_type: int):
 		return
 
 	var powerup_container = powerup_container_scene.instantiate()
-	
+	bottom_container.add_child(powerup_container)
+
 	# set power-up type of new power-up container as metadata
 	# powerup_type metadata is used by power-up container instances
 	# in order to react to signals related to particular power-up
 	powerup_container.set_meta("powerup_type", powerup_type)
 
 	powerup_container.name = POWERUP_CONTAINER_NAME + str(powerup_type)
-	bottom_container.add_child(powerup_container)
 	
 	# send signal to powerup_icon.gd to display icon
 	Events.info_panel_powerup_icon_display.emit(powerup_type)

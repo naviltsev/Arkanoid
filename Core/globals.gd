@@ -180,7 +180,8 @@ func debug(msgs: Array[String]) -> void:
 # Get current level scene node.
 # All levels share the same node name "Level"
 func get_current_level_node():
-	return get_tree().root.get_node("Level")
+	if get_tree().root.has_node("Level"):
+		return get_tree().root.get_node("Level")
 
 # create a Timer node, add it to the current scene,
 # start the timer based on power-up timer value

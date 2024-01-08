@@ -1,9 +1,36 @@
-[gd_scene load_steps=11 format=3 uid="uid://bskuokds4fxxc"]
+[gd_scene load_steps=13 format=3 uid="uid://bskuokds4fxxc"]
 
 [ext_resource type="PackedScene" uid="uid://cwkiawasj4e2f" path="res://Levels/level_template.tscn" id="1_0h7tn"]
 [ext_resource type="Texture2D" uid="uid://dlq6wktgpy17c" path="res://Assets/Level Backgrounds/level_7.jpg" id="2_q4vli"]
 [ext_resource type="Texture2D" uid="uid://csobaawaglfrk" path="res://Assets/bricks.png" id="3_65br0"]
 [ext_resource type="AudioStream" uid="uid://d35pej4ax6uep" path="res://Assets/Audio/Shaolin Dub - Blam.mp3" id="4_43our"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ct26h"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+direction = Vector3(-1, 0, 0)
+spread = 15.0
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 200, 0)
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_06j3b"]
+resource_local_to_scene = true
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 30.0
+spread = 15.0
+initial_velocity_min = 150.0
+initial_velocity_max = 250.0
+gravity = Vector3(0, 200, 0)
+scale_min = 0.01
+scale_max = 0.03
+color = Color(0.509804, 0.513726, 0.580392, 1)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0dv6o"]
 resource_local_to_scene = true
@@ -35,13 +62,19 @@ resource_local_to_scene = true
 atlas = ExtResource("3_65br0")
 region = Rect2(112, 0, 32, 16)
 
-[node name="Level" instance=ExtResource("1_0h7tn")]
+[node name="Level3" instance=ExtResource("1_0h7tn")]
 
 [node name="BackgroundPicture" parent="." index="0"]
 texture = ExtResource("2_q4vli")
 
 [node name="BricksTileMap" parent="." index="3"]
 layer_0/tile_data = PackedInt32Array(131095, 1, 262144, 131097, 1, 196608, 131099, 1, 262144, 196630, 1, 262144, 196632, 1, 196608, 196634, 1, 262144, 262167, 1, 262144, 262169, 1, 131072, 262171, 1, 262144, 327702, 1, 262144, 327704, 1, 131072, 327706, 1, 262144, 393243, 1, 262144, 393241, 1, 131072, 393239, 1, 262144, 131074, 1, 262144, 131076, 1, 196608, 131078, 1, 262144, 196611, 1, 262144, 196613, 1, 196608, 196615, 1, 262144, 262146, 1, 262144, 262148, 1, 327680, 262150, 1, 262144, 327687, 1, 262144, 327685, 1, 327680, 327683, 1, 262144, 393218, 1, 262144, 393220, 1, 327680, 393222, 1, 262144, 131084, 1, 262144, 131086, 1, 393216, 131088, 1, 262144, 196621, 1, 196608, 196623, 1, 262144, 262156, 1, 262144, 262158, 1, 196608, 262160, 1, 262144, 327693, 1, 393216, 327695, 1, 262144, 393228, 1, 262144, 393230, 1, 393216, 393232, 1, 262144, 196625, 1, 262144, 327697, 1, 262144, 589826, 1, 262144, 655363, 1, 262144, 720898, 1, 262144, 786435, 1, 262144, 851970, 1, 262144, 917507, 1, 262144, 589851, 1, 262144, 655386, 1, 262144, 720923, 1, 262144, 786458, 1, 262144, 851995, 1, 262144, 917530, 1, 262144, 589828, 1, 327680, 655365, 1, 327680, 720900, 1, 327680, 786437, 1, 327680, 851972, 1, 327680, 917509, 1, 327680, 589849, 1, 393216, 655384, 1, 393216, 720921, 1, 393216, 786456, 1, 393216, 851993, 1, 393216, 917528, 1, 393216, 589838, 1, 65536, 655373, 1, 65536, 655375, 1, 65536, 720908, 1, 65536, 720912, 1, 65536, 720910, 1, 65536, 720914, 1, 65536, 720906, 1, 65536, 786443, 1, 65536, 786446, 1, 65536, 786449, 1, 65536)
+
+[node name="ParticlesDashLeft" parent="Player" index="0"]
+process_material = SubResource("ParticleProcessMaterial_ct26h")
+
+[node name="ParticlesDashRight" parent="Player" index="1"]
+process_material = SubResource("ParticleProcessMaterial_06j3b")
 
 [node name="TextureRectGreen" parent="InfoPanel/PanelContainer/MarginContainer/VBoxContainerTop/GridContainer" index="0"]
 texture = SubResource("AtlasTexture_0dv6o")
